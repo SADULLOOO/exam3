@@ -87,4 +87,7 @@ def login_user(request):
     else:
         return render(request, 'accounts/login.html')
     
+def logout_user(request):
+    logout(request)
+    return redirect('login_user')
    
