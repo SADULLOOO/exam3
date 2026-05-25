@@ -61,5 +61,30 @@ def register(request):
     else:
         return render(request, 'accounts/register.html')
 
+def login_user(request):
+    if request.method=='POST':
+        password = request.POST.get('password')
+        username = request.POST.get('username')
+        email = request.POST.get('username')
 
+        user = authenticate(
+            password=password,
+            username=username,
+            email=email
+        )
+
+        if not user:
+            not_active = User.objects.filter(username=username, is_active=False).first()
+            if not_active:
+                return render(request, 'accounts/login.html', {'error': 'Go and confirm your email'})
+            else:
+                return render(request, 'accounts/login.html', {'error': 'Username or password isnt correct'})
+            
+        else:
+            login(request, user)
+            return redirect('/')
+        
+    else:
+        return render(request, 'accounts/login.html')
+    
    
