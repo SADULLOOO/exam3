@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Register</h1>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Username</label>
+        <input type="text" name="username" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Phone</label>
+        <input type="tel" name="phone" required>
+
+        <label>Age</label>
+        <input type="number" name="age" required>
+
+        <label>Password</label>
+        <input type="password" name="password1" required>
+
+        <label>Confirm Password</label>
+        <input type="password" name="password2" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <br>
+
+    <p>
+        Already have account?
+
+    </p>
+
+</div>
+
+</body>
+</html>
