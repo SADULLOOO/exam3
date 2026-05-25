@@ -90,4 +90,27 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('login_user')
+
+
+def confirm_email(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        code = request.POST.get('code')
+
+        user = User.objects.filter(username=username).first()
+
+        if not user:
+            return render(request, 'accounts/confirm_email.html', {'error': 'Invalid username!'})
+        if user.is_active:
+            return redirect('login_user')
+        confirm = EmailConfirm.objects.filter(user=user, code=code).first()
+
+        if not confirm:
+            return render(request, 'accounts/confirm_email.html', {'error': 'Invalid input code!'})
+        user.is_active=True
+        user.save()
+        return redirect('login_user') 
+    else:
+        return render(request, 'accounts/confirm_password.html')
+    
    
