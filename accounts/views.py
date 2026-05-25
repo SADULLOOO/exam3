@@ -114,3 +114,17 @@ def confirm_email(request):
         return render(request, 'accounts/confirm_password.html')
     
    
+def send_reset_password(user):
+    code = randint(100000, 999999)
+    PasswordReset.objects.update_or_create(
+        user=user,
+        defaults={'code': code}
+    )
+
+    send_mail(
+        subject='Reset Password',
+        message=f'Your reset code is: {code}',
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user.email],
+        fail_silently=False
+    )
