@@ -141,3 +141,45 @@ def forgot_password(request):
 
         return render(request, 'accounts/reset_password.html', {'email': email})
     return render(request, 'accounts/forgot_password.html')
+
+
+def reset_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        code = request.POST.get('code')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        user = User.objects.filter(email=email).first()
+
+        if not user:
+            return render(request, 'accounts/reset_password.html', {
+                'error': 'User not found!'
+            })
+
+        reset_obj = PasswordReset.objects.filter(
+            user=user,
+            code=code
+        ).first()
+
+        if not reset_obj:
+            return render(request, 'accounts/reset_password.html', {
+                'error': 'Invalid code!',
+                'email': email
+            })
+
+        if password1 != password2:
+            return render(request, 'accounts/reset_password.html', {
+                'error': 'Passwords do not match!',
+                'email': email
+            })
+        
+
+        user.set_password(password1)
+        user.save()
+
+        reset_obj.delete()
+
+        return redirect('login_user')
+
+    return redirect('forgot_password')
