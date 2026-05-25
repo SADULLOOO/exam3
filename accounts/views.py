@@ -128,3 +128,16 @@ def send_reset_password(user):
         recipient_list=[user.email],
         fail_silently=False
     )
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        user = User.objects.filter(email=email).first()
+
+        if not user:
+            return render(request, 'accounts/forgot_password.html', {'error': 'User not found'})
+        
+        send_reset_password(user)
+
+        return render(request, 'accounts/reset_password.html', {'email': email})
+    return render(request, 'accounts/forgot_password.html')
