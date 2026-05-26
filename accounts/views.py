@@ -65,12 +65,10 @@ def login_user(request):
     if request.method=='POST':
         password = request.POST.get('password')
         username = request.POST.get('username')
-        email = request.POST.get('username')
 
         user = authenticate(
             password=password,
             username=username,
-            email=email
         )
 
         if not user:
