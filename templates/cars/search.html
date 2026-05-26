@@ -1,0 +1,29 @@
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>Search Results</h1>
+
+<p>{{ query }}</p>
+
+<div>
+
+    {% for car in cars %}
+
+        <a href="{% url 'car_detail' car.id %}">
+
+            <h2>{{ car.title }}</h2>
+
+            <p>${{ car.price }}</p>
+
+        </a>
+
+    {% empty %}
+
+        <h2>No cars found</h2>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

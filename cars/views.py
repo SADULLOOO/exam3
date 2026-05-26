@@ -76,3 +76,22 @@ def car_detail(request, car_id):
         'car': car,
         'related_cars': related_cars
     })
+
+from django.db.models import Q
+
+def search(request):
+
+    query = request.GET.get('q')
+
+    cars = Car.objects.filter(
+        Q(title__icontains=query) |
+        Q(model__name__icontains=query) |
+        Q(model__brand__name__icontains=query) |
+        Q(engine__icontains=query) |
+        Q(country__icontains=query) 
+    ) if query else Car.objects.none()
+
+    return render(request, 'cars/search.html', {
+        'cars': cars,
+        'query': query
+    })
