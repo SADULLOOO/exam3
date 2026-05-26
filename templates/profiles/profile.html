@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+
+<div class="profile-container">
+
+    <div>
+        {% if profile.photo %}
+            <img src="{{ profile.photo.url }}" class="avatar">
+        {% else %}
+            <img src="{% static 'default.png' %}" class="avatar">
+        {% endif %}
+    </div>
+
+    <div class="info">
+        <h2>{{ profile.user.username }}</h2>
+        <p>{{ profile.bio }}</p>
+        <p>{{ profile.location }}</p>
+
+        <a href="{% url 'profile_edit' %}" class="btn">Edit Profile</a>
+    </div>
+
+</div>
+
+</body>
+</html>

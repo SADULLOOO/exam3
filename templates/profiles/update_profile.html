@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+
+<div class="form-box">
+
+    <h2>Edit Profile</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.bio }}
+        {{ form.location }}
+        {{ form.photo }}
+
+        <button type="submit">Save</button>
+    </form>
+
+</div>
+
+</body>
+</html>
