@@ -1,0 +1,70 @@
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>OrderCar</h1>
+
+
+    <input
+        type="text"
+        name="q"
+        placeholder="Search cars..."
+    >
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<h2>Brands</h2>
+
+<div>
+
+    {% for brand in brands %}
+
+
+            {% if brand.logo %}
+                <img
+                    src="{{ brand.logo.url }}"
+                    width="120"
+                >
+            {% endif %}
+
+            <h3>{{ brand.name }}</h3>
+
+        </a>
+
+    {% endfor %}
+
+</div>
+
+<h2>Recommended Cars</h2>
+
+<div>
+
+    {% for car in recommended_cars %}
+
+
+            {% with car.images.first as image %}
+
+                {% if image %}
+                    <img
+                        src="{{ image.image.url }}"
+                        width="250"
+                    >
+                {% endif %}
+
+            {% endwith %}
+
+            <h3>{{ car.title }}</h3>
+
+            <p>${{ car.price }}</p>
+
+        </a>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
