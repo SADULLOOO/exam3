@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ car.title }}</h1>
+
+<div>
+
+    {% for image in car.images.all %}
+
+        <img
+            src="{{ image.image.url }}"
+            width="350"
+        >
+
+    {% endfor %}
+
+</div>
+
+<h2>Price: ${{ car.price }}</h2>
+
+<p>Year: {{ car.year }}</p>
+
+<p>Mileage: {{ car.mileage }}</p>
+
+<p>Engine: {{ car.engine }}</p>
+
+<p>Engine Volume: {{ car.engine_volume }}</p>
+
+<p>Horsepower: {{ car.horsepower }}</p>
+
+<p>Country: {{ car.country }}</p>
+
+<p>Color: {{ car.color }}</p>
+
+<p>Fuel: {{ car.fuel_type }}</p>
+
+<p>Transmission: {{ car.transmission }}</p>
+
+<p>Status: {{ car.status }}</p>
+
+<p>{{ car.description }}</p>
+
+<hr>
+
+<h2>Related Cars</h2>
+
+<div>
+
+    {% for related in related_cars %}
+
+        <a href="{% url 'car_detail' related.id %}">
+
+            <h3>{{ related.title }}</h3>
+
+        </a>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

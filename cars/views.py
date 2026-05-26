@@ -60,3 +60,19 @@ def model_detail(request, model_id):
         'model': model,
         'cars': cars
     })
+
+def car_detail(request, car_id):
+
+    car = get_object_or_404(
+        Car,
+        id=car_id
+    )
+
+    related_cars = Car.objects.filter(
+        model=car.model
+    ).exclude(id=car.id)[:4]
+
+    return render(request, 'cars/car_detail.html', {
+        'car': car,
+        'related_cars': related_cars
+    })
