@@ -5,6 +5,7 @@
 <h1>OrderCar</h1>
 
 
+
     <input
         type="text"
         name="q"
@@ -23,6 +24,7 @@
 
     {% for brand in brands %}
 
+        <a href="{% url 'brand_detail' brand.id %}">
 
             {% if brand.logo %}
                 <img

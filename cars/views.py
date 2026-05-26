@@ -13,3 +13,18 @@ def home(request):
         'recommended_cars': recommended_cars
     })
 
+def brand_detail(request, brand_id):
+
+    brand = get_object_or_404(
+        Brand,
+        id=brand_id
+    )
+
+    models = CarModel.objects.filter(
+        brand=brand
+    )
+
+    return render(request, 'cars/brand_detail.html', {
+        'brand': brand,
+        'models': models
+    })
