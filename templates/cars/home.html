@@ -46,6 +46,7 @@
 <div>
 
     {% for car in recommended_cars %}
+        <a href="{% url 'car_detail' car.id %}"> 
 
             {% with car.images.first as image %}
 
