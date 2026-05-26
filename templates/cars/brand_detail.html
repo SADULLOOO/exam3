@@ -8,7 +8,7 @@
 
     {% for model in models %}
 
-       
+        <a href="{% url 'model_detail' model.id %}">
 
             <h2>{{ model.name }}</h2>
 

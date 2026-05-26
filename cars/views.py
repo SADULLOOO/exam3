@@ -28,3 +28,35 @@ def brand_detail(request, brand_id):
         'brand': brand,
         'models': models
     })
+
+
+def model_detail(request, model_id):
+
+    model = get_object_or_404(
+        CarModel,
+        id=model_id
+    )
+
+    cars = Car.objects.filter(
+        model=model
+    )
+
+    status = request.GET.get('status')
+    fuel = request.GET.get('fuel')
+    transmission = request.GET.get('transmission')
+
+    if status:
+        cars = cars.filter(status=status)
+
+    if fuel:
+        cars = cars.filter(fuel_type=fuel)
+
+    if transmission:
+        cars = cars.filter(
+            transmission=transmission
+        )
+
+    return render(request, 'cars/model_detail.html', {
+        'model': model,
+        'cars': cars
+    })
