@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Brand, CarModel, Car
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest
 from .filters import CarFilter
 from django.db.models import Q
 
@@ -58,6 +58,26 @@ def car_detail(request, car_id):
         id=car_id
     )
 
+    if request.method == 'POST':
+
+        if request.user.is_authenticated:
+
+            text = request.POST.get('text')
+
+            stars = request.POST.get('stars')
+
+            Review.objects.create(
+                user=request.user,
+                car=car,
+                text=text,
+                stars=stars
+            )
+
+            return redirect(
+                'car_detail',
+                car_id=car.id
+            )
+
     related_cars = Car.objects.filter(
         model=car.model
     ).exclude(id=car.id)[:4]
@@ -66,7 +86,6 @@ def car_detail(request, car_id):
         'car': car,
         'related_cars': related_cars
     })
-
 
 def home(request):
 
