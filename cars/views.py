@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest
+from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest, Order, Credit
 from .filters import CarFilter
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -164,3 +164,15 @@ def add_favorite(request, car_id):
         'car_detail',
         car_id=car.id
     )
+
+@login_required
+def buy_car(request, car_id):
+
+    car = get_object_or_404(Car, id=car_id)
+
+    Order.objects.create(
+        user=request.user,
+        car=car
+    )
+
+    return redirect('profile')
