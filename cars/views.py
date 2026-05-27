@@ -1,17 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Brand, CarModel, Car
-
-
-def home(request):
-
-    brands = Brand.objects.all()
-
-    recommended_cars = Car.objects.all().order_by('-created_at')[:6]
-
-    return render(request, 'cars/home.html', {
-        'brands': brands,
-        'recommended_cars': recommended_cars
-    })
+from .filters import CarFilter
+from django.db.models import Q
 
 def brand_detail(request, brand_id):
 
@@ -77,21 +67,40 @@ def car_detail(request, car_id):
         'related_cars': related_cars
     })
 
-from django.db.models import Q
+
+def home(request):
+
+    brands = Brand.objects.all()
+
+    recommended_cars = Car.objects.all().order_by('-created_at')[:8]
+
+    return render(request, 'cars/home.html', {
+        'brands': brands,
+        'recommended_cars': recommended_cars,
+    })
+
 
 def search(request):
 
-    query = request.GET.get('q')
+    query = request.GET.get('q', '')
 
-    cars = Car.objects.filter(
-        Q(title__icontains=query) |
-        Q(model__name__icontains=query) |
-        Q(model__brand__name__icontains=query) |
-        Q(engine__icontains=query) |
-        Q(country__icontains=query) 
-    ) if query else Car.objects.none()
+    cars = Car.objects.all()
+
+    if query:
+
+        cars = cars.filter(
+            Q(title__icontains=query) |
+            Q(model__name__icontains=query) |
+            Q(model__brand__name__icontains=query) |
+            Q(engine__icontains=query) |
+            Q(country__icontains=query) |
+            Q(description__icontains=query)
+        ).distinct()
+
+    car_filter = CarFilter(request.GET, queryset=cars)
 
     return render(request, 'cars/search.html', {
-        'cars': cars,
-        'query': query
+        'filter': car_filter,
+        'cars': car_filter.qs,
+        'query': query,
     })

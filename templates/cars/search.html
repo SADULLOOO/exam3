@@ -2,9 +2,129 @@
 
 {% block main_content %}
 
-<h1>Search Results</h1>
+<h1>Search Cars</h1>
 
-<p>{{ query }}</p>
+<form method="GET">
+
+    <input
+        type="text"
+        name="q"
+        placeholder="Search cars..."
+        value="{{ request.GET.q }}"
+    >
+
+    <hr>
+
+    <h2>Price</h2>
+
+    <input
+        type="number"
+        name="min_price"
+        placeholder="Min Price"
+    >
+
+    <input
+        type="number"
+        name="max_price"
+        placeholder="Max Price"
+    >
+
+    <hr>
+
+    <h2>Year</h2>
+
+    <input
+        type="number"
+        name="min_year"
+        placeholder="Min Year"
+    >
+
+    <input
+        type="number"
+        name="max_year"
+        placeholder="Max Year"
+    >
+
+    <hr>
+
+    <h2>Status</h2>
+
+    <select name="status">
+        <option value="">All</option>
+        <option value="new">New</option>
+        <option value="used">Used</option>
+        <option value="damaged">Damaged</option>
+    </select>
+
+    <hr>
+
+    <h2>Fuel Type</h2>
+
+    <select name="fuel_type">
+        <option value="">All</option>
+        <option value="petrol">Petrol</option>
+        <option value="diesel">Diesel</option>
+        <option value="hybrid">Hybrid</option>
+        <option value="electric">Electric</option>
+    </select>
+
+    <hr>
+
+    <h2>Transmission</h2>
+
+    <select name="transmission">
+        <option value="">All</option>
+        <option value="automatic">Automatic</option>
+        <option value="manual">Manual</option>
+    </select>
+
+    <hr>
+
+    <h2>Brand</h2>
+
+    <input
+        type="text"
+        name="brand"
+        placeholder="Toyota"
+    >
+
+    <hr>
+
+    <h2>Model</h2>
+
+    <input
+        type="text"
+        name="model"
+        placeholder="Camry"
+    >
+
+    <hr>
+
+    <h2>Mileage</h2>
+
+    <input
+        type="number"
+        name="min_mileage"
+        placeholder="Min Mileage"
+    >
+
+    <input
+        type="number"
+        name="max_mileage"
+        placeholder="Max Mileage"
+    >
+
+    <hr>
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<hr>
+
+<h1>Cars</h1>
 
 <div>
 
@@ -12,11 +132,34 @@
 
         <a href="{% url 'car_detail' car.id %}">
 
+            {% with car.images.first as image %}
+
+                {% if image %}
+
+                    <img
+                        src="{{ image.image.url }}"
+                        width="250"
+                    >
+
+                {% endif %}
+
+            {% endwith %}
+
             <h2>{{ car.title }}</h2>
 
             <p>${{ car.price }}</p>
 
+            <p>{{ car.year }}</p>
+
+            <p>{{ car.fuel_type }}</p>
+
+            <p>{{ car.transmission }}</p>
+
+            <p>{{ car.status }}</p>
+
         </a>
+
+        <hr>
 
     {% empty %}
 
