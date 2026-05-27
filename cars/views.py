@@ -176,3 +176,18 @@ def buy_car(request, car_id):
     )
 
     return redirect('profile')
+
+
+@login_required
+def take_credit(request, car_id):
+
+    car = get_object_or_404(Car, id=car_id)
+
+    Credit.objects.create(
+        user=request.user,
+        car=car,
+        amount=car.price,
+        months=12
+    )
+
+    return redirect('profile')
