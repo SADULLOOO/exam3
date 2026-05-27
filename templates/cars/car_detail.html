@@ -18,6 +18,23 @@
 </div>
 
 <h2>Price: ${{ car.price }}</h2>
+{% if request.user.is_authenticated %}
+
+    <a href="{% url 'add_favorite' car.id %}">
+
+        {% if car.favorite_set.filter(user=request.user).exists %}
+
+            ❤️ Remove Favorite
+
+        {% else %}
+
+            🤍 Add Favorite
+
+        {% endif %}
+
+    </a>
+
+{% endif %}
 
 <p>Year: {{ car.year }}</p>
 
