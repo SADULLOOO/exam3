@@ -191,3 +191,15 @@ def take_credit(request, car_id):
     )
 
     return redirect('profile')
+
+from django.contrib.auth.signals import user_logged_in
+from django.utils.timezone import now
+
+def login_handler(sender, request, user, **kwargs):
+
+    activity, created = UserActivity.objects.get_or_create(user=user)
+
+    activity.last_login_time = now()
+    activity.save()
+
+user_logged_in.connect(login_handler)

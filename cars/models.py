@@ -196,7 +196,7 @@ class Order(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    
+
 class Credit(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
@@ -207,3 +207,11 @@ class Credit(models.Model):
     interest_rate = models.FloatField(default=12.5) 
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class UserActivity(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    total_seconds = models.IntegerField(default=0)
+
+    last_login_time = models.DateTimeField(null=True, blank=True)
