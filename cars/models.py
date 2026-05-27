@@ -178,3 +178,14 @@ class OrderRequest(models.Model):
 
     def __str__(self):
         return f"Order by {self.user.username}"
+    
+class Credit(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    months = models.IntegerField()
+
+    interest_rate = models.FloatField(default=12.5) 
+
+    created_at = models.DateTimeField(auto_now_add=True)
