@@ -42,12 +42,6 @@
 <p>{{ car.description }}</p>
 
 <hr>
-
-<h2>Related Cars</h2>
-<hr>
-
-<h2>Reviews</h2>
-
 {% for review in car.reviews.all %}
 
     <div>
@@ -77,6 +71,48 @@
     <p>No reviews yet</p>
 
 {% endfor %}
+<h2>Related Cars</h2>
+<hr>
+{% if request.user.is_authenticated %}
+
+    <h2>Add Review</h2>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <input
+            type="number"
+            name="stars"
+            min="1"
+            max="5"
+            placeholder="Stars"
+        >
+
+        <br><br>
+
+        <textarea
+            name="text"
+            placeholder="Write review..."
+        ></textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Add Review
+        </button>
+
+    </form>
+
+{% else %}
+
+    <a href="{% url 'login_user' %}">
+        Login to write review
+    </a>
+
+{% endif %}
+<h2>Reviews</h2>
+
 <div>
 
     {% for related in related_cars %}
