@@ -22,7 +22,7 @@
 
     <a href="{% url 'add_favorite' car.id %}">
 
-        {% if car.favorite_set.filter(user=request.user).exists %}
+        {% if is_favorite %}
 
             ❤️ Remove Favorite
 

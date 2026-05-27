@@ -27,5 +27,46 @@
 
 </div>
 
+
+<!-- 🔥 FAVORITES -->
+<h2>My Favorites</h2>
+
+{% for fav in favorites %}
+
+    <div class="fav-item">
+
+        <a href="{% url 'car_detail' fav.car.id %}">
+            {{ fav.car.title }}
+        </a>
+
+    </div>
+
+{% empty %}
+
+    <p>No favorites yet</p>
+
+{% endfor %}
+
+
+<!-- ⭐ REVIEWS -->
+<h2>My Reviews</h2>
+
+{% for review in reviews %}
+
+    <div class="review-item">
+
+        <p><b>{{ review.car.title }}</b></p>
+        <p>{{ review.stars }}/5</p>
+        <p>{{ review.text }}</p>
+
+    </div>
+
+{% empty %}
+
+    <p>No reviews yet</p>
+
+{% endfor %}
+
+
 </body>
 </html>

@@ -3,12 +3,29 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile
 from .forms import ProfileForm
 
+from cars.models import Favorite, Review
+
 
 @login_required
 def profile_view(request):
-    profile, created = Profile.objects.get_or_create(user=request.user)
-    return render(request, 'profiles/profile.html', {'profile': profile})
 
+    profile, created = Profile.objects.get_or_create(
+        user=request.user
+    )
+
+    favorites = Favorite.objects.filter(
+        user=request.user
+    )
+
+    reviews = Review.objects.filter(
+        user=request.user
+    )
+
+    return render(request, 'profiles/profile.html', {
+        'profile': profile,
+        'favorites': favorites,
+        'reviews': reviews
+    })
 
 @login_required
 def update_profile(request):

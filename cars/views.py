@@ -83,9 +83,19 @@ def car_detail(request, car_id):
         model=car.model
     ).exclude(id=car.id)[:4]
 
+    is_favorite = False
+
+    if request.user.is_authenticated:
+
+        is_favorite = Favorite.objects.filter(
+            user=request.user,
+            car=car
+        ).exists()
+
     return render(request, 'cars/car_detail.html', {
         'car': car,
-        'related_cars': related_cars
+        'related_cars': related_cars,
+        'is_favorite': is_favorite
     })
 
 def home(request):
