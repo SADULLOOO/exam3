@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest, Order, Credit
+from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest, Order, Credit, UserActivity
 from .filters import CarFilter
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.signals import user_logged_in
+from django.utils.timezone import now
+from django.contrib.auth.signals import user_logged_out
 
 def brand_detail(request, brand_id):
 
@@ -192,8 +195,6 @@ def take_credit(request, car_id):
 
     return redirect('profile')
 
-from django.contrib.auth.signals import user_logged_in
-from django.utils.timezone import now
 
 def login_handler(sender, request, user, **kwargs):
 
@@ -203,3 +204,21 @@ def login_handler(sender, request, user, **kwargs):
     activity.save()
 
 user_logged_in.connect(login_handler)
+
+
+
+def logout_handler(sender, request, user, **kwargs):
+
+    if not user:
+        return
+
+    activity = UserActivity.objects.get(user=user)
+
+    if activity.last_login_time:
+
+        delta = now() - activity.last_login_time
+        activity.total_seconds += int(delta.total_seconds())
+
+    activity.save()
+
+user_logged_out.connect(logout_handler)
