@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest
 from .filters import CarFilter
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 def brand_detail(request, brand_id):
 
@@ -123,3 +124,33 @@ def search(request):
         'cars': car_filter.qs,
         'query': query,
     })
+
+
+@login_required
+def add_favorite(request, car_id):
+
+    car = get_object_or_404(
+        Car,
+        id=car_id
+    )
+
+    favorite = Favorite.objects.filter(
+        user=request.user,
+        car=car
+    )
+
+    if favorite.exists():
+
+        favorite.delete()
+
+    else:
+
+        Favorite.objects.create(
+            user=request.user,
+            car=car
+        )
+
+    return redirect(
+        'car_detail',
+        car_id=car.id
+    )

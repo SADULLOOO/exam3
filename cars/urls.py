@@ -8,4 +8,5 @@ urlpatterns = [
     path('model/<int:model_id>/',views.model_detail,name='model_detail'),
     path('car/<int:car_id>/',views.car_detail,name='car_detail'),
     path('search/',views.search,name='search'),
+    path('favorite/<int:car_id>/',views.add_favorite,name='add_favorite'),
 ]
