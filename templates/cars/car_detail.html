@@ -44,7 +44,39 @@
 <hr>
 
 <h2>Related Cars</h2>
+<hr>
 
+<h2>Reviews</h2>
+
+{% for review in car.reviews.all %}
+
+    <div>
+
+        <h3>
+            {{ review.user.username }}
+        </h3>
+
+        <p>
+            Stars: {{ review.stars }}/5
+        </p>
+
+        <p>
+            {{ review.text }}
+        </p>
+
+        <small>
+            {{ review.created_at }}
+        </small>
+
+    </div>
+
+    <hr>
+
+{% empty %}
+
+    <p>No reviews yet</p>
+
+{% endfor %}
 <div>
 
     {% for related in related_cars %}
