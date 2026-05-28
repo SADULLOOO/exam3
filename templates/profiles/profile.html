@@ -2,74 +2,187 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>Profile</title>
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/profile.css' %}"
+    >
+
 </head>
+
 <body>
 
 <div class="profile-container">
 
     <div>
+
         {% if profile.photo %}
-            <img src="{{ profile.photo.url }}" class="avatar">
+
+            <img
+                src="{{ profile.photo.url }}"
+                class="avatar"
+            >
+
         {% else %}
-            <img src="{% static 'default.png' %}" class="avatar">
+
+            <img
+                src="{% static 'default.png' %}"
+                class="avatar"
+            >
+
         {% endif %}
+
     </div>
 
-    <div class="info">
-        <h2>{{ profile.user.username }}</h2>
-        <p>{{ profile.bio }}</p>
-        <p>{{ profile.location }}</p>
 
-        <a href="{% url 'profile_edit' %}" class="btn">Edit Profile</a>
+    <div class="info">
+
+        <h2>
+            {{ profile.user.username }}
+        </h2>
+
+        <p>
+            {{ profile.bio }}
+        </p>
+
+        <p>
+            {{ profile.location }}
+        </p>
+
+        <a
+            href="{% url 'profile_edit' %}"
+            class="btn"
+        >
+            Edit Profile
+        </a>
+
     </div>
 
 </div>
+
+
 
 <h2>My Favorites</h2>
 
 {% for fav in favorites %}
-    <div class="fav-item">
-        <a href="{% url 'car_detail' fav.car.id %}">
-            {{ fav.car.title }}
-        </a>
-    </div>
-{% empty %}
-    <p>No favorites yet</p>
-{% endfor %}
 
-<h2>My Purchased Cars</h2>
+<div class="fav-item">
 
-{% for order in orders %}
+    <a href="{% url 'car_detail' fav.car.id %}">
 
-<div>
+        {{ fav.car.title }}
 
-    <p>{{ order.car.title }}</p>
-
-    <p>Purchased</p>
+    </a>
 
 </div>
 
 {% empty %}
 
-<p>No purchased cars</p>
+<p>No favorites yet</p>
 
 {% endfor %}
+
+
+
+
+<h2>My Orders</h2>
+
+{% for order in orders %}
+
+<div class="order-item">
+
+    <h3>
+
+        {{ order.car.title }}
+
+    </h3>
+
+    <p>
+
+        Status:
+        {{ order.status }}
+
+    </p>
+
+    <p>
+
+        Delivery:
+        {{ order.delivery_date }}
+
+    </p>
+
+    {% if order.status != 'cancelled' %}
+
+    <a href="{% url 'cancel_order' order.id %}">
+
+        Cancel Order
+
+    </a>
+
+    {% endif %}
+
+</div>
+
+<hr>
+
+{% empty %}
+
+<p>No orders yet</p>
+
+{% endfor %}
+
+
+
+
 
 <h2>My Credits</h2>
 
 {% for credit in credits %}
 
-<div>
+<div class="credit-item">
 
-    <p>{{ credit.car.title }}</p>
+    <h3>
 
-    <p>Amount: {{ credit.amount }}</p>
+        {{ credit.car.title }}
 
-    <p>{{ credit.months }} months</p>
+    </h3>
+
+    <p>
+
+        Amount:
+        {{ credit.amount }}
+
+    </p>
+
+    <p>
+
+        Months:
+        {{ credit.months }}
+
+    </p>
+
+    <p>
+
+        Status:
+        {{ credit.status }}
+
+    </p>
+
+    {% if credit.status != 'cancelled' %}
+
+    <a href="{% url 'cancel_credit' credit.id %}">
+
+        Cancel Credit
+
+    </a>
+
+    {% endif %}
 
 </div>
+
+<hr>
 
 {% empty %}
 
@@ -77,45 +190,120 @@
 
 {% endfor %}
 
+
+
+
+
 <h2>My Reviews</h2>
 
 {% for review in reviews %}
-    <div class="review-item">
-        <p><b>{{ review.car.title }}</b></p>
-        <p>{{ review.stars }}/5</p>
-        <p>{{ review.text }}</p>
-    </div>
+
+<div class="review-item">
+
+    <p>
+
+        <b>
+
+            {{ review.car.title }}
+
+        </b>
+
+    </p>
+
+    <p>
+
+        {{ review.stars }}/5
+
+    </p>
+
+    <p>
+
+        {{ review.text }}
+
+    </p>
+
+</div>
+
+<hr>
+
 {% empty %}
-    <p>No reviews yet</p>
+
+<p>No reviews yet</p>
+
 {% endfor %}
 
+
+
+
 <p>
-    Live time: <span id="timer">{{ live_seconds }}</span> seconds
+
+Live time:
+
+<span id="timer">
+
+{{ live_seconds }}
+
+</span>
+
+seconds
+
 </p>
 
+
+
+
 <script>
-function updateHeartbeat() {
-    fetch("/heartbeat/", {
-        method: "GET",
-        credentials: "same-origin"
-    });
+
+function updateHeartbeat(){
+
+    fetch(
+        "/heartbeat/",
+        {
+            method:"GET",
+            credentials:"same-origin"
+        }
+    )
+
 }
 
-function updateLiveTime() {
+
+function updateLiveTime(){
+
     fetch("/get_live_time/")
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("timer").innerText = data.seconds;
-        });
+
+    .then(
+        response => response.json()
+    )
+
+    .then(data => {
+
+        document
+        .getElementById("timer")
+        .innerText = data.seconds
+
+    })
+
 }
 
-setInterval(updateHeartbeat, 5000);
 
-setInterval(updateLiveTime, 2000);
+setInterval(
+    updateHeartbeat,
+    5000
+)
 
-updateHeartbeat();
-updateLiveTime();
+
+setInterval(
+    updateLiveTime,
+    2000
+)
+
+
+updateHeartbeat()
+
+updateLiveTime()
+
 </script>
 
 </body>
+
 </html>
