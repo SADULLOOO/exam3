@@ -10,7 +10,7 @@
 <h2>Chat - {{ car.title }}</h2>
 
 {% if request.user.is_superuser %}
-    <p><a href="{% url 'chat_admin_list' %}">← Назад к списку всех чатов</a></p>
+    <p><a href="{% url 'chat_admin_list' %}">← Back to list chats</a></p>
 {% endif %}
 
 <div style="border:1px solid #ccc; padding:10px; height:300px; overflow:auto;">
