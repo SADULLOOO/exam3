@@ -249,3 +249,19 @@ def get_live_time(request):
         seconds += int((now() - activity.last_seen).total_seconds())
 
     return JsonResponse({"seconds": seconds})
+
+
+@login_required
+def cancel_order(request, order_id):
+
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        user=request.user
+    )
+
+    order.status='cancelled'
+
+    order.save()
+
+    return redirect('profile')
