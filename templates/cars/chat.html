@@ -1,0 +1,57 @@
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>
+
+Chat About
+
+{{ car.title }}
+
+</h1>
+
+
+<div>
+
+{% for msg in messages %}
+
+<p>
+
+<b>
+
+{{ msg.sender.username }}
+
+</b>
+
+:
+
+{{ msg.text }}
+
+</p>
+
+{% endfor %}
+
+</div>
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+<input
+
+name="message"
+
+placeholder="Message..."
+
+>
+
+<button>
+
+Send
+
+</button>
+
+</form>
+
+{% endblock %}
