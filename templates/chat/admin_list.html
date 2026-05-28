@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Панель Администратора</title>
+</head>
+<body>
+    <h2>Все обращения пользователей</h2>
+    <ul>
+        {% for chat in conversations %}
+            <li>
+                Пользователь <b>{{ chat.buyer.username }}</b> спрашивает про 
+                <a href="{% url 'chat_owner_admin' chat.id %}">
+                    {{ chat.car.title }}
+                </a>
+            </li>
+        {% empty %}
+            <li>Пока нет активных чатов.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

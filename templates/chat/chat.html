@@ -7,28 +7,31 @@
 </head>
 <body>
 
-<h2>Chat about {{ car.title }}</h2>
+<h2>Chat - {{ car.title }}</h2>
 
-<div class="chat-box">
+{% if request.user.is_superuser %}
+    <p><a href="{% url 'chat_admin_list' %}">← Назад к списку всех чатов</a></p>
+{% endif %}
+
+<div style="border:1px solid #ccc; padding:10px; height:300px; overflow:auto;">
 
     {% for m in messages %}
-        <div class="message">
-            <b>{{ m.sender.username }}:</b>
-            <span>{{ m.text }}</span>
-        </div>
+        <p>
+            <b {% if m.sender == request.user %}style="color: blue;"{% endif %}>
+                {{ m.sender.username }}:
+            </b> 
+            {{ m.text }}
+        </p>
     {% empty %}
-        <p>No messages yet</p>
+        <p>No messages</p>
     {% endfor %}
 
 </div>
 
-<hr>
-
 <form method="POST">
     {% csrf_token %}
-    <input type="text" name="message" placeholder="Write message..." required>
+    <input type="text" name="message" placeholder="Write..." required>
     <button type="submit">Send</button>
 </form>
-
 </body>
 </html>

@@ -14,6 +14,11 @@ from groq import Groq
 from dotenv import load_dotenv
 load_dotenv()
 import os
+from django.contrib.auth import get_user_model
+from .models import Conversation, Message, Car
+
+User = get_user_model()
+
 groq_api = os.getenv("GROQ_API_KEY")
 
 
@@ -377,37 +382,69 @@ Explain simply.
         }
     )
 
+
 @login_required
-def chat_owner(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
+def chat_owner(request, car_id=None):
+    current_user = request.user
 
-    if not car.owner:
-        return HttpResponse("Car has no owner")
+    # НАСТРОЙКА ДЛЯ СУПЕРЮЗЕРА (АДМИНА)
+    if current_user.is_superuser:
+        # Если админ зашел просто по ссылке без car_id, показываем ему список ВСЕХ чатов
+        if not car_id:
+            all_chats = Conversation.objects.all()
+            return render(request, "chat/admin_list.html", {"conversations": all_chats})
+        
+        # Если админ кликнул на конкретный чат, открываем его
+        # Фильтруем по id самого чата (передаем его через car_id для удобства)
+        conversation = get_object_or_404(Conversation, id=car_id)
+        car = conversation.car
+    
+    # НАСТРОЙКА ДЛЯ ОБЫЧНОГО ПОЛЬЗОВАТЕЛЯ
+    else:
+        # Находим машину, про которую пользователь хочет спросить
+        car = get_object_or_404(Car, id=car_id)
+        
+        # Главная фишка: владельцем чата ВСЕГДА делаем суперюзера
+        admin_user = User.objects.filter(is_superuser=True).first()
+        
+        buyer = current_user
+        owner = admin_user if admin_user else car.owner # Если админа нет, то вернет реального владельца
 
-    conversation, created = Conversation.objects.get_or_create(
-        car=car,
-        buyer=request.user,
-        defaults={
-            "owner": car.owner
-        }
-    )
+        # Ищем существующий чат между этим юзером и админом по этой машине
+        conversation = Conversation.objects.filter(
+            car=car,
+            buyer=buyer,
+            owner=owner
+        ).first()
 
+        # Если чата еще нет — создаем
+        if not conversation:
+            conversation = Conversation.objects.create(
+                car=car,
+                buyer=buyer,
+                owner=owner
+            )
+
+    # ОБРАБОТКА ОТПРАВКИ СООБЩЕНИЯ
     if request.method == "POST":
         text = request.POST.get("message")
-
         if text:
             Message.objects.create(
                 conversation=conversation,
-                sender=request.user,
+                sender=current_user,
                 text=text
             )
+        
+        # Редирект, чтобы страница не дублировала сообщения при обновлении
+        if current_user.is_superuser:
+            return redirect("chat_owner_admin", car_id=conversation.id)
+        return redirect("chat_owner", car_id=car.id)
 
-        return redirect('chat_owner', car_id=car.id)
-
-    messages = conversation.messages.all().order_by("id")
+    # Получаем сообщения
+    messages = conversation.messages.order_by("id")
 
     return render(request, "chat/chat.html", {
-        "conversation": conversation,
         "car": car,
-        "messages": messages
+        "messages": messages,
+        "conversation": conversation
     })

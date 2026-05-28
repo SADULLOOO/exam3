@@ -18,4 +18,9 @@ urlpatterns = [
     path('about/',views.about,name='about'),
     path('ai/',views.ai_help,name='ai_help'),
     path('chat/<int:car_id>/',views.chat_owner,name='chat_owner'),
+    path('chat/<int:car_id>/', views.chat_owner, name='chat_owner'),
+    # Ссылка для админа (список всех чатов)
+    path('chat/admin/list/', views.chat_owner, name='chat_admin_list'),
+    # Ссылка для админа (переход в конкретный чат по id чата)
+    path('chat/admin/<int:car_id>/', views.chat_owner, name='chat_owner_admin'),
 ]
