@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils import timezone
+from datetime import timedelta
 
 User = get_user_model()
 
@@ -183,33 +185,65 @@ class OrderRequest(models.Model):
     
 
 class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('delivering', 'Delivering'),
+        ('done', 'Delivered'),
+        ('cancelled', 'Cancelled')
+    ]
+
+    user = models.ForeignKey(
+        'accounts.User',
+        on_delete=models.CASCADE
+    )
+
+    car = models.ForeignKey(
+        'Car',
+        on_delete=models.CASCADE
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    delivery_date = models.DateTimeField(
+        default=timezone.now() + timedelta(days=7)
+    )
 
     status = models.CharField(
         max_length=20,
-        choices=[
-            ('pending', 'Pending'),
-            ('paid', 'Paid'),
-            ('cancelled', 'Cancelled')
-        ],
+        choices=STATUS_CHOICES,
         default='pending'
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
 class Credit(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
 
-    amount = models.DecimalField(max_digits=12, decimal_places=2)
-    months = models.IntegerField()
+    STATUS_CHOICES = [
+        ('processing','Processing'),
+        ('approved','Approved'),
+        ('cancelled','Cancelled')
+    ]
 
-    interest_rate = models.FloatField(default=12.5) 
+    user=models.ForeignKey(
+        'accounts.User',
+        on_delete=models.CASCADE
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    car=models.ForeignKey(
+        Car,
+        on_delete=models.CASCADE
+    )
 
+    amount=models.IntegerField()
+
+    months=models.IntegerField()
+
+    status=models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='processing'
+    )
 
 class UserActivity(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
