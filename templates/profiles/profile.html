@@ -39,6 +39,43 @@
     <p>No favorites yet</p>
 {% endfor %}
 
+<h2>My Purchased Cars</h2>
+
+{% for order in orders %}
+
+<div>
+
+    <p>{{ order.car.title }}</p>
+
+    <p>Purchased</p>
+
+</div>
+
+{% empty %}
+
+<p>No purchased cars</p>
+
+{% endfor %}
+
+<h2>My Credits</h2>
+
+{% for credit in credits %}
+
+<div>
+
+    <p>{{ credit.car.title }}</p>
+
+    <p>Amount: {{ credit.amount }}</p>
+
+    <p>{{ credit.months }} months</p>
+
+</div>
+
+{% empty %}
+
+<p>No credits yet</p>
+
+{% endfor %}
 
 <h2>My Reviews</h2>
 
