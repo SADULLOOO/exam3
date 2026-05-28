@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest, Order, Credit, UserActivity
 from .filters import CarFilter
 from django.db.models import Q
@@ -10,6 +10,11 @@ from django.http import JsonResponse
 from django.utils.timezone import now
 from django.contrib.auth.decorators import login_required
 from .models import UserActivity
+from groq import Groq
+from dotenv import load_dotenv
+load_dotenv()
+import os
+groq_api = os.getenv("GROQ_API_KEY")
 
 
 def brand_detail(request, brand_id):
@@ -287,4 +292,87 @@ def about(request):
     return render(
         request,
         'cars/about.html'
+    )
+
+
+def ai_help(request):
+
+    answer = ""
+
+    prompt = request.GET.get(
+        'prompt',
+        ''
+    ).strip()
+
+    if prompt:
+
+        client = Groq(
+            api_key=groq_api
+        )
+
+        cars = Car.objects.select_related(
+            'model'
+        )
+
+        cars_for_ai = []
+
+        for car in cars:
+
+            cars_for_ai.append({
+
+                'name': car.title,
+
+                'price': car.price,
+
+                'brand': car.model.brand.name,
+
+                'model': car.model.name
+
+            })
+
+        system_prompt = f"""
+
+You are OrderCar AI assistant.
+
+Help users choose cars.
+
+Recommend ONLY from this list:
+
+{cars_for_ai}
+
+Speak friendly.
+
+Explain simply.
+
+"""
+
+        response = client.chat.completions.create(
+
+            model="openai/gpt-oss-120b",
+
+            messages=[
+
+                {
+                    "role":"system",
+                    "content":system_prompt
+                },
+
+                {
+                    "role":"user",
+                    "content":prompt
+                }
+
+            ]
+
+        )
+
+        answer = response.choices[0].message.content
+
+    return render(
+        request,
+        'cars/ai_help.html',
+        {
+            'answer': answer,
+            'prompt': prompt
+        }
     )

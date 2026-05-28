@@ -1,7 +1,7 @@
 {% extends 'cars/base.html' %}
 
 {% block main_content %}
-
+{% if request.user.is_authenticated %}
 <h1>OrderCar</h1>
 
 
@@ -69,5 +69,7 @@
     {% endfor %}
 
 </div>
-
+{% else %}
+<p>You dont have an account so can do section from above!</p>
+{% endif %}
 {% endblock %}
