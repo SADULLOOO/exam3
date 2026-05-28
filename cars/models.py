@@ -252,3 +252,47 @@ class UserActivity(models.Model):
     last_seen = models.DateTimeField(null=True, blank=True)
 
     total_seconds = models.IntegerField(default=0)
+
+
+class Conversation(models.Model):
+
+    buyer = models.ForeignKey(
+        'accounts.User',
+        on_delete=models.CASCADE,
+        related_name='buyer_conversations'
+    )
+
+    owner = models.ForeignKey(
+        'accounts.User',
+        on_delete=models.CASCADE,
+        related_name='owner_conversations'
+    )
+
+    car = models.ForeignKey(
+        Car,
+        on_delete=models.CASCADE
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+
+class Message(models.Model):
+
+    conversation = models.ForeignKey(
+        Conversation,
+        on_delete=models.CASCADE,
+        related_name='messages'
+    )
+
+    sender = models.ForeignKey(
+        'accounts.User',
+        on_delete=models.CASCADE
+    )
+
+    text = models.TextField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )

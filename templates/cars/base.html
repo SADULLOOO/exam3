@@ -34,10 +34,13 @@
                 <a href="{% url 'logout_user' %}">
                     Logout
                 </a>
-                <form action="{% url 'ai_help' %} " method="get">
-                    <input type="text" name="promt" placeholder="Ask ai for help.....">
-                    <button type="submit">Answer</button>
-                </form>
+
+                <a href="{% url 'ai_help' %}">
+
+                    AI Assistant
+
+                </a>
+
                 {% else %}
                 <p>You dont have an account so you can --></p>
                 <a href="{% url 'login_user' %}">
