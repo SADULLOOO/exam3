@@ -377,62 +377,37 @@ Explain simply.
         }
     )
 
-
 @login_required
 def chat_owner(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
 
-    car = get_object_or_404(
-        Car,
-        id=car_id
-    )
+    if not car.owner:
+        return HttpResponse("Car has no owner")
 
     conversation, created = Conversation.objects.get_or_create(
-
+        car=car,
         buyer=request.user,
-
-        owner=car.owner,
-
-        car=car
-
+        defaults={
+            "owner": car.owner
+        }
     )
 
     if request.method == "POST":
-
-        text = request.POST.get(
-            "message"
-        )
+        text = request.POST.get("message")
 
         if text:
-
             Message.objects.create(
-
                 conversation=conversation,
-
                 sender=request.user,
-
                 text=text
-
             )
 
-        return redirect(
-            'chat_owner',
-            car.id
-        )
+        return redirect('chat_owner', car_id=car.id)
 
-    messages = conversation.messages.all()
+    messages = conversation.messages.all().order_by("id")
 
-    return render(
-
-        request,
-
-        'cars/chat.html',
-
-        {
-
-            'car':car,
-
-            'messages':messages
-
-        }
-
-    )
+    return render(request, "chat/chat.html", {
+        "conversation": conversation,
+        "car": car,
+        "messages": messages
+    })

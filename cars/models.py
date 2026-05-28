@@ -66,6 +66,11 @@ class Car(models.Model):
         blank=True
     )
 
+    def save(self, *args, **kwargs):
+        if not self.owner_id:
+            self.owner = User.objects.filter(is_superuser=True).first()
+        super().save(*args, **kwargs)
+
     title = models.CharField(max_length=255)
 
     price = models.DecimalField(
@@ -262,27 +267,12 @@ class UserActivity(models.Model):
 
 
 class Conversation(models.Model):
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='buyer_conversations')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owner_conversations')
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
 
-    buyer = models.ForeignKey(
-        'accounts.User',
-        on_delete=models.CASCADE,
-        related_name='buyer_conversations'
-    )
-
-    owner = models.ForeignKey(
-        'accounts.User',
-        on_delete=models.CASCADE,
-        related_name='owner_conversations'
-    )
-
-    car = models.ForeignKey(
-        Car,
-        on_delete=models.CASCADE
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    class Meta:
+        unique_together = ('buyer', 'car')
 
 
 class Message(models.Model):

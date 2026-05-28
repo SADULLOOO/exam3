@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+</head>
+<body>
+
+<h2>Chat about {{ car.title }}</h2>
+
+<div class="chat-box">
+
+    {% for m in messages %}
+        <div class="message">
+            <b>{{ m.sender.username }}:</b>
+            <span>{{ m.text }}</span>
+        </div>
+    {% empty %}
+        <p>No messages yet</p>
+    {% endfor %}
+
+</div>
+
+<hr>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="message" placeholder="Write message..." required>
+    <button type="submit">Send</button>
+</form>
+
+</body>
+</html>
