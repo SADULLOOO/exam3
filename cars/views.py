@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
-from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest, Order, Credit, UserActivity
+from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest, Order, Credit, UserActivity, Message, Conversation
 from .filters import CarFilter
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -375,4 +375,64 @@ Explain simply.
             'answer': answer,
             'prompt': prompt
         }
+    )
+
+
+@login_required
+def chat_owner(request, car_id):
+
+    car = get_object_or_404(
+        Car,
+        id=car_id
+    )
+
+    conversation, created = Conversation.objects.get_or_create(
+
+        buyer=request.user,
+
+        owner=car.owner,
+
+        car=car
+
+    )
+
+    if request.method == "POST":
+
+        text = request.POST.get(
+            "message"
+        )
+
+        if text:
+
+            Message.objects.create(
+
+                conversation=conversation,
+
+                sender=request.user,
+
+                text=text
+
+            )
+
+        return redirect(
+            'chat_owner',
+            car.id
+        )
+
+    messages = conversation.messages.all()
+
+    return render(
+
+        request,
+
+        'cars/chat.html',
+
+        {
+
+            'car':car,
+
+            'messages':messages
+
+        }
+
     )

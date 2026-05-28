@@ -17,4 +17,5 @@ urlpatterns = [
     path('cancel-credit/<int:credit_id>/',views.cancel_credit,name='cancel_credit'),
     path('about/',views.about,name='about'),
     path('ai/',views.ai_help,name='ai_help'),
+    path('chat/<int:car_id>/',views.chat_owner,name='chat_owner'),
 ]
