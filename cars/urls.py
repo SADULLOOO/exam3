@@ -14,4 +14,5 @@ urlpatterns = [
     path('buy/<int:car_id>/',views.buy_car,name='buy_car'),
     path('credit/<int:car_id>/',views.take_credit,name='take_credit'),
     path('cancel-order/<int:order_id>/',views.cancel_order,name='cancel_order'),
+    path('cancel-credit/<int:credit_id>/',views.cancel_credit,name='cancel_credit'),
 ]

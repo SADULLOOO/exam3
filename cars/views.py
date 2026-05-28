@@ -265,3 +265,19 @@ def cancel_order(request, order_id):
     order.save()
 
     return redirect('profile')
+
+
+@login_required
+def cancel_credit(request, credit_id):
+
+    credit=get_object_or_404(
+        Credit,
+        id=credit_id,
+        user=request.user
+    )
+
+    credit.status='cancelled'
+
+    credit.save()
+
+    return redirect('profile')
