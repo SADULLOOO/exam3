@@ -12,4 +12,5 @@ urlpatterns = [
     path('get_live_time/', views.get_live_time, name='get_live_time'),
     path('heartbeat/', views.heartbeat, name='heartbeat'),
     path('buy/<int:car_id>/',views.buy_car,name='buy_car'),
+    path('credit/<int:car_id>/',views.take_credit,name='take_credit'),
 ]
