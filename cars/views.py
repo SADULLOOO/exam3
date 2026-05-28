@@ -6,6 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.signals import user_logged_in
 from django.utils.timezone import now
 from django.contrib.auth.signals import user_logged_out
+from django.http import JsonResponse
+from django.utils.timezone import now
+from django.contrib.auth.decorators import login_required
+from .models import UserActivity
+
 
 def brand_detail(request, brand_id):
 
@@ -202,9 +207,8 @@ def login_handler(sender, request, user, **kwargs):
 
     activity.last_login_time = now()
     activity.save()
-
+    print("LOGIN OK")
 user_logged_in.connect(login_handler)
-
 
 
 def logout_handler(sender, request, user, **kwargs):
@@ -212,13 +216,36 @@ def logout_handler(sender, request, user, **kwargs):
     if not user:
         return
 
-    activity = UserActivity.objects.get(user=user)
+    activity, created = UserActivity.objects.get_or_create(user=user)
 
-    if activity.last_login_time:
-
-        delta = now() - activity.last_login_time
+    if activity.last_seen:
+        delta = now() - activity.last_seen
         activity.total_seconds += int(delta.total_seconds())
 
     activity.save()
 
 user_logged_out.connect(logout_handler)
+
+
+@login_required
+def heartbeat(request):
+
+    activity, created = UserActivity.objects.get_or_create(user=request.user)
+
+    activity.last_seen = now()
+    activity.save()
+
+    return JsonResponse({"status": "ok"})
+
+
+@login_required
+def get_live_time(request):
+
+    activity, created = UserActivity.objects.get_or_create(user=request.user)
+
+    seconds = activity.total_seconds
+
+    if activity.last_seen:
+        seconds += int((now() - activity.last_seen).total_seconds())
+
+    return JsonResponse({"seconds": seconds})

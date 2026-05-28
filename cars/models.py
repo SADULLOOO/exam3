@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class Brand(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -210,8 +212,9 @@ class Credit(models.Model):
 
 
 class UserActivity(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
-    total_seconds = models.IntegerField(default=0)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     last_login_time = models.DateTimeField(null=True, blank=True)
+    last_seen = models.DateTimeField(null=True, blank=True)
+
+    total_seconds = models.IntegerField(default=0)

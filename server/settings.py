@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django_filters',
-    'cars',
+    'cars.apps.CarsConfig',
     'myprofile',
     'accounts',
     'django.contrib.admin',

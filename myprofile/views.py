@@ -1,35 +1,17 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.utils.timezone import now
 from .models import Profile
 from .forms import ProfileForm
-
-from cars.models import Favorite, Review
-
+from cars.models import Favorite, Review, UserActivity
+from django.http import JsonResponse
 
 @login_required
-def profile_view(request):
+def update_profile(request):
 
     profile, created = Profile.objects.get_or_create(
         user=request.user
     )
-
-    favorites = Favorite.objects.filter(
-        user=request.user
-    )
-
-    reviews = Review.objects.filter(
-        user=request.user
-    )
-
-    return render(request, 'profiles/profile.html', {
-        'profile': profile,
-        'favorites': favorites,
-        'reviews': reviews
-    })
-
-@login_required
-def update_profile(request):
-    profile, created = Profile.objects.get_or_create(user=request.user)
 
     form = ProfileForm(
         request.POST or None,
@@ -46,3 +28,32 @@ def update_profile(request):
         'form': form,
         'profile': profile
     })
+
+
+
+@login_required
+def profile_view(request):
+
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    favorites = Favorite.objects.filter(user=request.user)
+    reviews = Review.objects.filter(user=request.user)
+
+    activity, created = UserActivity.objects.get_or_create(user=request.user)
+
+    live_seconds = activity.total_seconds
+
+    if activity.last_seen:
+        live_seconds = activity.total_seconds
+    else:
+        live_seconds = 0
+
+    return render(request, 'profiles/profile.html', {
+        'profile': profile,
+        'favorites': favorites,
+        'reviews': reviews,
+        'live_seconds': live_seconds
+    })
+
+
+

@@ -30,40 +30,55 @@
 <h2>My Favorites</h2>
 
 {% for fav in favorites %}
-
     <div class="fav-item">
-
         <a href="{% url 'car_detail' fav.car.id %}">
             {{ fav.car.title }}
         </a>
-
     </div>
-
 {% empty %}
-
     <p>No favorites yet</p>
-
 {% endfor %}
 
 
 <h2>My Reviews</h2>
 
 {% for review in reviews %}
-
     <div class="review-item">
-
         <p><b>{{ review.car.title }}</b></p>
         <p>{{ review.stars }}/5</p>
         <p>{{ review.text }}</p>
-
     </div>
-
 {% empty %}
-
     <p>No reviews yet</p>
-
 {% endfor %}
 
+<p>
+    Live time: <span id="timer">{{ live_seconds }}</span> seconds
+</p>
+
+<script>
+function updateHeartbeat() {
+    fetch("/heartbeat/", {
+        method: "GET",
+        credentials: "same-origin"
+    });
+}
+
+function updateLiveTime() {
+    fetch("/get_live_time/")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("timer").innerText = data.seconds;
+        });
+}
+
+setInterval(updateHeartbeat, 5000);
+
+setInterval(updateLiveTime, 2000);
+
+updateHeartbeat();
+updateLiveTime();
+</script>
 
 </body>
 </html>
