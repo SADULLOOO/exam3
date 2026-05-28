@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now
 from .models import Profile
 from .forms import ProfileForm
-from cars.models import Favorite, Review, UserActivity
+from cars.models import Favorite, Review, UserActivity, Credit, Order
 from django.http import JsonResponse
 
 @login_required
@@ -48,12 +48,23 @@ def profile_view(request):
     else:
         live_seconds = 0
 
+    orders = Order.objects.filter(
+    user=request.user
+    )
+
+    credits = Credit.objects.filter(
+    user=request.user
+    )
+
     return render(request, 'profiles/profile.html', {
         'profile': profile,
         'favorites': favorites,
         'reviews': reviews,
+        'orders': orders,
+        'credits': credits,
         'live_seconds': live_seconds
     })
+    
 
 
 
