@@ -20,6 +20,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CarForm, CarImageForm
 User = get_user_model()
+from django.http import HttpResponseForbidden
 
 groq_api = os.getenv("GROQ_API_KEY")
 
@@ -387,64 +388,64 @@ Explain simply.
 
 @login_required
 def chat_owner(request, car_id=None):
-    current_user = request.user
+    """ Вью для обычного пользователя (клиента) """
+    if request.user.is_superuser:
+        return redirect("chat_admin_list")
 
-    # НАСТРОЙКА ДЛЯ СУПЕРЮЗЕРА (АДМИНА)
-    if current_user.is_superuser:
-        # Если админ зашел просто по ссылке без car_id, показываем ему список ВСЕХ чатов
-        if not car_id:
-            all_chats = Conversation.objects.all()
-            return render(request, "chat/admin_list.html", {"conversations": all_chats})
-        
-        # Если админ кликнул на конкретный чат, открываем его
-        # Фильтруем по id самого чата (передаем его через car_id для удобства)
-        conversation = get_object_or_404(Conversation, id=car_id)
-        car = conversation.car
+    car = get_object_or_404(Car, id=car_id)
     
-    # НАСТРОЙКА ДЛЯ ОБЫЧНОГО ПОЛЬЗОВАТЕЛЯ
-    else:
-        # Находим машину, про которую пользователь хочет спросить
-        car = get_object_or_404(Car, id=car_id)
-        
-        # Главная фишка: владельцем чата ВСЕГДА делаем суперюзера
-        admin_user = User.objects.filter(is_superuser=True).first()
-        
-        buyer = current_user
-        owner = admin_user if admin_user else car.owner # Если админа нет, то вернет реального владельца
+    admin_user = User.objects.filter(is_superuser=True).first()
+    if not admin_user:
+        return render(request, "chat/chat.html", {"error": "Администратор еще не создан."})
 
-        # Ищем существующий чат между этим юзером и админом по этой машине
-        conversation = Conversation.objects.filter(
-            car=car,
-            buyer=buyer,
-            owner=owner
-        ).first()
+    conversation, created = Conversation.objects.get_or_create(
+        car=car,
+        buyer=request.user,
+        owner=admin_user
+    )
 
-        # Если чата еще нет — создаем
-        if not conversation:
-            conversation = Conversation.objects.create(
-                car=car,
-                buyer=buyer,
-                owner=owner
-            )
-
-    # ОБРАБОТКА ОТПРАВКИ СООБЩЕНИЯ
     if request.method == "POST":
         text = request.POST.get("message")
         if text:
             Message.objects.create(
                 conversation=conversation,
-                sender=current_user,
+                sender=request.user,
                 text=text
             )
-        
-        # Редирект, чтобы страница не дублировала сообщения при обновлении
-        if current_user.is_superuser:
-            return redirect("chat_owner_admin", car_id=conversation.id)
         return redirect("chat_owner", car_id=car.id)
 
-    # Получаем сообщения
     messages = conversation.messages.order_by("id")
+    return render(request, "chat/chat.html", {
+        "car": car,
+        "messages": messages,
+        "conversation": conversation
+    })
 
+
+@login_required
+def admin_chat_view(request, chat_id=None):
+    """ Отдельный вью исключительно для СУПЕРЮЗЕРА """
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Доступ разрешен только администраторам.")
+
+    if not chat_id:
+        all_chats = Conversation.objects.all().select_related('buyer', 'car')
+        return render(request, "chat/admin_list.html", {"conversations": all_chats})
+    
+    conversation = get_object_or_404(Conversation, id=chat_id)
+    car = conversation.car
+
+    if request.method == "POST":
+        text = request.POST.get("message")
+        if text:
+            Message.objects.create(
+                conversation=conversation,
+                sender=request.user,
+                text=text
+            )
+        return redirect("chat_owner_admin", chat_id=conversation.id)
+
+    messages = conversation.messages.order_by("id")
     return render(request, "chat/chat.html", {
         "car": car,
         "messages": messages,
@@ -454,32 +455,21 @@ def chat_owner(request, car_id=None):
 @staff_member_required
 def add_car(request):
     if request.method == "POST":
-        form = CarForm(request.POST)
-        files = request.FILES.getlist('images')  # если несколько фото
+        form = CarForm(request.POST, request.FILES)
 
         if form.is_valid():
             car = form.save()
 
-            for f in files:
-                CarImage.objects.create(car=car, image=f)
+            images = request.FILES.getlist('images')
+            for img in images:
+                CarImage.objects.create(car=car, image=img)
 
             return redirect('home')
-
     else:
         form = CarForm()
 
     return render(request, "cars/add_car.html", {
         "form": form
-    })
-
-def car_detail(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-
-    images = CarImage.objects.filter(car=car)
-
-    return render(request, "cars/car_detail.html", {
-        "car": car,
-        "images": images
     })
 
 @staff_member_required

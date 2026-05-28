@@ -150,7 +150,18 @@
         </a>
 
     {% endfor %}
+{% if request.user.is_superuser %}
 
+    <a href="{% url 'edit_car' car.id %}">
+        <button>Edit Car</button>
+    </a>
+
+    <form method="post" action="{% url 'delete_car' car.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete Car</button>
+    </form>
+
+{% endif %}
 </div>
 
 {% endblock %}
