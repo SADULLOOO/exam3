@@ -67,7 +67,11 @@
         </a>
 
     {% endfor %}
-
+{% if request.user.is_superuser %}
+    <a href="{% url 'add_car' %}">
+        <button>Add Car</button>
+    </a>
+{% endif %}
 </div>
 {% else %}
 <p>You dont have an account so can do section from above!</p>

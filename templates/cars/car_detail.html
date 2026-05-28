@@ -18,6 +18,7 @@
 </div>
 
 <h2>Price: ${{ car.price }}</h2>
+
 {% if request.user.is_authenticated %}
 
     <a href="{% url 'add_favorite' car.id %}">
@@ -37,69 +38,53 @@
 {% endif %}
 
 <p>Year: {{ car.year }}</p>
-
 <p>Mileage: {{ car.mileage }}</p>
-
 <p>Engine: {{ car.engine }}</p>
-
 <p>Engine Volume: {{ car.engine_volume }}</p>
-
 <p>Horsepower: {{ car.horsepower }}</p>
-
 <p>Country: {{ car.country }}</p>
-
 <p>Color: {{ car.color }}</p>
-
 <p>Fuel: {{ car.fuel_type }}</p>
-
 <p>Transmission: {{ car.transmission }}</p>
-
 <p>Status: {{ car.status }}</p>
 
 <p>{{ car.description }}</p>
 
 {% if user.is_authenticated %}
 
-<a href="{% url 'buy_car' car.id %}">
-    <button>Buy Now</button>
-</a>
+    <a href="{% url 'buy_car' car.id %}">
+        <button>Buy Now</button>
+    </a>
 
-<a href="{% url 'take_credit' car.id %}">
-    <button>Take Credit</button>
-</a>
+    <a href="{% url 'take_credit' car.id %}">
+        <button>Take Credit</button>
+    </a>
 
 {% endif %}
-<a href="{% url 'chat_owner' car.id %}">
 
-Chat With Owner
+{% if user.is_authenticated and car.id %}
 
-</a>
+    <a href="{% url 'chat_owner' car.id %}">
+        <button>Chat With Owner</button>
+    </a>
+
+{% endif %}
+
 <hr>
 
 <h2>Reviews</h2>
 
-<p>{{ car.description }}</p>
-
-<hr>
 {% for review in car.reviews.all %}
 
     <div>
 
-        <h3>
-            {{ review.user.username }}
-        </h3>
+        <h3>{{ review.user.username }}</h3>
 
-        <p>
-            Stars: {{ review.stars }}/5
-        </p>
+        <p>Stars: {{ review.stars }}/5</p>
 
-        <p>
-            {{ review.text }}
-        </p>
+        <p>{{ review.text }}</p>
 
-        <small>
-            {{ review.created_at }}
-        </small>
+        <small>{{ review.created_at }}</small>
 
     </div>
 
@@ -110,11 +95,12 @@ Chat With Owner
     <p>No reviews yet</p>
 
 {% endfor %}
-<h2>Related Cars</h2>
-<hr>
-{% if request.user.is_authenticated %}
 
-    <h2>Add Review</h2>
+<hr>
+
+<h2>Add Review</h2>
+
+{% if request.user.is_authenticated %}
 
     <form method="POST">
 
@@ -138,7 +124,7 @@ Chat With Owner
         <br><br>
 
         <button type="submit">
-            Add Review
+            Add review
         </button>
 
     </form>
@@ -150,16 +136,17 @@ Chat With Owner
     </a>
 
 {% endif %}
-<h2>Reviews</h2>
+
+<hr>
+
+<h2>Related Cars</h2>
 
 <div>
 
     {% for related in related_cars %}
 
         <a href="{% url 'car_detail' related.id %}">
-
             <h3>{{ related.title }}</h3>
-
         </a>
 
     {% endfor %}

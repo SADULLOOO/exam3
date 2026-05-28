@@ -16,7 +16,9 @@ load_dotenv()
 import os
 from django.contrib.auth import get_user_model
 from .models import Conversation, Message, Car
-
+from django.contrib.admin.views.decorators import staff_member_required
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import CarForm, CarImageForm
 User = get_user_model()
 
 groq_api = os.getenv("GROQ_API_KEY")
@@ -447,4 +449,62 @@ def chat_owner(request, car_id=None):
         "car": car,
         "messages": messages,
         "conversation": conversation
+    })
+
+@staff_member_required
+def add_car(request):
+    if request.method == "POST":
+        form = CarForm(request.POST)
+        files = request.FILES.getlist('images')  # если несколько фото
+
+        if form.is_valid():
+            car = form.save()
+
+            for f in files:
+                CarImage.objects.create(car=car, image=f)
+
+            return redirect('home')
+
+    else:
+        form = CarForm()
+
+    return render(request, "cars/add_car.html", {
+        "form": form
+    })
+
+def car_detail(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+
+    images = CarImage.objects.filter(car=car)
+
+    return render(request, "cars/car_detail.html", {
+        "car": car,
+        "images": images
+    })
+
+@staff_member_required
+def delete_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+
+    if request.method == "POST":
+        car.delete()
+        return redirect("home")
+
+    return render(request, "cars/delete.html", {
+        "car": car
+    })
+
+@staff_member_required
+def edit_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+
+    form = CarForm(request.POST or None, instance=car)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("car_detail", car_id=car.id)
+
+    return render(request, "cars/edit_car.html", {
+        "form": form,
+        "car": car
     })
