@@ -281,3 +281,10 @@ def cancel_credit(request, credit_id):
     credit.save()
 
     return redirect('profile')
+
+def about(request):
+
+    return render(
+        request,
+        'cars/about.html'
+    )
