@@ -213,14 +213,7 @@ def take_credit(request, car_id):
     return redirect('profile')
 
 
-def login_handler(sender, request, user, **kwargs):
 
-    activity, created = UserActivity.objects.get_or_create(user=user)
-
-    activity.last_login_time = now()
-    activity.save()
-    print("LOGIN OK")
-user_logged_in.connect(login_handler)
 
 
 def logout_handler(sender, request, user, **kwargs):
