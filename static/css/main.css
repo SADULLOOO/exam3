@@ -632,8 +632,10 @@ a[href*="add_car"] button:hover {
   box-shadow: 0 4px 18px rgba(0,0,0,0.35) !important;
 }
 .search-layout > div > div > a img {
-  width: 200px !important; height: 140px !important;
+  width: 200px !important;
+  height: 140px !important;
   object-fit: cover !important;
+  border-radius: 12px 0 0 12px !important;   
 }
 .search-layout > div > div > a h2 {
   font-size: 16px !important; font-weight: 700 !important;
@@ -1161,15 +1163,18 @@ a[href*="take_credit"] button,
 a[href*="chat_owner"] button,
 a[href*="edit_car"] button,
 a[href*="add_car"] button {
-  display: inline-block !important;
-  padding: 10px 22px !important;
-  border-radius: 8px !important;
+  background: linear-gradient(135deg, var(--blue), #6366f1) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 11px 22px !important;
+  border-radius: var(--r1) !important;
   font-size: 14px !important;
   font-weight: 600 !important;
-  font-family: 'DM Sans', sans-serif !important;
   cursor: pointer !important;
-  width: auto !important;
-  transition: all 0.22s !important;
+  width: auto !important;                    
+  display: inline-block !important;
+  transition: all var(--ease) !important;
+  box-shadow: 0 4px 14px rgba(59,130,246,0.3) !important;
 }
 
 a[href*="buy_car"] button {
@@ -1222,4 +1227,139 @@ form[action*="delete_car"] button {
   color: #ef4444 !important;
   border: 1.5px solid #ef4444 !important;
   transition: all 0.22s !important;
+}
+
+/* ════════════════════════════════
+   FIX: CAR DETAIL BUTTONS
+   ════════════════════════════════ */
+.car-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin: 18px 0 !important;
+}
+
+.car-actions a {
+  text-decoration: none !important;
+}
+
+.car-actions a:first-child {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 10px 18px !important;
+  background: #131f35 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  color: #7a93b8 !important;
+  transition: all 0.22s !important;
+}
+
+.car-actions a:first-child:hover {
+  border-color: #f43f5e !important;
+  color: #f43f5e !important;
+}
+
+.car-actions button {
+  padding: 11px 24px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  font-family: 'DM Sans', sans-serif !important;
+  cursor: pointer !important;
+  width: auto !important;
+  display: inline-block !important;
+  transition: all 0.22s !important;
+}
+
+.car-actions a:nth-child(2) button {
+  background: linear-gradient(135deg, #e85d04, #ff7a2a) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(232,93,4,0.35) !important;
+}
+
+.car-actions a:nth-child(2) button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(232,93,4,0.5) !important;
+}
+
+.car-actions a:nth-child(3) button {
+  background: transparent !important;
+  color: #3b82f6 !important;
+  border: 1.5px solid #3b82f6 !important;
+}
+
+.car-actions a:nth-child(3) button:hover {
+  background: rgba(59,130,246,0.1) !important;
+  transform: translateY(-2px) !important;
+}
+
+.car-actions a:nth-child(4) button {
+  background: transparent !important;
+  color: #22c55e !important;
+  border: 1.5px solid #22c55e !important;
+}
+
+.car-actions a:nth-child(4) button:hover {
+  background: rgba(34,197,94,0.08) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Edit / Delete */
+.car-admin-actions {
+  display: flex !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  margin-top: 18px !important;
+}
+
+.car-admin-actions a button {
+  background: transparent !important;
+  color: #f59e0b !important;
+  border: 1.5px solid #f59e0b !important;
+  padding: 9px 20px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  width: auto !important;
+  transition: all 0.22s !important;
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+.car-admin-actions form button {
+  background: rgba(239,68,68,0.1) !important;
+  color: #ef4444 !important;
+  border: 1.5px solid #ef4444 !important;
+  padding: 9px 20px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  width: auto !important;
+  transition: all 0.22s !important;
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+.home-wrapper a[href*="add_car"] button,
+a[href*="add_car"] button {
+  background: linear-gradient(135deg, #3b82f6, #6366f1) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 11px 24px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  width: auto !important;
+  display: inline-block !important;
+  font-family: 'DM Sans', sans-serif !important;
+  box-shadow: 0 4px 14px rgba(59,130,246,0.3) !important;
+  transition: all 0.22s !important;
+}
+
+a[href*="add_car"] button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 22px rgba(59,130,246,0.45) !important;
 }
