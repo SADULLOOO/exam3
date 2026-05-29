@@ -241,10 +241,16 @@ user_logged_out.connect(logout_handler)
 
 @login_required
 def heartbeat(request):
-
     activity, created = UserActivity.objects.get_or_create(user=request.user)
+    current_time = now()
 
-    activity.last_seen = now()
+    if activity.last_seen:
+        delta = (current_time - activity.last_seen).total_seconds()
+        
+        if delta < 15:
+            activity.total_seconds += int(delta)
+    
+    activity.last_seen = current_time
     activity.save()
 
     return JsonResponse({"status": "ok"})
