@@ -798,3 +798,197 @@
     position: static !important;
   }
 }
+
+
+
+/* ════════════════════════════════════════════════════════════
+   FIX: MODEL DETAIL PAGE — фото нормальное, карточки в grid
+   ════════════════════════════════════════════════════════════ */
+
+.model-page {
+  max-width: 1100px !important;
+  margin: 32px auto !important;
+  padding: 0 24px !important;
+}
+
+.model-page h1 {
+  font-family: 'Syne', sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  margin-bottom: 24px !important;
+}
+
+/* Фильтры в одну строку */
+.model-page > form {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  align-items: center !important;
+  background: #0f1829 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 12px !important;
+  padding: 16px 20px !important;
+  margin-bottom: 28px !important;
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+.model-page > form select {
+  background: #0d1728 !important;
+  border: 1px solid #1e3050 !important;
+  color: #f0f4ff !important;
+  padding: 9px 32px 9px 12px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  outline: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a93b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  cursor: pointer !important;
+  width: auto !important;
+  transition: border-color 0.2s !important;
+}
+
+.model-page > form select:focus {
+  border-color: #e85d04 !important;
+}
+
+.model-page > form select option {
+  background: #0f1829 !important;
+}
+
+.model-page > form button[type="submit"] {
+  background: linear-gradient(135deg, #e85d04, #ff7a2a) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 9px 22px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  width: auto !important;
+  transition: all 0.22s !important;
+}
+
+.model-page > form button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 16px rgba(232,93,4,0.4) !important;
+}
+
+/* Карточки машин в grid */
+.model-page > div {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
+  gap: 18px !important;
+}
+
+.model-page > div > * {
+  background: #0f1829 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  transition: all 0.22s !important;
+  display: block !important;
+  color: #f0f4ff !important;
+}
+
+.model-page > div > *:hover {
+  border-color: #e85d04 !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+.model-page img {
+  width: 100% !important;
+  height: 175px !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.model-page h2 {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  padding: 12px 14px 4px !important;
+  margin: 0 !important;
+  border: none !important;
+  display: block !important;
+  color: #f0f4ff !important;
+}
+
+.model-page h2::after {
+  display: none !important;
+}
+
+.model-page p {
+  font-size: 13px !important;
+  color: #7a93b8 !important;
+  padding: 2px 14px 12px !important;
+  margin: 0 !important;
+  background: none !important;
+  border: none !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   FIX: BRAND DETAIL PAGE — модели в красивый grid
+   ════════════════════════════════════════════════════════════ */
+
+.brand-page {
+  max-width: 1100px !important;
+  margin: 32px auto !important;
+  padding: 0 24px !important;
+}
+
+.brand-page h1 {
+  font-family: 'Syne', sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  margin-bottom: 28px !important;
+  text-align: center !important;
+}
+
+.brand-page > div {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+  gap: 16px !important;
+}
+
+.brand-page > div a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 28px 20px !important;
+  background: #0f1829 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 14px !important;
+  text-align: center !important;
+  font-family: 'Syne', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #f0f4ff !important;
+  transition: all 0.22s !important;
+  text-decoration: none !important;
+  min-height: 90px !important;
+}
+
+.brand-page > div a:hover {
+  border-color: #e85d04 !important;
+  background: #182540 !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.4) !important;
+  color: #e85d04 !important;
+}
+
+.brand-page > div a h2 {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  border: none !important;
+  color: inherit !important;
+}
+
+.brand-page > div a h2::after {
+  display: none !important;
+}
