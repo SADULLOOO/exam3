@@ -12,7 +12,6 @@ from django.contrib.auth.decorators import login_required
 from .models import UserActivity
 from groq import Groq
 from dotenv import load_dotenv
-load_dotenv()
 import os
 from django.contrib.auth import get_user_model
 from .models import Conversation, Message, Car
@@ -21,7 +20,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CarForm, CarImageForm
 User = get_user_model()
 from django.http import HttpResponseForbidden
-
+load_dotenv()
 groq_api = os.getenv("GROQ_API_KEY")
 
 

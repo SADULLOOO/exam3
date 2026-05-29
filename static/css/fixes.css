@@ -1,0 +1,800 @@
+/* ============================================================
+   FIXES.CSS — критические исправления
+   Подключи ПОСЛЕДНИМ в base.html после всех остальных CSS
+   ============================================================ */
+
+/* ════════════════════════════════════════════════════════════
+   FIX 1: EDIT CAR / ADD CAR — поля вертикально, нормальный размер
+   ════════════════════════════════════════════════════════════ */
+
+.car-form-wrapper {
+  max-width: 680px;
+  margin: 36px auto;
+  padding: 0 24px 60px;
+}
+
+.car-form-wrapper h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #f0f4ff;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.car-form-wrapper form {
+  background: #0f1829 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 18px !important;
+  padding: 36px !important;
+  display: block !important;        /* НЕ flex — блочный */
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4) !important;
+}
+
+/* Каждый параграф = одно поле, вертикально */
+.car-form-wrapper form p {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  margin-bottom: 18px !important;
+  width: 100% !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.car-form-wrapper form p label {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.7px !important;
+  color: #7a93b8 !important;
+}
+
+/* Все инпуты нормального размера */
+.car-form-wrapper form p input,
+.car-form-wrapper form p select,
+.car-form-wrapper form p textarea {
+  width: 100% !important;
+  background: #0d1728 !important;
+  border: 1px solid #1e3050 !important;
+  color: #f0f4ff !important;
+  padding: 11px 14px !important;
+  border-radius: 9px !important;
+  font-size: 14px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  height: auto !important;
+}
+
+.car-form-wrapper form p input:focus,
+.car-form-wrapper form p select:focus,
+.car-form-wrapper form p textarea:focus {
+  border-color: #e85d04 !important;
+  box-shadow: 0 0 0 3px rgba(232,93,4,0.12) !important;
+}
+
+.car-form-wrapper form p textarea {
+  min-height: 100px !important;
+  resize: vertical !important;
+}
+
+.car-form-wrapper form p select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a93b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  padding-right: 36px !important;
+  cursor: pointer !important;
+}
+
+/* File input */
+.car-form-wrapper form input[type="file"] {
+  border: 1px dashed #1e3050 !important;
+  color: #7a93b8 !important;
+  padding: 12px 14px !important;
+  cursor: pointer !important;
+  margin: 4px 0 18px !important;
+}
+
+/* Submit button */
+.car-form-wrapper form button[type="submit"] {
+  width: 100% !important;
+  background: linear-gradient(135deg, #e85d04, #ff7a2a) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 13px 24px !important;
+  border-radius: 10px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  margin-top: 8px !important;
+  box-shadow: 0 4px 18px rgba(232,93,4,0.3) !important;
+  transition: all 0.22s !important;
+}
+
+.car-form-wrapper form button[type="submit"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 28px rgba(232,93,4,0.48) !important;
+}
+
+/* Cancel link */
+.car-form-wrapper a {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  color: #7a93b8;
+  font-size: 13px;
+  transition: color 0.2s;
+}
+
+.car-form-wrapper a:hover {
+  color: #e85d04;
+}
+
+/* ════════════════════════════════════════════════════════════
+   FIX 2: AI HELP — нормальный input и кнопка
+   ════════════════════════════════════════════════════════════ */
+
+.ai-wrapper {
+  max-width: 700px;
+  margin: 48px auto;
+  padding: 0 24px;
+}
+
+.ai-wrapper h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 40%, #e85d04 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 28px;
+}
+
+.ai-wrapper form {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  margin: 0 0 24px !important;
+}
+
+.ai-wrapper form input[name="prompt"] {
+  flex: 1 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  background: #0d1728 !important;
+  border: 1px solid #1e3050 !important;
+  color: #f0f4ff !important;
+  padding: 12px 16px !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  outline: none !important;
+}
+
+.ai-wrapper form input[name="prompt"]:focus {
+  border-color: #e85d04 !important;
+  box-shadow: 0 0 0 3px rgba(232,93,4,0.12) !important;
+}
+
+.ai-wrapper form input[name="prompt"]::placeholder {
+  color: #3d5478 !important;
+}
+
+.ai-wrapper form button {
+  flex-shrink: 0 !important;
+  width: auto !important;
+  background: linear-gradient(135deg, #e85d04, #ff7a2a) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  font-family: 'DM Sans', sans-serif !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  box-shadow: 0 4px 16px rgba(232,93,4,0.3) !important;
+  transition: all 0.22s !important;
+}
+
+.ai-wrapper form button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 22px rgba(232,93,4,0.45) !important;
+}
+
+.ai-wrapper .ai-answer {
+  background: #0f1829 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 14px !important;
+  padding: 24px !important;
+  font-size: 14px !important;
+  color: #c8d8f0 !important;
+  line-height: 1.75 !important;
+  white-space: pre-wrap !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   FIX 3: CAR DETAIL — кнопки нормального размера
+   ════════════════════════════════════════════════════════════ */
+
+.car-detail-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+/* Изображения */
+.car-detail-wrapper .car-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.car-detail-wrapper .car-images img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+/* Заголовок */
+.car-detail-wrapper h1 {
+  font-size: clamp(20px, 3vw, 32px) !important;
+  margin-bottom: 8px !important;
+}
+
+/* Цена */
+.car-detail-wrapper .car-price {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #e85d04;
+  margin: 12px 0 20px;
+}
+
+/* Характеристики */
+.car-detail-wrapper .specs-table {
+  background: #0f1829;
+  border: 1px solid #1e3050;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.car-detail-wrapper .specs-table p {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 11px 18px !important;
+  border-bottom: 1px solid #1a2a42 !important;
+  font-size: 14px !important;
+  color: #7a93b8 !important;
+  background: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.car-detail-wrapper .specs-table p:last-child {
+  border-bottom: none !important;
+}
+
+.car-detail-wrapper .specs-table p strong {
+  color: #f0f4ff;
+  font-weight: 500;
+}
+
+/* ── КНОПКИ — самое важное ─────────────────────────────────── */
+.car-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  margin: 24px 0 !important;
+}
+
+/* Favorite */
+.car-actions a[href*="favorite"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 20px !important;
+  background: #131f35 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 9px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #7a93b8 !important;
+  width: auto !important;
+  transition: all 0.22s !important;
+}
+
+.car-actions a[href*="favorite"]:hover {
+  border-color: #f43f5e !important;
+  color: #f43f5e !important;
+}
+
+/* Buy Now */
+.car-actions a[href*="buy_car"] button {
+  background: linear-gradient(135deg, #e85d04, #ff7a2a) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 12px 28px !important;
+  border-radius: 9px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  font-family: 'DM Sans', sans-serif !important;
+  cursor: pointer !important;
+  width: auto !important;
+  min-width: 130px !important;
+  box-shadow: 0 4px 16px rgba(232,93,4,0.35) !important;
+  transition: all 0.22s !important;
+}
+
+.car-actions a[href*="buy_car"] button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 28px rgba(232,93,4,0.5) !important;
+}
+
+/* Take Credit */
+.car-actions a[href*="credit"] button {
+  background: transparent !important;
+  color: #3b82f6 !important;
+  border: 1.5px solid #3b82f6 !important;
+  padding: 12px 28px !important;
+  border-radius: 9px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  font-family: 'DM Sans', sans-serif !important;
+  cursor: pointer !important;
+  width: auto !important;
+  min-width: 130px !important;
+  transition: all 0.22s !important;
+}
+
+.car-actions a[href*="credit"] button:hover {
+  background: rgba(59,130,246,0.1) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Chat With Owner */
+.car-actions a[href*="chat"] button {
+  background: transparent !important;
+  color: #22c55e !important;
+  border: 1.5px solid #22c55e !important;
+  padding: 12px 28px !important;
+  border-radius: 9px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  font-family: 'DM Sans', sans-serif !important;
+  cursor: pointer !important;
+  width: auto !important;
+  min-width: 160px !important;
+  transition: all 0.22s !important;
+}
+
+.car-actions a[href*="chat"] button:hover {
+  background: rgba(34,197,94,0.08) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Edit / Delete */
+.car-admin-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.car-admin-actions a[href*="edit_car"] button {
+  background: transparent !important;
+  color: #f59e0b !important;
+  border: 1.5px solid #f59e0b !important;
+  padding: 9px 20px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  width: auto !important;
+  transition: all 0.22s !important;
+}
+
+.car-admin-actions form[action*="delete"] button {
+  background: rgba(239,68,68,0.1) !important;
+  color: #ef4444 !important;
+  border: 1.5px solid #ef4444 !important;
+  padding: 9px 20px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  width: auto !important;
+  transition: all 0.22s !important;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   FIX: SEARCH HERO FORM на home странице
+   ════════════════════════════════════════════════════════════ */
+
+.search-hero form,
+.search-bar-form {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  background: #fff !important;
+  border-radius: 12px !important;
+  padding: 8px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+  margin: 0 !important;
+  border: none !important;
+  max-width: 640px !important;
+}
+
+.search-hero form input[type="text"],
+.search-bar-form input[type="text"] {
+  flex: 1 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #111 !important;
+  padding: 10px 14px !important;
+  font-size: 15px !important;
+  outline: none !important;
+  border-radius: 8px !important;
+}
+
+.search-hero form input[type="text"]::placeholder,
+.search-bar-form input[type="text"]::placeholder {
+  color: #999 !important;
+}
+
+.search-hero form button,
+.search-bar-form button {
+  flex-shrink: 0 !important;
+  width: auto !important;
+  background: linear-gradient(135deg, #e85d04, #ff7a2a) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 11px 28px !important;
+  border-radius: 9px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  box-shadow: 0 4px 14px rgba(232,93,4,0.35) !important;
+  transition: all 0.22s !important;
+}
+
+.search-hero form button:hover,
+.search-bar-form button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 22px rgba(232,93,4,0.5) !important;
+}
+
+
+
+
+
+
+/* ════════════════════════════════════════════════════════════
+   FIX: SEARCH PAGE — центр + красивые фильтры
+   ════════════════════════════════════════════════════════════ */
+
+.search-layout {
+  max-width: 1100px !important;
+  margin: 36px auto !important;
+  padding: 0 24px !important;
+  display: grid !important;
+  grid-template-columns: 300px 1fr !important;
+  gap: 28px !important;
+  align-items: start !important;
+}
+
+/* Sidebar фильтры */
+.search-layout > form[method="GET"] {
+  background: #0f1829 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 18px !important;
+  padding: 24px 20px !important;
+  display: block !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3) !important;
+  position: sticky !important;
+  top: 86px !important;
+}
+
+.search-layout > form[method="GET"] h1 {
+  font-family: 'Syne', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #f0f4ff !important;
+  margin-bottom: 18px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid #1e3050 !important;
+  text-align: left !important;
+}
+
+.search-layout > form[method="GET"] h2 {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  color: #e85d04 !important;
+  margin: 18px 0 8px !important;
+  padding: 0 !important;
+  border: none !important;
+  display: block !important;
+}
+
+.search-layout > form[method="GET"] h2::after {
+  display: none !important;
+}
+
+.search-layout > form[method="GET"] input[type="text"],
+.search-layout > form[method="GET"] input[type="number"],
+.search-layout > form[method="GET"] select {
+  width: 100% !important;
+  background: #0d1728 !important;
+  border: 1px solid #1e3050 !important;
+  color: #f0f4ff !important;
+  padding: 9px 12px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  outline: none !important;
+  margin-bottom: 8px !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+.search-layout > form[method="GET"] input::placeholder {
+  color: #3d5478 !important;
+}
+
+.search-layout > form[method="GET"] input:focus,
+.search-layout > form[method="GET"] select:focus {
+  border-color: #e85d04 !important;
+  box-shadow: 0 0 0 2px rgba(232,93,4,0.12) !important;
+}
+
+.search-layout > form[method="GET"] select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a93b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  padding-right: 32px !important;
+  cursor: pointer !important;
+}
+
+.search-layout > form[method="GET"] select option {
+  background: #0f1829 !important;
+  color: #f0f4ff !important;
+}
+
+.search-layout > form[method="GET"] hr {
+  border: none !important;
+  border-top: 1px solid #1a2a42 !important;
+  margin: 10px 0 !important;
+  opacity: 0.5 !important;
+}
+
+.search-layout > form[method="GET"] button[type="submit"] {
+  width: 100% !important;
+  background: linear-gradient(135deg, #e85d04, #ff7a2a) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 12px !important;
+  border-radius: 9px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  margin-top: 10px !important;
+  box-shadow: 0 4px 16px rgba(232,93,4,0.3) !important;
+  transition: all 0.22s !important;
+}
+
+.search-layout > form[method="GET"] button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 22px rgba(232,93,4,0.45) !important;
+}
+
+/* Результаты справа */
+.search-layout > div {
+  min-width: 0 !important;
+}
+
+.search-layout > div h1 {
+  font-family: 'Syne', sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #f0f4ff !important;
+  margin-bottom: 18px !important;
+}
+
+/* Карточки результатов */
+.search-layout > div > div > a,
+.search-layout > div > div > hr ~ a {
+  display: grid !important;
+  grid-template-columns: 200px 1fr !important;
+  background: #0f1829 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  margin-bottom: 14px !important;
+  transition: all 0.22s !important;
+  color: #f0f4ff !important;
+  text-decoration: none !important;
+}
+
+.search-layout > div > div > a:hover {
+  border-color: #e85d04 !important;
+  transform: translateX(3px) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+}
+
+.search-layout > div > div > a img {
+  width: 200px !important;
+  height: 140px !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.search-layout > div > div > a h2 {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  padding: 14px 18px 4px !important;
+  margin: 0 !important;
+  border: none !important;
+  display: block !important;
+  color: #f0f4ff !important;
+}
+
+.search-layout > div > div > a h2::after {
+  display: none !important;
+}
+
+.search-layout > div > div > a p {
+  padding: 2px 18px !important;
+  font-size: 13px !important;
+  color: #7a93b8 !important;
+  margin: 0 !important;
+  background: none !important;
+  border: none !important;
+  display: block !important;
+}
+
+.search-layout > div > div > a p:first-of-type {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  color: #e85d04 !important;
+  font-family: 'Syne', sans-serif !important;
+}
+
+/* ════════════════════════════════════════════════════════════
+   FIX: CAR DETAIL — фото 30%, specs в ряд, ссылки с цветом
+   ════════════════════════════════════════════════════════════ */
+
+.car-detail-wrapper {
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+  padding: 32px 24px 64px !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 40px !important;
+  align-items: start !important;
+}
+
+/* Левая колонка — фото */
+.car-detail-wrapper .car-images {
+  display: block !important;
+  position: sticky !important;
+  top: 86px !important;
+}
+
+.car-detail-wrapper .car-images img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 280px !important;
+  object-fit: cover !important;
+  border-radius: 16px !important;
+  border: 2px solid #1e3050 !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+  margin-bottom: 8px !important;
+  display: block !important;
+}
+
+/* Правая колонка — инфо */
+.car-detail-wrapper .car-info {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+/* Specs таблица в 2 колонки */
+.car-detail-wrapper .specs-table {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 1px !important;
+  background: #1e3050 !important;
+  border: 1px solid #1e3050 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  margin: 16px 0 !important;
+}
+
+.car-detail-wrapper .specs-table p {
+  background: #0f1829 !important;
+  padding: 10px 14px !important;
+  font-size: 13px !important;
+  color: #7a93b8 !important;
+  margin: 0 !important;
+  border: none !important;
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+.car-detail-wrapper .specs-table p strong {
+  color: #f0f4ff !important;
+  font-weight: 500 !important;
+}
+
+/* Related cars ссылки с цветом */
+.car-detail-wrapper .related-cars a,
+.car-detail-wrapper div:last-of-type a {
+  color: #e85d04 !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  transition: color 0.2s !important;
+}
+
+.car-detail-wrapper .related-cars a:hover {
+  color: #ff9a3c !important;
+}
+
+/* Описание без фото */
+.car-detail-wrapper .car-description {
+  color: #7a93b8 !important;
+  font-size: 14px !important;
+  line-height: 1.75 !important;
+  padding: 16px 0 !important;
+  border-top: 1px solid #1e3050 !important;
+  background: none !important;
+  border-bottom: none !important;
+}
+
+@media (max-width: 900px) {
+  .search-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .search-layout > form[method="GET"] {
+    position: static !important;
+  }
+
+  .car-detail-wrapper {
+    grid-template-columns: 1fr !important;
+  }
+
+  .car-detail-wrapper .car-images {
+    position: static !important;
+  }
+}

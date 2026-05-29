@@ -2,166 +2,123 @@
 
 {% block main_content %}
 
-<h1>{{ car.title }}</h1>
+<div class="car-detail-wrapper">
 
-<div>
-
+  <!-- ЛЕВАЯ КОЛОНКА: ФОТО -->
+  <div class="car-images">
     {% for image in car.images.all %}
-
-        <img
-            src="{{ image.image.url }}"
-            width="350"
-        >
-
+      <img src="{{ image.image.url }}" alt="{{ car.title }}">
     {% endfor %}
+  </div>
 
-</div>
+  <!-- ПРАВАЯ КОЛОНКА: ИНФО -->
+  <div class="car-info">
 
-<h2>Price: ${{ car.price }}</h2>
+    <h1>{{ car.title }}</h1>
+    <p class="car-price">${{ car.price }}</p>
 
-{% if request.user.is_authenticated %}
+    <!-- КНОПКИ -->
+    {% if user.is_authenticated %}
+    <div class="car-actions">
 
-    <a href="{% url 'add_favorite' car.id %}">
+      <a href="{% url 'add_favorite' car.id %}">
+        {% if is_favorite %}❤️ Remove Favorite{% else %}🤍 Add Favorite{% endif %}
+      </a>
 
-        {% if is_favorite %}
-
-            ❤️ Remove Favorite
-
-        {% else %}
-
-            🤍 Add Favorite
-
-        {% endif %}
-
-    </a>
-
-{% endif %}
-
-<p>Year: {{ car.year }}</p>
-<p>Mileage: {{ car.mileage }}</p>
-<p>Engine: {{ car.engine }}</p>
-<p>Engine Volume: {{ car.engine_volume }}</p>
-<p>Horsepower: {{ car.horsepower }}</p>
-<p>Country: {{ car.country }}</p>
-<p>Color: {{ car.color }}</p>
-<p>Fuel: {{ car.fuel_type }}</p>
-<p>Transmission: {{ car.transmission }}</p>
-<p>Status: {{ car.status }}</p>
-
-<p>{{ car.description }}</p>
-
-{% if user.is_authenticated %}
-
-    <a href="{% url 'buy_car' car.id %}">
+      <a href="{% url 'buy_car' car.id %}">
         <button>Buy Now</button>
-    </a>
+      </a>
 
-    <a href="{% url 'take_credit' car.id %}">
+      <a href="{% url 'take_credit' car.id %}">
         <button>Take Credit</button>
-    </a>
+      </a>
 
-{% endif %}
-
-{% if user.is_authenticated and car.id %}
-
-    <a href="{% url 'chat_owner' car.id %}">
+      {% if car.id %}
+      <a href="{% url 'chat_owner' car.id %}">
         <button>Chat With Owner</button>
-    </a>
-
-{% endif %}
-
-<hr>
-
-<h2>Reviews</h2>
-
-{% for review in car.reviews.all %}
-
-    <div>
-
-        <h3>{{ review.user.username }}</h3>
-
-        <p>Stars: {{ review.stars }}/5</p>
-
-        <p>{{ review.text }}</p>
-
-        <small>{{ review.created_at }}</small>
+      </a>
+      {% endif %}
 
     </div>
+    {% endif %}
+
+    <!-- ХАРАКТЕРИСТИКИ -->
+    <div class="specs-table">
+      <p>Year <strong>{{ car.year }}</strong></p>
+      <p>Mileage <strong>{{ car.mileage }}</strong></p>
+      <p>Engine <strong>{{ car.engine }}</strong></p>
+      <p>Volume <strong>{{ car.engine_volume }}</strong></p>
+      <p>Horsepower <strong>{{ car.horsepower }}</strong></p>
+      <p>Country <strong>{{ car.country }}</strong></p>
+      <p>Color <strong>{{ car.color }}</strong></p>
+      <p>Fuel <strong>{{ car.fuel_type }}</strong></p>
+      <p>Transmission <strong>{{ car.transmission }}</strong></p>
+      <p>Status <strong>{{ car.status }}</strong></p>
+    </div>
+
+    <p class="car-description">{{ car.description }}</p>
 
     <hr>
 
-{% empty %}
+    <!-- REVIEWS -->
+    <h2>Reviews</h2>
 
-    <p>No reviews yet</p>
-
-{% endfor %}
-
-<hr>
-
-<h2>Add Review</h2>
-
-{% if request.user.is_authenticated %}
-
-    <form method="POST">
-
-        {% csrf_token %}
-
-        <input
-            type="number"
-            name="stars"
-            min="1"
-            max="5"
-            placeholder="Stars"
-        >
-
-        <br><br>
-
-        <textarea
-            name="text"
-            placeholder="Write review..."
-        ></textarea>
-
-        <br><br>
-
-        <button type="submit">
-            Add review
-        </button>
-
-    </form>
-
-{% else %}
-
-    <a href="{% url 'login_user' %}">
-        Login to write review
-    </a>
-
-{% endif %}
-
-<hr>
-
-<h2>Related Cars</h2>
-
-<div>
-
-    {% for related in related_cars %}
-
-        <a href="{% url 'car_detail' related.id %}">
-            <h3>{{ related.title }}</h3>
-        </a>
-
+    {% for review in car.reviews.all %}
+      <div class="review-card">
+        <h3>{{ review.user.username }}</h3>
+        <p>⭐ {{ review.stars }}/5</p>
+        <p>{{ review.text }}</p>
+        <small>{{ review.created_at }}</small>
+      </div>
+    {% empty %}
+      <p>No reviews yet</p>
     {% endfor %}
-{% if request.user.is_superuser %}
 
-    <a href="{% url 'edit_car' car.id %}">
-        <button>Edit Car</button>
-    </a>
+    <hr>
 
-    <form method="post" action="{% url 'delete_car' car.id %}">
-        {% csrf_token %}
-        <button type="submit">Delete Car</button>
-    </form>
+    <!-- ADD REVIEW -->
+    <h2>Add Review</h2>
 
-{% endif %}
+    {% if request.user.is_authenticated %}
+      <div class="review-form">
+        <form method="POST">
+          {% csrf_token %}
+          <input type="number" name="stars" min="1" max="5" placeholder="Stars 1-5">
+          <textarea name="text" placeholder="Write your review..."></textarea>
+          <button type="submit">Add Review</button>
+        </form>
+      </div>
+    {% else %}
+      <a href="{% url 'login_user' %}">Login to write review</a>
+    {% endif %}
+
+    <hr>
+
+    <!-- RELATED CARS -->
+    <h2>Related Cars</h2>
+
+    <div class="related-cars">
+      {% for related in related_cars %}
+        <a href="{% url 'car_detail' related.id %}">
+          <h3>{{ related.title }}</h3>
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- SUPERUSER ACTIONS -->
+    {% if request.user.is_superuser %}
+      <div class="car-admin-actions">
+        <a href="{% url 'edit_car' car.id %}">
+          <button>Edit Car</button>
+        </a>
+        <form method="post" action="{% url 'delete_car' car.id %}">
+          {% csrf_token %}
+          <button type="submit">Delete Car</button>
+        </form>
+      </div>
+    {% endif %}
+
+  </div>
 </div>
 
 {% endblock %}

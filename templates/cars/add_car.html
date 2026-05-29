@@ -1,17 +1,13 @@
 {% extends 'cars/base.html' %}
 
 {% block main_content %}
-
-<h1>Add Car</h1>
-
-<form method="POST" enctype="multipart/form-data">
+<div class="car-form-wrapper">
+  <h1>Add Car</h1>
+  <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-
     {{ form.as_p }}
-
     <input type="file" name="images" multiple>
-
     <button type="submit">Save Car</button>
-</form>
-
+  </form>
+</div>
 {% endblock %}

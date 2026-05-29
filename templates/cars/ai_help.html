@@ -1,44 +1,14 @@
 {% extends 'cars/base.html' %}
 
 {% block main_content %}
-
-<h1>
-
-OrderCar AI Assistant
-
-</h1>
-
-<form>
-
-<input
-name="prompt"
-placeholder="Ask AI..."
-value="{{ prompt }}"
->
-
-<button>
-
-Send
-
-</button>
-
-</form>
-
-
-{% if answer %}
-
-<div
-style="
-margin-top:20px;
-padding:20px;
-border:1px solid gray;
-"
->
-
-{{ answer }}
-
+<div class="ai-wrapper">
+  <h1>OrderCar AI Assistant</h1>
+  <form>
+    <input name="prompt" placeholder="Ask AI..." value="{{ prompt }}">
+    <button>Send</button>
+  </form>
+  {% if answer %}
+    <div class="ai-answer">{{ answer }}</div>
+  {% endif %}
 </div>
-
-{% endif %}
-
 {% endblock %}
