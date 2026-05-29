@@ -258,15 +258,9 @@ def heartbeat(request):
 
 @login_required
 def get_live_time(request):
-
     activity, created = UserActivity.objects.get_or_create(user=request.user)
-
-    seconds = activity.total_seconds
-
-    if activity.last_seen:
-        seconds += int((now() - activity.last_seen).total_seconds())
-
-    return JsonResponse({"seconds": seconds})
+    
+    return JsonResponse({"seconds": activity.total_seconds})
 
 
 @login_required
