@@ -231,6 +231,7 @@ def heartbeat(request):
     return JsonResponse({"status": "ok"})
 
 
+
 @login_required
 def get_live_time(request):
     activity, created = UserActivity.objects.get_or_create(user=request.user)

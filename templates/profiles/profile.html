@@ -243,7 +243,7 @@
 
 Live time:
 
-<span id="timer" data-seconds="{{ live_seconds }}">00:00:00</span>
+<span id="live-timer">00:00:00</span>
 
 seconds
 
@@ -251,7 +251,7 @@ seconds
 
 
 
-<p>Время в сети: <span id="timer">00:00:00</span></p>
+<p>Время в сети: <span id="total-time">00:00:00</span></p>
 
 <script>
 let currentSeconds = parseInt("{{ live_seconds }}") || 0;
@@ -284,7 +284,7 @@ function updateLiveTime(){
         currentSeconds = data.seconds;
         document.getElementById("timer").innerText = formatTime(currentSeconds);
     })
-    .catch(err => console.log("Ошибка получения времени:", err));
+    .catch(err => console.log("Error in time:", err));
 }
 
 setInterval(() => {
