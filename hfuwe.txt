@@ -1,0 +1,1166 @@
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<section class="about">
+
+<h1>
+
+Welcome To OrderCar
+
+</h1>
+
+<p>
+
+OrderCar helps people find their dream car.
+
+You can search cars, compare models,
+buy vehicles, take credits,
+save favorites and communicate
+with sellers.
+
+</p>
+
+
+<h2>
+
+Why Choose Us?
+
+</h2>
+
+<ul>
+
+<li>
+
+Large collection of vehicles
+
+</li>
+
+<li>
+
+New, Used and Damaged Cars
+
+</li>
+
+<li>
+
+Fast delivery system
+
+</li>
+
+<li>
+
+Flexible credit options
+
+</li>
+
+<li>
+
+Trusted reviews
+
+</li>
+
+</ul>
+
+
+<h2>
+
+Our Mission
+
+</h2>
+
+<p>
+
+Our goal is to make buying
+cars easier, faster and safer.
+
+</p>
+
+</section>
+
+{% endblock %}
+
+
+
+
+
+
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>Add Car</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <input type="file" name="images" multiple>
+
+    <button type="submit">Save Car</button>
+</form>
+
+{% endblock %}
+
+
+
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>
+
+OrderCar AI Assistant
+
+</h1>
+
+<form>
+
+<input
+name="prompt"
+placeholder="Ask AI..."
+value="{{ prompt }}"
+>
+
+<button>
+
+Send
+
+</button>
+
+</form>
+
+
+{% if answer %}
+
+<div
+style="
+margin-top:20px;
+padding:20px;
+border:1px solid gray;
+"
+>
+
+{{ answer }}
+
+</div>
+
+{% endif %}
+
+{% endblock %}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <nav>
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'search' %}">
+                    Search
+                </a>
+
+                <a href="{% url 'about' %}">
+                    About Us
+                </a>
+
+
+
+
+                <a href="{% url 'profile' %}">
+                    Profile
+                </a>
+
+                <a href="{% url 'logout_user' %}">
+                    Logout
+                </a>
+
+                <a href="{% url 'ai_help' %}">
+
+                    AI Assistant
+
+                </a>
+
+                {% else %}
+                <p>You dont have an account so you can --></p>
+                <a href="{% url 'login_user' %}">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}">
+                    Register
+                </a>
+
+                {% endif %}
+
+            </nav>
+
+
+        </nav>
+
+        <div>
+
+
+
+        </div>
+    </header>
+
+    {% block main_content %}
+    Default main..........
+    {% endblock %}
+
+
+    <footer>
+        Copyright 2026......
+    </footer>
+
+</body>
+
+</html>
+
+
+
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>{{ brand.name }}</h1>
+
+<div>
+
+    {% for model in models %}
+
+        <a href="{% url 'model_detail' model.id %}">
+
+            <h2>{{ model.name }}</h2>
+
+        </a>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
+
+
+
+
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>{{ car.title }}</h1>
+
+<div>
+
+    {% for image in car.images.all %}
+
+        <img
+            src="{{ image.image.url }}"
+            width="350"
+        >
+
+    {% endfor %}
+
+</div>
+
+<h2>Price: ${{ car.price }}</h2>
+
+{% if request.user.is_authenticated %}
+
+    <a href="{% url 'add_favorite' car.id %}">
+
+        {% if is_favorite %}
+
+            ❤️ Remove Favorite
+
+        {% else %}
+
+            🤍 Add Favorite
+
+        {% endif %}
+
+    </a>
+
+{% endif %}
+
+<p>Year: {{ car.year }}</p>
+<p>Mileage: {{ car.mileage }}</p>
+<p>Engine: {{ car.engine }}</p>
+<p>Engine Volume: {{ car.engine_volume }}</p>
+<p>Horsepower: {{ car.horsepower }}</p>
+<p>Country: {{ car.country }}</p>
+<p>Color: {{ car.color }}</p>
+<p>Fuel: {{ car.fuel_type }}</p>
+<p>Transmission: {{ car.transmission }}</p>
+<p>Status: {{ car.status }}</p>
+
+<p>{{ car.description }}</p>
+
+{% if user.is_authenticated %}
+
+    <a href="{% url 'buy_car' car.id %}">
+        <button>Buy Now</button>
+    </a>
+
+    <a href="{% url 'take_credit' car.id %}">
+        <button>Take Credit</button>
+    </a>
+
+{% endif %}
+
+{% if user.is_authenticated and car.id %}
+
+    <a href="{% url 'chat_owner' car.id %}">
+        <button>Chat With Owner</button>
+    </a>
+
+{% endif %}
+
+<hr>
+
+<h2>Reviews</h2>
+
+{% for review in car.reviews.all %}
+
+    <div>
+
+        <h3>{{ review.user.username }}</h3>
+
+        <p>Stars: {{ review.stars }}/5</p>
+
+        <p>{{ review.text }}</p>
+
+        <small>{{ review.created_at }}</small>
+
+    </div>
+
+    <hr>
+
+{% empty %}
+
+    <p>No reviews yet</p>
+
+{% endfor %}
+
+<hr>
+
+<h2>Add Review</h2>
+
+{% if request.user.is_authenticated %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <input
+            type="number"
+            name="stars"
+            min="1"
+            max="5"
+            placeholder="Stars"
+        >
+
+        <br><br>
+
+        <textarea
+            name="text"
+            placeholder="Write review..."
+        ></textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Add review
+        </button>
+
+    </form>
+
+{% else %}
+
+    <a href="{% url 'login_user' %}">
+        Login to write review
+    </a>
+
+{% endif %}
+
+<hr>
+
+<h2>Related Cars</h2>
+
+<div>
+
+    {% for related in related_cars %}
+
+        <a href="{% url 'car_detail' related.id %}">
+            <h3>{{ related.title }}</h3>
+        </a>
+
+    {% endfor %}
+{% if request.user.is_superuser %}
+
+    <a href="{% url 'edit_car' car.id %}">
+        <button>Edit Car</button>
+    </a>
+
+    <form method="post" action="{% url 'delete_car' car.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete Car</button>
+    </form>
+
+{% endif %}
+</div>
+
+{% endblock %}
+
+
+
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>Edit Car</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <input type="file" name="images" multiple>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<a href="{% url 'car_detail' car.id %}">
+    Cancel
+</a>
+
+{% endblock %}
+
+
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+{% if request.user.is_authenticated %}
+<h1>OrderCar</h1>
+
+
+<form action="{% url 'search' %}" method="GET">
+
+    <input
+        type="text"
+        name="q"
+        placeholder="Search cars..."
+    >
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<h2>Brands</h2>
+
+<div>
+
+    {% for brand in brands %}
+
+        <a href="{% url 'brand_detail' brand.id %}">
+
+            {% if brand.logo %}
+                <img
+                    src="{{ brand.logo.url }}"
+                    width="120"
+                >
+            {% endif %}
+
+            <h3>{{ brand.name }}</h3>
+
+        </a>
+
+    {% endfor %}
+
+</div>
+
+<h2>Recommended Cars</h2>
+
+<div>
+
+    {% for car in recommended_cars %}
+        <a href="{% url 'car_detail' car.id %}"> 
+
+            {% with car.images.first as image %}
+
+                {% if image %}
+                    <img
+                        src="{{ image.image.url }}"
+                        width="250"
+                    >
+                {% endif %}
+
+            {% endwith %}
+
+            <h3>{{ car.title }}</h3>
+
+            <p>${{ car.price }}</p>
+
+        </a>
+
+    {% endfor %}
+{% if request.user.is_superuser %}
+    <a href="{% url 'add_car' %}">
+        <button>Add Car</button>
+    </a>
+{% endif %}
+</div>
+{% else %}
+<p>You dont have an account so can do section from above!</p>
+{% endif %}
+{% endblock %}
+
+
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>{{ model.name }}</h1>
+
+<form method="GET">
+
+    <select name="status">
+
+        <option value="">All Status</option>
+
+        <option value="new">New</option>
+        <option value="used">Used</option>
+        <option value="damaged">Damaged</option>
+
+    </select>
+
+    <select name="fuel">
+
+        <option value="">Fuel Type</option>
+
+        <option value="petrol">Petrol</option>
+        <option value="diesel">Diesel</option>
+        <option value="hybrid">Hybrid</option>
+        <option value="electric">Electric</option>
+
+    </select>
+
+    <select name="transmission">
+
+        <option value="">Transmission</option>
+
+        <option value="automatic">Automatic</option>
+        <option value="manual">Manual</option>
+
+    </select>
+
+    <button type="submit">
+        Filter
+    </button>
+
+</form>
+
+<hr>
+
+<div>
+
+    {% for car in cars %}
+
+        {% comment %} <a href="{% url 'car_detail' car.id %}"> {% endcomment %}
+
+            {% with car.images.first as image %}
+
+                {% if image %}
+                    <img
+                        src="{{ image.image.url }}"
+                        width="250"
+                    >
+                {% endif %}
+
+            {% endwith %}
+
+            <h2>{{ car.title }}</h2>
+
+            <p>${{ car.price }}</p>
+
+            <p>{{ car.year }}</p>
+
+            <p>{{ car.status }}</p>
+
+        </a>
+
+        <hr>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
+
+
+
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+
+<h1>Search Cars</h1>
+
+<form method="GET">
+
+    <input
+        type="text"
+        name="q"
+        placeholder="Search cars..."
+        value="{{ request.GET.q }}"
+    >
+
+    <hr>
+
+    <h2>Price</h2>
+
+    <input
+        type="number"
+        name="min_price"
+        placeholder="Min Price"
+    >
+
+    <input
+        type="number"
+        name="max_price"
+        placeholder="Max Price"
+    >
+
+    <hr>
+
+    <h2>Year</h2>
+
+    <input
+        type="number"
+        name="min_year"
+        placeholder="Min Year"
+    >
+
+    <input
+        type="number"
+        name="max_year"
+        placeholder="Max Year"
+    >
+
+    <hr>
+
+    <h2>Status</h2>
+
+    <select name="status">
+        <option value="">All</option>
+        <option value="new">New</option>
+        <option value="used">Used</option>
+        <option value="damaged">Damaged</option>
+    </select>
+
+    <hr>
+
+    <h2>Fuel Type</h2>
+
+    <select name="fuel_type">
+        <option value="">All</option>
+        <option value="petrol">Petrol</option>
+        <option value="diesel">Diesel</option>
+        <option value="hybrid">Hybrid</option>
+        <option value="electric">Electric</option>
+    </select>
+
+    <hr>
+
+    <h2>Transmission</h2>
+
+    <select name="transmission">
+        <option value="">All</option>
+        <option value="automatic">Automatic</option>
+        <option value="manual">Manual</option>
+    </select>
+
+    <hr>
+
+    <h2>Brand</h2>
+
+    <input
+        type="text"
+        name="brand"
+        placeholder="Toyota"
+    >
+
+    <hr>
+
+    <h2>Model</h2>
+
+    <input
+        type="text"
+        name="model"
+        placeholder="Camry"
+    >
+
+    <hr>
+
+    <h2>Mileage</h2>
+
+    <input
+        type="number"
+        name="min_mileage"
+        placeholder="Min Mileage"
+    >
+
+    <input
+        type="number"
+        name="max_mileage"
+        placeholder="Max Mileage"
+    >
+
+    <hr>
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<hr>
+
+<h1>Cars</h1>
+
+<div>
+
+    {% for car in cars %}
+
+        <a href="{% url 'car_detail' car.id %}">
+
+            {% with car.images.first as image %}
+
+                {% if image %}
+
+                    <img
+                        src="{{ image.image.url }}"
+                        width="250"
+                    >
+
+                {% endif %}
+
+            {% endwith %}
+
+            <h2>{{ car.title }}</h2>
+
+            <p>${{ car.price }}</p>
+
+            <p>{{ car.year }}</p>
+
+            <p>{{ car.fuel_type }}</p>
+
+            <p>{{ car.transmission }}</p>
+
+            <p>{{ car.status }}</p>
+
+        </a>
+
+        <hr>
+
+    {% empty %}
+
+        <h2>No cars found</h2>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
+
+
+no reference perhaps look and atention wery carefully please!!
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panel receptionist</title>
+</head>
+<body>
+    <h2>All chat users</h2>
+    <ul>
+        {% for chat in conversations %}
+            <li>
+                User <b>{{ chat.buyer.username }}</b> talks about  
+                <a href="{% url 'chat_owner_admin' chat.id %}">
+                    {{ chat.car.title }}
+                </a>
+            </li>
+        {% empty %}
+            <li>No any active chat yet!</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+</head>
+<body>
+
+<h2>Chat - {{ car.title }}</h2>
+
+{% if request.user.is_superuser %}
+    <p><a href="{% url 'chat_admin_list' %}">← Back to list chats</a></p>
+{% endif %}
+
+<div style="border:1px solid #ccc; padding:10px; height:300px; overflow:auto;">
+
+    {% for m in messages %}
+        <p>
+            <b {% if m.sender == request.user %}style="color: blue;"{% endif %}>
+                {{ m.sender.username }}:
+            </b> 
+            {{ m.text }}
+        </p>
+    {% empty %}
+        <p>No messages</p>
+    {% endfor %}
+
+</div>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="message" placeholder="Write..." required>
+    <button type="submit">Send</button>
+</form>
+</body>
+</html>
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Profile</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/profile.css' %}"
+    >
+
+</head>
+
+<body>
+
+<div class="profile-container">
+
+    <div>
+
+        {% if profile.photo %}
+
+            <img
+                src="{{ profile.photo.url }}"
+                class="avatar"
+            >
+
+        {% else %}
+
+            <img
+                src="{% static 'default.png' %}"
+                class="avatar"
+            >
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="info">
+
+        <h2>
+            {{ profile.user.username }}
+        </h2>
+
+        <p>
+            {{ profile.bio }}
+        </p>
+
+        <p>
+            {{ profile.location }}
+        </p>
+
+        <a
+            href="{% url 'profile_edit' %}"
+            class="btn"
+        >
+            Edit Profile
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<h2>My Favorites</h2>
+
+{% for fav in favorites %}
+
+<div class="fav-item">
+
+    <a href="{% url 'car_detail' fav.car.id %}">
+
+        {{ fav.car.title }}
+
+    </a>
+
+</div>
+
+{% empty %}
+
+<p>No favorites yet</p>
+
+{% endfor %}
+
+
+
+
+<h2>My Orders</h2>
+
+{% for order in orders %}
+
+<div class="order-item">
+
+    <h3>
+
+        {{ order.car.title }}
+
+    </h3>
+
+    <p>
+
+        Status:
+        {{ order.status }}
+
+    </p>
+
+    <p>
+
+        Delivery:
+        {{ order.delivery_date }}
+
+    </p>
+
+    {% if order.status != 'cancelled' %}
+
+    <a href="{% url 'cancel_order' order.id %}">
+
+        Cancel Order
+
+    </a>
+
+    {% endif %}
+
+</div>
+
+<hr>
+
+{% empty %}
+
+<p>No orders yet</p>
+
+{% endfor %}
+
+
+
+
+
+<h2>My Credits</h2>
+
+{% for credit in credits %}
+
+<div class="credit-item">
+
+    <h3>
+
+        {{ credit.car.title }}
+
+    </h3>
+
+    <p>
+
+        Amount:
+        {{ credit.amount }}
+
+    </p>
+
+    <p>
+
+        Months:
+        {{ credit.months }}
+
+    </p>
+
+    <p>
+
+        Status:
+        {{ credit.status }}
+
+    </p>
+
+    {% if credit.status != 'cancelled' %}
+
+    <a href="{% url 'cancel_credit' credit.id %}">
+
+        Cancel Credit
+
+    </a>
+
+    {% endif %}
+
+</div>
+
+<hr>
+
+{% empty %}
+
+<p>No credits yet</p>
+
+{% endfor %}
+
+
+
+my profile has a css but my revievs and other orders credits others dont have any css atention!!
+
+
+<h2>My Reviews</h2>
+
+{% for review in reviews %}
+
+<div class="review-item">
+
+    <p>
+
+        <b>
+
+            {{ review.car.title }}
+
+        </b>
+
+    </p>
+
+    <p>
+
+        {{ review.stars }}/5
+
+    </p>
+
+    <p>
+
+        {{ review.text }}
+
+    </p>
+
+</div>
+
+<hr>
+
+{% empty %}
+
+<p>No reviews yet</p>
+
+{% endfor %}
+
+
+
+
+<p>
+
+Live time:
+
+<span id="timer">
+
+{{ live_seconds }}
+
+</span>
+
+seconds
+
+</p>
+
+
+
+
+<script>
+
+function updateHeartbeat(){
+
+    fetch(
+        "/heartbeat/",
+        {
+            method:"GET",
+            credentials:"same-origin"
+        }
+    )
+
+}
+
+
+function updateLiveTime(){
+
+    fetch("/get_live_time/")
+
+    .then(
+        response => response.json()
+    )
+
+    .then(data => {
+
+        document
+        .getElementById("timer")
+        .innerText = data.seconds
+
+    })
+
+}
+
+
+setInterval(
+    updateHeartbeat,
+    5000
+)
+
+
+setInterval(
+    updateLiveTime,
+    2000
+)
+
+
+updateHeartbeat()
+
+updateLiveTime()
+
+</script>
+
+</body>
+
+</html>
