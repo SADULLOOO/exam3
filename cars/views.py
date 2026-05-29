@@ -214,24 +214,6 @@ def take_credit(request, car_id):
 
 
 
-
-
-def logout_handler(sender, request, user, **kwargs):
-
-    if not user:
-        return
-
-    activity, created = UserActivity.objects.get_or_create(user=user)
-
-    if activity.last_seen:
-        delta = now() - activity.last_seen
-        activity.total_seconds += int(delta.total_seconds())
-
-    activity.save()
-
-user_logged_out.connect(logout_handler)
-
-
 @login_required
 def heartbeat(request):
     activity, created = UserActivity.objects.get_or_create(user=request.user)
