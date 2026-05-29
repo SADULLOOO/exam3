@@ -1,79 +1,84 @@
 {% extends 'cars/base.html' %}
 
 {% block main_content %}
+
 {% if request.user.is_authenticated %}
-<h1>OrderCar</h1>
 
+<div class="home-wrapper">
 
-<form action="{% url 'search' %}" method="GET">
+  <!-- SEARCH -->
+  <div class="search-hero">
+    <h1>Find Your Dream Car</h1>
+    <p>Thousands of vehicles. New, used and damaged.</p>
 
-    <input
+    <form action="{% url 'search' %}" class="search-bar-form" method="GET">
+      <input
         type="text"
         name="q"
-        placeholder="Search cars..."
-    >
+        placeholder="Search by brand, model..."
+      >
+      <button type="submit">Search</button>
+    </form>
+  </div>
 
-    <button type="submit">
-        Search
-    </button>
+  <!-- BRANDS -->
+  <h2>Brands</h2>
 
-</form>
-
-<h2>Brands</h2>
-
-<div>
-
+  <div class="brands-grid">
     {% for brand in brands %}
+      <a href="{% url 'brand_detail' brand.id %}">
 
-        <a href="{% url 'brand_detail' brand.id %}">
+        {% if brand.logo %}
+          <img src="{{ brand.logo.url }}" alt="{{ brand.name }}">
+        {% endif %}
 
-            {% if brand.logo %}
-                <img
-                    src="{{ brand.logo.url }}"
-                    width="120"
-                >
-            {% endif %}
+        <h3>{{ brand.name }}</h3>
 
-            <h3>{{ brand.name }}</h3>
-
-        </a>
-
+      </a>
     {% endfor %}
+  </div>
 
-</div>
+  <!-- RECOMMENDED CARS -->
+  <h2>Recommended Cars</h2>
 
-<h2>Recommended Cars</h2>
-
-<div>
-
+  <div class="cars-grid">
     {% for car in recommended_cars %}
-        <a href="{% url 'car_detail' car.id %}"> 
+      <a href="{% url 'car_detail' car.id %}">
 
-            {% with car.images.first as image %}
+        {% with car.images.first as image %}
+          {% if image %}
+            <img src="{{ image.image.url }}" alt="{{ car.title }}">
+          {% endif %}
+        {% endwith %}
 
-                {% if image %}
-                    <img
-                        src="{{ image.image.url }}"
-                        width="250"
-                    >
-                {% endif %}
+        <h3>{{ car.title }}</h3>
+        <p>${{ car.price }}</p>
 
-            {% endwith %}
-
-            <h3>{{ car.title }}</h3>
-
-            <p>${{ car.price }}</p>
-
-        </a>
-
+      </a>
     {% endfor %}
-{% if request.user.is_superuser %}
+  </div>
+
+  {% if request.user.is_superuser %}
     <a href="{% url 'add_car' %}">
-        <button>Add Car</button>
+      <button>+ Add Car</button>
     </a>
-{% endif %}
+  {% endif %}
+
 </div>
+
 {% else %}
-<p>You dont have an account so can do section from above!</p>
+
+<div style="text-align:center; padding:80px 24px; color:#7a93b8;">
+  <h2 style="font-size:24px; margin-bottom:12px;">Welcome to OrderCar</h2>
+  <p style="margin-bottom:24px;">Please login to browse vehicles.</p>
+  <a href="{% url 'login_user' %}"
+     style="background:linear-gradient(135deg,#e85d04,#ff7a2a);
+            color:#fff; padding:12px 28px; border-radius:10px;
+            font-weight:600; text-decoration:none;">
+    Login
+  </a>
+</div>
+
 {% endif %}
+
 {% endblock %}
