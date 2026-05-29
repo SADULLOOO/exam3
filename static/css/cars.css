@@ -1,0 +1,792 @@
+/* ============================================================
+   CARS.CSS — Car Detail · Search · Brand · Model Pages
+   ============================================================ */
+
+/* ── PAGE WRAPPER ──────────────────────────────────────────── */
+.page-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   CAR DETAIL PAGE
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Detail Layout ─────────────────────────────────────────── */
+.car-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* ── Images Section ────────────────────────────────────────── */
+.car-images {
+  display: grid;
+  gap: 10px;
+}
+
+.car-images img,
+body > div img,
+.car-detail img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  max-height: 420px;
+}
+
+.car-images img:first-child {
+  max-height: 460px;
+}
+
+/* ── Inline image grid for multiple images ─────────────────── */
+/* The template loops with car.images.all */
+.car-detail > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+/* ── Car Title ─────────────────────────────────────────────── */
+.car-detail h1 {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3.5vw, 36px);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+
+/* ── Price ─────────────────────────────────────────────────── */
+.car-detail h2:has(+ *) {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 16px 0 24px;
+  letter-spacing: -1px;
+}
+
+/* Price paragraph (Price: $xxx) */
+.car-price {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 16px 0;
+}
+
+/* ── Favorite Link ─────────────────────────────────────────── */
+a[href*="favorite"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition);
+  margin-bottom: 20px;
+}
+
+a[href*="favorite"]:hover {
+  border-color: #f43f5e;
+  color: #f43f5e;
+  background: rgba(244, 63, 94, 0.08);
+}
+
+/* ── Specs Table ───────────────────────────────────────────── */
+.specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin: 24px 0;
+}
+
+/* Target the <p> spec rows in car detail */
+.car-detail > p,
+.car-specs p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.car-detail > p strong,
+.car-specs p strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Style the "Year: value", "Mileage: value" type paragraphs */
+.car-detail > p {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+}
+
+.car-detail > p:hover {
+  background: var(--bg-card-hover);
+}
+
+/* ── Action Buttons ────────────────────────────────────────── */
+.car-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 28px 0;
+}
+
+/* Buy Now */
+a[href*="buy_car"] button {
+  background: linear-gradient(135deg, var(--accent), #ff7a2a);
+  color: #fff;
+  border: none;
+  padding: 13px 28px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: 0 4px 20px rgba(232, 93, 4, 0.35);
+  letter-spacing: 0.3px;
+}
+
+a[href*="buy_car"] button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(232, 93, 4, 0.5);
+}
+
+/* Take Credit */
+a[href*="credit"] button {
+  background: var(--bg-card);
+  color: var(--blue);
+  border: 1.5px solid var(--blue);
+  padding: 13px 28px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+a[href*="credit"] button:hover {
+  background: var(--blue-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25);
+}
+
+/* Chat With Owner */
+a[href*="chat"] button {
+  background: var(--bg-card);
+  color: var(--green);
+  border: 1.5px solid var(--green);
+  padding: 13px 28px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+a[href*="chat"] button:hover {
+  background: rgba(34, 197, 94, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.2);
+}
+
+/* ── Edit / Delete (superuser) ─────────────────────────────── */
+a[href*="edit_car"] button {
+  background: var(--bg-card);
+  color: var(--yellow);
+  border: 1.5px solid var(--yellow);
+  padding: 10px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+a[href*="edit_car"] button:hover {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+form[action*="delete_car"] button {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--red);
+  border: 1.5px solid var(--red);
+  padding: 10px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+form[action*="delete_car"] button:hover {
+  background: rgba(239, 68, 68, 0.18);
+}
+
+/* ── Description ───────────────────────────────────────────── */
+.car-detail > p:last-of-type,
+.car-description {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  padding: 20px 0;
+  font-size: 15px;
+  border-top: 1px solid var(--border);
+  border-bottom: none;
+  background: none;
+}
+
+/* ── Divider ───────────────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 28px 0;
+}
+
+/* ── Reviews Section ───────────────────────────────────────── */
+.reviews-section h2,
+.car-detail h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 20px;
+  color: var(--text-primary);
+}
+
+.review-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  transition: border-color var(--transition);
+}
+
+.review-card:hover {
+  border-color: var(--border-soft);
+}
+
+/* Target reviews from template loop */
+.car-detail div:has(h3):not(.car-actions) {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+
+.car-detail div h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.car-detail div p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  background: none;
+  border: none;
+  padding: 2px 0;
+}
+
+.car-detail div small {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* ── Add Review Form ───────────────────────────────────────── */
+.review-form,
+.car-detail form[method="POST"] {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.car-detail form[method="POST"] input[type="number"] {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font-body);
+  outline: none;
+  width: 120px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.car-detail form[method="POST"] input[type="number"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.car-detail form[method="POST"] textarea {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font-body);
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  margin-top: 12px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.car-detail form[method="POST"] textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.car-detail form[method="POST"] textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.car-detail form[method="POST"] button[type="submit"] {
+  background: linear-gradient(135deg, var(--accent), #ff7a2a);
+  color: #fff;
+  border: none;
+  padding: 11px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-top: 12px;
+}
+
+.car-detail form[method="POST"] button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-accent);
+}
+
+/* ── Related Cars ──────────────────────────────────────────── */
+.related-cars {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.related-cars a,
+.car-detail div:last-of-type a {
+  display: block;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  transition: all var(--transition);
+  color: var(--text-primary);
+}
+
+.related-cars a:hover,
+.car-detail div:last-of-type a:hover {
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+
+.related-cars a h3 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SEARCH PAGE
+   ════════════════════════════════════════════════════════════ */
+
+.search-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  align-items: start;
+}
+
+/* ── Filters Sidebar ───────────────────────────────────────── */
+.search-layout > form,
+.filters-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  position: sticky;
+  top: 86px;
+}
+
+.search-layout > form h1 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-layout > form h2 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin: 20px 0 8px;
+}
+
+.search-layout > form h2:first-of-type {
+  margin-top: 0;
+}
+
+/* All inputs in search form */
+.search-layout > form input[type="text"],
+.search-layout > form input[type="number"],
+.search-layout > form select {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  margin-bottom: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.search-layout > form input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-layout > form input:focus,
+.search-layout > form select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.search-layout > form select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a93b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 34px;
+  cursor: pointer;
+}
+
+.search-layout > form select option {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.search-layout > form hr {
+  border-color: var(--border-soft);
+  margin: 12px 0;
+  opacity: 0.5;
+}
+
+.search-layout > form button[type="submit"] {
+  width: 100%;
+  background: linear-gradient(135deg, var(--accent), #ff7a2a);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-top: 8px;
+  box-shadow: 0 4px 16px rgba(232, 93, 4, 0.3);
+}
+
+.search-layout > form button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(232, 93, 4, 0.45);
+}
+
+/* ── Search Results ────────────────────────────────────────── */
+.search-results h1 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+/* Car result cards */
+.search-results > div a,
+.search-layout > div > div a {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 16px;
+  transition: all var(--transition);
+  color: var(--text-primary);
+}
+
+.search-results > div a:hover,
+.search-layout > div > div a:hover {
+  border-color: var(--border-soft);
+  transform: translateX(3px);
+  box-shadow: var(--shadow-card);
+}
+
+.search-results > div a img {
+  width: 240px;
+  height: 160px;
+  object-fit: cover;
+}
+
+.search-results > div a h2 {
+  font-size: 17px;
+  font-weight: 700;
+  padding: 16px 20px 4px;
+  margin: 0;
+}
+
+.search-results > div a p {
+  padding: 3px 20px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.search-results > div a p:first-of-type {
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+/* No cars found */
+.search-results h2,
+.empty-state {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--text-muted);
+  font-size: 18px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   BRAND DETAIL PAGE
+   ════════════════════════════════════════════════════════════ */
+
+.brand-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.brand-page h1 {
+  font-size: 32px;
+  margin-bottom: 32px;
+}
+
+.brand-page > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.brand-page > div a {
+  display: block;
+  padding: 22px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.brand-page > div a:hover {
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+
+.brand-page > div a h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+/* ════════════════════════════════════════════════════════════
+   MODEL DETAIL PAGE (with filters)
+   ════════════════════════════════════════════════════════════ */
+
+.model-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.model-page h1 {
+  font-size: 30px;
+  margin-bottom: 24px;
+}
+
+/* Filter bar */
+.model-page > form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 18px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 28px;
+}
+
+.model-page > form select {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 9px 30px 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-family: var(--font-body);
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a93b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.model-page > form select:focus {
+  border-color: var(--accent);
+}
+
+.model-page > form select option {
+  background: var(--bg-surface);
+}
+
+.model-page > form button[type="submit"] {
+  background: linear-gradient(135deg, var(--accent), #ff7a2a);
+  color: #fff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.model-page > form button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-accent);
+}
+
+/* Model car cards */
+.model-page > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.model-page > div > * {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.model-page > div > *:hover {
+  border-color: var(--border-soft);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.model-page img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+}
+
+.model-page h2 {
+  font-size: 15px;
+  padding: 12px 14px 4px;
+  margin: 0;
+}
+
+.model-page p {
+  font-size: 13px;
+  padding: 3px 14px 12px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .search-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .search-layout > form {
+    position: static;
+  }
+
+  .search-results > div a {
+    grid-template-columns: 1fr;
+  }
+
+  .search-results > div a img {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .car-detail-layout {
+    grid-template-columns: 1fr;
+    padding: 20px 16px;
+  }
+
+  .brand-page,
+  .model-page,
+  .search-layout {
+    padding: 20px 16px;
+  }
+}
