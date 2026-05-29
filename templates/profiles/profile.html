@@ -251,8 +251,12 @@ seconds
 
 
 
+<p>Время в сети: <span id="timer">00:00:00</span></p>
+
 <script>
-def formatTime(totalSeconds) {
+let currentSeconds = parseInt("{{ live_seconds }}") || 0;
+
+function formatTime(totalSeconds) {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
@@ -264,7 +268,7 @@ def formatTime(totalSeconds) {
     return `${displayHours}:${displayMinutes}:${displaySeconds}`;
 }
 
-let currentSeconds = parseInt(document.getElementById("timer").getAttribute("data-seconds")) || 0;
+document.getElementById("timer").innerText = formatTime(currentSeconds);
 
 function updateHeartbeat(){
     fetch("/heartbeat/", {
@@ -279,7 +283,8 @@ function updateLiveTime(){
     .then(data => {
         currentSeconds = data.seconds;
         document.getElementById("timer").innerText = formatTime(currentSeconds);
-    });
+    })
+    .catch(err => console.log("Ошибка получения времени:", err));
 }
 
 setInterval(() => {
@@ -292,7 +297,6 @@ setInterval(updateHeartbeat, 5000);
 setInterval(updateLiveTime, 10000);
 
 updateHeartbeat();
-updateLiveTime();
 </script>
 
 </body>
