@@ -33,28 +33,15 @@ def update_profile(request):
 
 @login_required
 def profile_view(request):
-
     profile, created = Profile.objects.get_or_create(user=request.user)
-
     favorites = Favorite.objects.filter(user=request.user)
     reviews = Review.objects.filter(user=request.user)
+    orders = Order.objects.filter(user=request.user)
+    credits = Credit.objects.filter(user=request.user)
 
     activity, created = UserActivity.objects.get_or_create(user=request.user)
-
+    
     live_seconds = activity.total_seconds
-
-    if activity.last_seen:
-        live_seconds = activity.total_seconds
-    else:
-        live_seconds = 0
-
-    orders = Order.objects.filter(
-    user=request.user
-    )
-
-    credits = Credit.objects.filter(
-    user=request.user
-    )
 
     return render(request, 'profiles/profile.html', {
         'profile': profile,
@@ -64,7 +51,6 @@ def profile_view(request):
         'credits': credits,
         'live_seconds': live_seconds
     })
-    
 
 
 

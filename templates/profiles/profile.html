@@ -243,11 +243,7 @@
 
 Live time:
 
-<span id="timer">
-
-{{ live_seconds }}
-
-</span>
+<span id="timer" data-seconds="{{ live_seconds }}">00:00:00</span>
 
 seconds
 
@@ -255,57 +251,48 @@ seconds
 
 
 
-
 <script>
+def formatTime(totalSeconds) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const displayHours = hours.toString().padStart(2, '0');
+    const displayMinutes = minutes.toString().padStart(2, '0');
+    const displaySeconds = seconds.toString().padStart(2, '0');
+
+    return `${displayHours}:${displayMinutes}:${displaySeconds}`;
+}
+
+let currentSeconds = parseInt(document.getElementById("timer").getAttribute("data-seconds")) || 0;
 
 function updateHeartbeat(){
-
-    fetch(
-        "/heartbeat/",
-        {
-            method:"GET",
-            credentials:"same-origin"
-        }
-    )
-
+    fetch("/heartbeat/", {
+        method: "GET",
+        credentials: "same-origin"
+    });
 }
-
 
 function updateLiveTime(){
-
     fetch("/get_live_time/")
-
-    .then(
-        response => response.json()
-    )
-
+    .then(response => response.json())
     .then(data => {
-
-        document
-        .getElementById("timer")
-        .innerText = data.seconds
-
-    })
-
+        currentSeconds = data.seconds;
+        document.getElementById("timer").innerText = formatTime(currentSeconds);
+    });
 }
 
+setInterval(() => {
+    currentSeconds++;
+    document.getElementById("timer").innerText = formatTime(currentSeconds);
+}, 1000);
 
-setInterval(
-    updateHeartbeat,
-    5000
-)
+setInterval(updateHeartbeat, 5000);
 
+setInterval(updateLiveTime, 10000);
 
-setInterval(
-    updateLiveTime,
-    2000
-)
-
-
-updateHeartbeat()
-
-updateLiveTime()
-
+updateHeartbeat();
+updateLiveTime();
 </script>
 
 </body>
