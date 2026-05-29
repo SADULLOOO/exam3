@@ -27,6 +27,7 @@
   </form>
 
   <div>
+    {% for car in cars %}
 <a href="{% url 'car_detail' car.id %}">
   {% with car.images.first as image %}
     {% if image %}
