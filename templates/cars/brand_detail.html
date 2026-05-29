@@ -1,21 +1,15 @@
 {% extends 'cars/base.html' %}
-
 {% block main_content %}
 
-<h1>{{ brand.name }}</h1>
-
-<div>
-
+<div class="brand-page">
+  <h1>{{ brand.name }}</h1>
+  <div>
     {% for model in models %}
-
-        <a href="{% url 'model_detail' model.id %}">
-
-            <h2>{{ model.name }}</h2>
-
-        </a>
-
+      <a href="{% url 'model_detail' model.id %}">
+        <h2>{{ model.name }}</h2>
+      </a>
     {% endfor %}
-
+  </div>
 </div>
 
 {% endblock %}
