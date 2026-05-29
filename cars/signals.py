@@ -9,7 +9,7 @@ def login_handler(sender, request, user, **kwargs):
 
     activity, created = UserActivity.objects.get_or_create(user=user)
 
-    activity.session_start = now()   # ВАЖНО
+    activity.session_start = now()   
     activity.save()
 
 

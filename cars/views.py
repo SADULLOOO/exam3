@@ -279,7 +279,6 @@ def cancel_order(request, order_id):
 
     return redirect('profile')
 
-
 @login_required
 def cancel_credit(request, credit_id):
 
@@ -388,7 +387,6 @@ Explain simply.
 
 @login_required
 def chat_owner(request, car_id=None):
-    """ Вью для обычного пользователя (клиента) """
     if request.user.is_superuser:
         return redirect("chat_admin_list")
 
@@ -396,7 +394,7 @@ def chat_owner(request, car_id=None):
     
     admin_user = User.objects.filter(is_superuser=True).first()
     if not admin_user:
-        return render(request, "chat/chat.html", {"error": "Администратор еще не создан."})
+        return render(request, "chat/chat.html", {"error": "Not admin yet."})
 
     conversation, created = Conversation.objects.get_or_create(
         car=car,
@@ -424,9 +422,8 @@ def chat_owner(request, car_id=None):
 
 @login_required
 def admin_chat_view(request, chat_id=None):
-    """ Отдельный вью исключительно для СУПЕРЮЗЕРА """
     if not request.user.is_superuser:
-        return HttpResponseForbidden("Доступ разрешен только администраторам.")
+        return HttpResponseForbidden("Permission gave only to admin.")
 
     if not chat_id:
         all_chats = Conversation.objects.all().select_related('buyer', 'car')
