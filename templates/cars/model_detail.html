@@ -27,18 +27,28 @@
   </form>
 
   <div>
-    {% for car in cars %}
-      <a href="{% url 'car_detail' car.id %}">
-        {% with car.images.first as image %}
-          {% if image %}
-            <img src="{{ image.image.url }}" alt="{{ car.title }}">
-          {% endif %}
-        {% endwith %}
-        <h2>{{ car.title }}</h2>
-        <p>${{ car.price }}</p>
-        <p>{{ car.year }} · {{ car.status }}</p>
-        Detail car!
-      </a>
+<a href="{% url 'car_detail' car.id %}">
+  {% with car.images.first as image %}
+    {% if image %}
+      <img src="{{ image.image.url }}" alt="{{ car.title }}">
+    {% endif %}
+  {% endwith %}
+  <h2>{{ car.title }}</h2>
+  <p>${{ car.price }}</p>
+  <p>{{ car.year }} · {{ car.status }}</p>
+  <span style="
+    display: inline-block;
+    margin: 10px 14px 14px;
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #e85d04, #ff7a2a);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.22s;
+  ">View Details →</span>
+</a>
     {% endfor %}
   </div>
 
