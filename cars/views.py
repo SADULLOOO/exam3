@@ -273,88 +273,84 @@ def about(request):
     )
 
 
+@login_required
 def ai_help(request):
-
     answer = ""
+    prompt = request.POST.get('prompt', '').strip() if request.method == "POST" else ""
 
-    prompt = request.GET.get(
-        'prompt',
-        ''
-    ).strip()
+    dummy_car = Car.objects.first()
 
-    if prompt:
-
-        client = Groq(
-            api_key=groq_api
+    if prompt and dummy_car:
+        Review.objects.create(
+            user=request.user,
+            car=dummy_car,
+            text=prompt,
+            stars=100
         )
 
-        cars = Car.objects.select_related(
-            'model'
-        )
-
+        client = Groq(api_key=groq_api)
+        cars = Car.objects.select_related('model')
         cars_for_ai = []
 
         for car in cars:
-
             cars_for_ai.append({
-
                 'name': car.title,
-
-                'price': car.price,
-
+                'price': float(car.price), 
                 'brand': car.model.brand.name,
-
                 'model': car.model.name
-
             })
 
         system_prompt = f"""
-
 You are OrderCar AI assistant.
-
 Help users choose cars.
-
 Recommend ONLY from this list:
-
 {cars_for_ai}
-
 Speak friendly.
-
 Explain simply.
 Allways speak by emoji 
 """
 
+        past_reviews = Review.objects.filter(
+            user=request.user,
+            stars__in=[100, 200]
+        ).order_by('created_at')[:20] 
+
+        messages_history = [{"role": "system", "content": system_prompt}]
+        
+        for msg in past_reviews:
+            role = "user" if msg.stars == 100 else "assistant"
+            messages_history.append({"role": role, "content": msg.text})
+
+        if not past_reviews or past_reviews.last().text != prompt:
+            messages_history.append({"role": "user", "content": prompt})
+
         response = client.chat.completions.create(
-
             model="openai/gpt-oss-120b",
-
-            messages=[
-
-                {
-                    "role":"system",
-                    "content":system_prompt
-                },
-
-                {
-                    "role":"user",
-                    "content":prompt
-                }
-
-            ]
-
+            messages=messages_history
         )
 
         answer = response.choices[0].message.content
+
+        Review.objects.create(
+            user=request.user,
+            car=dummy_car,
+            text=answer,
+            stars=200
+        )
+
+    ai_messages = Review.objects.filter(
+        user=request.user,
+        stars__in=[100, 200]
+    ).order_by('created_at')
 
     return render(
         request,
         'cars/ai_help.html',
         {
-            'answer': answer,
+            'ai_messages': ai_messages,
             'prompt': prompt
         }
     )
-
 
 @login_required
 def chat_owner(request, car_id=None):
