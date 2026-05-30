@@ -1,37 +1,43 @@
+{% extends "cars/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Chat</title>
-    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
-</head>
-<body>
 
-<h2>Chat - {{ car.title }}</h2>
+{% block main_content %}
 
-{% if request.user.is_superuser %}
-    <p><a href="{% url 'chat_admin_list' %}">← Back to list chats</a></p>
-{% endif %}
+<div class="chat-page">
 
-<div style="border:1px solid #ccc; padding:10px; height:300px; overflow:auto;">
+  <h2>Chat — {{ car.title }}</h2>
 
+  {% if request.user.is_superuser %}
+    <p style="margin-bottom:10px;">
+      <a href="{% url 'chat_admin_list' %}"
+         style="color:#7a93b8; font-size:13px; display:inline-flex;
+                align-items:center; gap:6px; padding:6px 12px;
+                background:#131f35; border:1px solid #1e3050;
+                border-radius:8px; transition:all 0.22s;">
+        ← Back to list chats
+      </a>
+    </p>
+  {% endif %}
+
+  <div style="border:1px solid #ccc; padding:10px; height:300px; overflow:auto;">
     {% for m in messages %}
-        <p>
-            <b {% if m.sender == request.user %}style="color: blue;"{% endif %}>
-                {{ m.sender.username }}:
-            </b> 
-            {{ m.text }}
-        </p>
+      <p>
+        <b {% if m.sender == request.user %}style="color: blue;"{% endif %}>
+          {{ m.sender.username }}:
+        </b>
+        {{ m.text }}
+      </p>
     {% empty %}
-        <p>No messages</p>
+      <p>No messages</p>
     {% endfor %}
+  </div>
 
-</div>
-
-<form method="POST">
+  <form method="POST" class="chat-form">
     {% csrf_token %}
     <input type="text" name="message" placeholder="Write..." required>
     <button type="submit">Send</button>
-</form>
-</body>
-</html>
+  </form>
+
+</div>
+
+{% endblock %}
