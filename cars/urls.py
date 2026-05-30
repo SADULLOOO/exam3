@@ -23,4 +23,5 @@ urlpatterns = [
     path('add-car/', views.add_car, name='add_car'),
     path('edit-car/<int:car_id>/', views.edit_car, name='edit_car'),
     path('delete-car/<int:car_id>/', views.delete_car, name='delete_car'),
+    path('chat/api/messages/<int:conversation_id>/', views.get_messages_json, name='get_messages_json'),
 ]
