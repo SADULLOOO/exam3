@@ -1,11 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
-from .models import Brand, CarModel, Car, CarImage, Favorite, Review, OrderRequest, Order, Credit, UserActivity, Message, Conversation
+from .models import Brand, CarModel, Car, CarImage, Favorite, Review, Order, Credit, UserActivity, Message, Conversation
 from .filters import CarFilter
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.signals import user_logged_in
 from django.utils.timezone import now
-from django.contrib.auth.signals import user_logged_out
 from django.http import JsonResponse
 from django.utils.timezone import now
 from django.contrib.auth.decorators import login_required
@@ -16,8 +14,7 @@ import os
 from django.contrib.auth import get_user_model
 from .models import Conversation, Message, Car
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CarForm, CarImageForm
+from .forms import CarForm
 User = get_user_model()
 from django.http import HttpResponseForbidden
 load_dotenv()
@@ -213,7 +210,6 @@ def take_credit(request, car_id):
     return redirect('profile')
 
 
-
 @login_required
 def heartbeat(request):
     activity, created = UserActivity.objects.get_or_create(user=request.user)
@@ -325,7 +321,7 @@ Recommend ONLY from this list:
 Speak friendly.
 
 Explain simply.
-
+Allways speak by emoji 
 """
 
         response = client.chat.completions.create(
@@ -470,3 +466,24 @@ def edit_car(request, car_id):
         "form": form,
         "car": car
     })
+
+
+@login_required
+def get_messages_json(request, conversation_id):
+    conversation = get_object_or_404(Conversation, id=conversation_id)
+    
+    if request.user != conversation.buyer and not request.user.is_superuser:
+        return JsonResponse({"error": "Forbidden"}, status=403)
+        
+    messages = conversation.messages.order_by("id")
+    messages_list = []
+    
+    for m in messages:
+        messages_list.append({
+            "sender": m.sender.username,
+            "is_me": m.sender == request.user,
+            "text": m.text,
+            "time": m.created_at.strftime("%H:%M") 
+        })
+        
+    return JsonResponse({"messages": messages_list})
