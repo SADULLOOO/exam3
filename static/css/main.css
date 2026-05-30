@@ -1369,3 +1369,55 @@ form[action*="delete_car"] button {
   transform: translateY(-2px) !important;
   box-shadow: 0 8px 26px rgba(59,130,246,0.5) !important;
 }
+
+
+/* ════════════════════════════════
+   FIX: CHAT FORM
+   ════════════════════════════════ */
+.chat-form {
+  display: flex !important;
+  gap: 10px !important;
+  padding: 12px 14px !important;
+  background: #0f1829 !important;
+  border: 1px solid #1e3050 !important;
+  border-top: none !important;
+  border-radius: 0 0 14px 14px !important;
+}
+
+.chat-form input[type="text"] {
+  flex: 1 !important;
+  background: #0d1728 !important;
+  border: 1px solid #1e3050 !important;
+  color: #f0f4ff !important;
+  padding: 11px 15px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  outline: none !important;
+  width: auto !important;
+}
+
+.chat-form input:focus {
+  border-color: #e85d04 !important;
+  box-shadow: 0 0 0 3px rgba(232,93,4,0.12) !important;
+}
+
+.chat-form button {
+  background: linear-gradient(135deg, #e85d04, #ff7a2a) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 11px 22px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  width: auto !important;
+  white-space: nowrap !important;
+  font-family: 'DM Sans', sans-serif !important;
+  transition: all 0.22s !important;
+}
+
+.chat-form button:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(232,93,4,0.4) !important;
+}
