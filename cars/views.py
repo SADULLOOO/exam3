@@ -381,6 +381,10 @@ def chat_owner(request, car_id=None):
                 sender=request.user,
                 text=text
             )
+        
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return HttpResponse(status=201)
+            
         return redirect("chat_owner", car_id=car.id)
 
     messages = conversation.messages.order_by("id")
@@ -411,6 +415,10 @@ def admin_chat_view(request, chat_id=None):
                 sender=request.user,
                 text=text
             )
+        
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return HttpResponse(status=201)
+            
         return redirect("chat_owner_admin", chat_id=conversation.id)
 
     messages = conversation.messages.order_by("id")
