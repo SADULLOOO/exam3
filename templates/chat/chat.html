@@ -1,43 +1,117 @@
-{% extends "cars/base.html" %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Чат — {{ car.title }}</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        .chat-container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; height: 80vh; }
+        .chat-header { background: #0088cc; color: white; padding: 15px; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .chat-header a { color: white; text-decoration: none; font-size: 14px; background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 5px; }
+        .messages-box { flex: 1; padding: 20px; overflow-y: auto; background: #e5ddd5; display: flex; flex-direction: column; gap: 10px; }
+        
+        /* Стили пузырей сообщений */
+        .msg { max-width: 75%; padding: 10px 14px; border-radius: 8px; font-size: 15px; position: relative; word-wrap: break-word; display: flex; flex-direction: column; }
+        .msg.my-msg { align-self: flex-end; background: #d9fdd3; color: #303030; border-top-right-radius: 0; }
+        .msg.other-msg { align-self: flex-start; background: #ffffff; color: #303030; border-top-left-radius: 0; }
+        
+        .msg-sender { font-size: 12px; font-weight: bold; color: #0088cc; margin-bottom: 3px; }
+        .msg.my-msg .msg-sender { color: #2e7d32; }
+        .msg-text { margin: 0; line-height: 1.4; }
+        .msg-time { font-size: 10px; color: #8696a0; align-self: flex-end; margin-top: 4px; }
+        
+        .chat-form { display: flex; padding: 10px; background: #f0f2f5; border-top: 1px solid #e0e0e0; }
+        .chat-form input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 20px; outline: none; font-size: 15px; padding-left: 15px; }
+        .chat-form button { background: #0088cc; color: white; border: none; padding: 0 20px; margin-left: 10px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .chat-form button:hover { background: #006699; }
+    </style>
+</head>
+<body>
 
-{% block main_content %}
+<div class="chat-container">
+    <div class="chat-header">
+        <span>💬 {{ car.title }}</span>
+        {% if request.user.is_superuser %}
+            <a href="{% url 'chat_admin_list' %}">← Все чаты</a>
+        {% endif %}
+    </div>
 
-<div class="chat-page">
+    <div class="messages-box" id="messagesBox">
+        </div>
 
-  <h2>Chat — {{ car.title }}</h2>
-
-  {% if request.user.is_superuser %}
-    <p style="margin-bottom:10px;">
-      <a href="{% url 'chat_admin_list' %}"
-         style="color:#7a93b8; font-size:13px; display:inline-flex;
-                align-items:center; gap:6px; padding:6px 12px;
-                background:#131f35; border:1px solid #1e3050;
-                border-radius:8px; transition:all 0.22s;">
-        ← Back to list chats
-      </a>
-    </p>
-  {% endif %}
-
-  <div style="border:1px solid #ccc; padding:10px; height:300px; overflow:auto;">
-    {% for m in messages %}
-      <p>
-        <b {% if m.sender == request.user %}style="color: blue;"{% endif %}>
-          {{ m.sender.username }}:
-        </b>
-        {{ m.text }}
-      </p>
-    {% empty %}
-      <p>No messages</p>
-    {% endfor %}
-  </div>
-
-  <form method="POST" class="chat-form">
-    {% csrf_token %}
-    <input type="text" name="message" placeholder="Write..." required>
-    <button type="submit">Send</button>
-  </form>
-
+    <form class="chat-form" id="chatForm" method="POST">
+        {% csrf_token %}
+        <input type="text" id="messageInput" name="message" placeholder="Напишите сообщение..." autocomplete="off" required>
+        <button type="submit">Отправить</button>
+    </form>
 </div>
 
-{% endblock %}
+<script>
+    const messagesBox = document.getElementById('messagesBox');
+    const chatForm = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+    
+    const conversationId = "{{ conversation.id }}";
+    const apiUrl = `/chat/api/messages/${conversationId}/`;
+
+    function loadMessages() {
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const isScrolledToBottom = messagesBox.scrollHeight - messagesBox.clientHeight <= messagesBox.scrollTop + 50;
+                
+                messagesBox.innerHTML = '';
+                
+                if (data.messages.length === 0) {
+                    messagesBox.innerHTML = '<p style="text-align:center; color:#666;">Нет сообщений. Начните диалог!</p>';
+                    return;
+                }
+
+                data.messages.forEach(msg => {
+                    const msgDiv = document.createElement('div');
+                    msgDiv.classList.add('msg');
+                    msgDiv.classList.add(msg.is_me ? 'my-msg' : 'other-msg');
+
+                    msgDiv.innerHTML = `
+                        <span class="msg-sender">${msg.sender}</span>
+                        <p class="msg-text">${msg.text}</p>
+                        <span class="msg-time">${msg.time}</span>
+                    `;
+                    messagesBox.appendChild(msgDiv);
+                });
+
+                if (isScrolledToBottom || messagesBox.innerHTML === '') {
+                    messagesBox.scrollTop = messagesBox.scrollHeight;
+                }
+            });
+    }
+
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const text = messageInput.value.trim();
+        if (!text) return;
+
+        const formData = new FormData(chatForm);
+
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }).then(response => {
+            if (response.ok) {
+                messageInput.value = ''; 
+                loadMessages(); 
+            }
+        });
+    });
+
+    loadMessages();
+    
+    setInterval(loadMessages, 2000);
+</script>
+
+</body>
+</html>
