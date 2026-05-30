@@ -1,4 +1,4 @@
-{% extends 'cars/base.html' %}
+{% comment %} {% extends 'cars/base.html' %}
 
 {% block main_content %}
 <div class="ai-wrapper">
@@ -11,4 +11,70 @@
     <div class="ai-answer">{{ answer }}</div>
   {% endif %}
 </div>
-{% endblock %}
+{% endblock %} {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Помощник OrderCar</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; padding: 20px; }
+        .ai-container { max-width: 700px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); overflow: hidden; display: flex; flex-direction: column; height: 85vh; }
+        .ai-header { background: #2c3e50; color: white; padding: 18px; font-size: 20px; font-weight: bold; text-align: center; }
+        .chat-box { flex: 1; padding: 20px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 12px; }
+        
+        .bubble { max-width: 75%; padding: 12px 16px; border-radius: 14px; font-size: 15px; line-height: 1.5; word-wrap: break-word; }
+        /* Вопрос пользователя (stars=100) */
+        .user-bubble { align-self: flex-end; background: #d1e7dd; color: #0f5132; border-top-right-radius: 0; }
+        /* Ответ AI (stars=200) */
+        .ai-bubble { align-self: flex-start; background: #ffffff; color: #212529; border-top-left-radius: 0; border: 1px solid #dee2e6; }
+        
+        .time { font-size: 10px; color: #6c757d; display: block; text-align: right; margin-top: 6px; }
+        
+        .ai-form { display: flex; padding: 15px; background: white; border-top: 1px solid #dee2e6; }
+        .ai-form input { flex: 1; padding: 14px; border: 1px solid #ced4da; border-radius: 8px; outline: none; font-size: 15px; }
+        .ai-form button { background: #2c3e50; color: white; border: none; padding: 0 25px; margin-left: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; }
+        .ai-form button:hover { background: #1a252f; }
+    </style>
+</head>
+<body>
+
+<div class="ai-container">
+    <div class="ai-header">🤖 Подбор автомобиля искусственным интеллектом</div>
+
+    <div class="chat-box" id="aiChatBox">
+        {% for msg in ai_messages %}
+            {% if msg.stars == 100 %}
+                <div class="bubble user-bubble">
+                    <strong>Вы:</strong>
+                    <p style="margin: 4px 0 0 0;">{{ msg.text }}</p>
+                    <span class="time">{{ msg.created_at|date:"H:i" }}</span>
+                </div>
+            {% elif msg.stars == 200 %}
+                <div class="bubble ai-bubble">
+                    <strong>🤖 OrderCar AI:</strong>
+                    <p style="margin: 4px 0 0 0; white-space: pre-line;">{{ msg.text }}</p>
+                    <span class="time">{{ msg.created_at|date:"H:i" }}</span>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p style="text-align: center; color: #6c757d; margin-top: 20px;">Привет! Напишите мне, какой автомобиль вы ищете, и я подберу идеальный вариант из нашего каталога! 🚗✨</p>
+        {% endfor %}
+    </div>
+
+    <form class="ai-form" method="POST">
+        {% csrf_token %}
+        <input type="text" name="prompt" placeholder="Например: Найди мне BMW синего цвета..." required autocomplete="off">
+        <button type="submit">Спросить</button>
+    </form>
+</div>
+
+<script>
+    const box = document.getElementById('aiChatBox');
+    box.scrollTop = box.scrollHeight;
+</script>
+
+</body>
+</html>
