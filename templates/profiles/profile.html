@@ -1,135 +1,95 @@
+{% extends 'cars/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Profile</title>
-    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-</head>
-<body>
 
-<div class="profile-page"> <div class="profile-container">
-        <div>
-            {% if profile.photo %}
-                <img src="{{ profile.photo.url }}" class="avatar">
-            {% else %}
-                <img src="{% static 'default.png' %}" class="avatar">
-            {% endif %}
-        </div>
+{% block main_content %}
 
-        <div class="info">
-            <h2>{{ profile.user.username }}</h2>
-            <p>{{ profile.bio }}</p>
-            <p>{{ profile.location }}</p>
-            <a href="{% url 'profile_edit' %}" class="btn">Edit Profile</a>
-        </div>
+<div class="profile-page">
+
+  <div class="profile-container">
+    <div>
+      {% if profile.photo %}
+        <img src="{{ profile.photo.url }}" class="avatar">
+      {% else %}
+        <img src="{% static 'default.png' %}" class="avatar">
+      {% endif %}
     </div>
+    <div class="info">
+      <h2>{{ profile.user.username }}</h2>
+      <p>{{ profile.bio }}</p>
+      <p>{{ profile.location }}</p>
+      <a href="{% url 'profile_edit' %}" class="btn">Edit Profile</a>
+    </div>
+  </div>
 
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'home' %}">Home</a>
-    {% endif %}
-
-    <h2>My Favorites</h2>
-    {% for fav in favorites %}
+  <h2>My Favorites</h2>
+  {% for fav in favorites %}
     <div class="fav-item">
-        <a href="{% url 'car_detail' fav.car.id %}">{{ fav.car.title }}</a>
+      <a href="{% url 'car_detail' fav.car.id %}">{{ fav.car.title }}</a>
     </div>
-    {% empty %}
+  {% empty %}
     <p>No favorites yet</p>
-    {% endfor %}
+  {% endfor %}
 
-    <h2>My Orders</h2>
-    {% for order in orders %}
+  <h2>My Orders</h2>
+  {% for order in orders %}
     <div class="order-item">
-        <h3>{{ order.car.title }}</h3>
-        <p>Status: {{ order.status }}</p>
-        <p>Delivery: {{ order.delivery_date }}</p>
-        {% if order.status != 'cancelled' %}
+      <h3>{{ order.car.title }}</h3>
+      <p>Status: {{ order.status }}</p>
+      <p>Delivery: {{ order.delivery_date }}</p>
+      {% if order.status != 'cancelled' %}
         <a href="{% url 'cancel_order' order.id %}">Cancel Order</a>
-        {% endif %}
+      {% endif %}
     </div>
-    {% empty %}
+  {% empty %}
     <p>No orders yet</p>
-    {% endfor %}
+  {% endfor %}
 
-    <h2>My Credits</h2>
-    {% for credit in credits %}
+  <h2>My Credits</h2>
+  {% for credit in credits %}
     <div class="credit-item">
-        <h3>{{ credit.car.title }}</h3>
-        <p>Amount: {{ credit.amount }}</p>
-        <p>Months: {{ credit.months }}</p>
-        <p>Status: {{ credit.status }}</p>
-        {% if credit.status != 'cancelled' %}
+      <h3>{{ credit.car.title }}</h3>
+      <p>Amount: {{ credit.amount }}</p>
+      <p>Months: {{ credit.months }}</p>
+      <p>Status: {{ credit.status }}</p>
+      {% if credit.status != 'cancelled' %}
         <a href="{% url 'cancel_credit' credit.id %}">Cancel Credit</a>
-        {% endif %}
+      {% endif %}
     </div>
-    {% empty %}
+  {% empty %}
     <p>No credits yet</p>
-    {% endfor %}
+  {% endfor %}
 
-    <h2>My Reviews</h2>
-    {% for review in reviews %}
+  <h2>My Reviews</h2>
+  {% for review in reviews %}
     <div class="review-item">
-        <p><b>{{ review.car.title }}</b></p>
-        <p>{{ review.stars }}/5</p>
-        <p>{{ review.text }}</p>
+      <p><b>{{ review.car.title }}</b></p>
+      <p>{{ review.stars }}/5</p>
+      <p>{{ review.text }}</p>
     </div>
-    {% empty %}
+  {% empty %}
     <p>No reviews yet</p>
-    {% endfor %}
+  {% endfor %}
 
-    <p>Time active: <span id="timer">00:00:00</span></p>
+  <p style="margin-top:24px; color:#7a93b8; font-size:13px;">
+    Time active: <span id="timer" style="color:#22c55e; font-weight:700;">00:00:00</span>
+  </p>
 
 </div>
 
 <script>
 let currentSeconds = parseInt("{{ live_seconds }}") || 0;
-
-function formatTime(totalSeconds) {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    const displayHours = hours.toString().padStart(2, '0');
-    const displayMinutes = minutes.toString().padStart(2, '0');
-    const displaySeconds = seconds.toString().padStart(2, '0');
-
-    return `${displayHours}:${displayMinutes}:${displaySeconds}`;
+function formatTime(s) {
+  return [Math.floor(s/3600), Math.floor((s%3600)/60), s%60]
+    .map(v => v.toString().padStart(2,'0')).join(':');
 }
-
-function updateClockOnPage() {
-    const clock = document.getElementById("timer");
-    if (clock) {
-        clock.innerText = formatTime(currentSeconds);
-    }
+function updateClock() {
+  const el = document.getElementById("timer");
+  if (el) el.innerText = formatTime(currentSeconds);
 }
-
-updateClockOnPage();
-
-setInterval(() => {
-    currentSeconds++;
-    updateClockOnPage();
-}, 1000);
-
-function updateHeartbeat(){
-    fetch("/heartbeat/", {
-        method: "GET",
-        credentials: "same-origin"
-    });
-}
-setInterval(updateHeartbeat, 5000);
-
-function updateLiveTime(){
-    fetch("/get_live_time/")
-    .then(response => response.json())
-    .then(data => {
-        currentSeconds = data.seconds;
-        updateClockOnPage();
-    });
-}
-setInterval(updateLiveTime, 10000);
-
-updateHeartbeat();
+updateClock();
+setInterval(() => { currentSeconds++; updateClock(); }, 1000);
+setInterval(() => fetch("/heartbeat/", {credentials:"same-origin"}), 5000);
+setInterval(() => fetch("/get_live_time/").then(r=>r.json()).then(d=>{currentSeconds=d.seconds;updateClock();}), 10000);
 </script>
 
-</body>
-</html>
+{% endblock %}
