@@ -55,11 +55,11 @@
     {% endfor %}
   </div>
 
-  {% if request.user.is_superuser %}
-    <a href="{% url 'add_car' %}">
-      <button>+ Add Car</button>
-    </a>
-  {% endif %}
+{% if request.user.is_superuser %}
+  <a href="{% url 'add_car' %}" class="add-car-btn">
+    <button>+ Add Car</button>
+  </a>
+{% endif %}
 
 </div>
 
