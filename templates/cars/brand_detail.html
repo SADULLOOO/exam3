@@ -2,13 +2,23 @@
 {% block main_content %}
 
 <div class="brand-page">
+  {% if brand.logo %}
+    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" style="max-height: 120px; object-fit: contain; margin-bottom: 15px;">
+  {% endif %}
+
   <h1>{{ brand.name }}</h1>
+  
   <div>
     {% for model in models %}
       <a href="{% url 'model_detail' model.id %}">
         <h2>{{ model.name }}</h2>
       </a>
     {% endfor %}
+  </div>
+
+  <div style="margin-top: 30px;">
+    <a href="{% url 'brand_list' %}" style="margin-right: 15px;">&larr; Back to List</a>
+    <a href="{% url 'brand_update' brand.id %}">Edit Brand</a>
   </div>
 </div>
 
