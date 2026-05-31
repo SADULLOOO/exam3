@@ -19,6 +19,11 @@ User = get_user_model()
 from django.http import HttpResponseForbidden
 load_dotenv()
 groq_api = os.getenv("GROQ_API_KEY")
+from .forms import BrandForm
+from django.views import generic
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 def brand_detail(request, brand_id):
@@ -473,3 +478,33 @@ def get_messages_json(request, conversation_id):
         })
         
     return JsonResponse({"messages": messages_list})
+
+
+
+
+class BrandListView(LoginRequiredMixin, generic.ListView):
+    model = Brand
+    template_name = 'cars/brand_list.html'  
+    context_object_name = 'brands'
+
+class BrandDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Brand
+    template_name = 'cars/brand_detail.html'
+    context_object_name = 'brand'
+
+class BrandCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Brand
+    form_class = BrandForm
+    template_name = 'cars/brand_form.html'
+    success_url = reverse_lazy('brand_list')  
+
+class BrandUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Brand
+    form_class = BrandForm
+    template_name = 'cars/brand_form.html' 
+    success_url = reverse_lazy('brand_list')
+
+class BrandDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Brand
+    template_name = 'cars/brand_confirm_delete.html'
+    success_url = reverse_lazy('brand_list')
