@@ -44,25 +44,23 @@
 <div class="ai-container">
     <div class="ai-header">🤖 Подбор автомобиля искусственным интеллектом</div>
 
-    <div class="chat-box" id="aiChatBox">
-        {% for msg in ai_messages %}
-            {% if msg.stars == 100 %}
-                <div class="bubble user-bubble">
-                    <strong>Вы:</strong>
-                    <p style="margin: 4px 0 0 0;">{{ msg.text }}</p>
-                    <span class="time">{{ msg.created_at|date:"H:i" }}</span>
-                </div>
-            {% elif msg.stars == 200 %}
-                <div class="bubble ai-bubble">
-                    <strong>🤖 OrderCar AI:</strong>
-                    <p style="margin: 4px 0 0 0; white-space: pre-line;">{{ msg.text }}</p>
-                    <span class="time">{{ msg.created_at|date:"H:i" }}</span>
-                </div>
-            {% endif %}
-        {% empty %}
-            <p style="text-align: center; color: #6c757d; margin-top: 20px;">Привет! Напишите мне, какой автомобиль вы ищете, и я подберу идеальный вариант из нашего каталога! 🚗✨</p>
-        {% endfor %}
-    </div>
+<div class="chat-box" id="aiChatBox">
+    {% for msg in ai_messages %}
+        <div class="bubble user-bubble">
+            <strong>Вы:</strong>
+            <p style="margin: 4px 0 0 0;">{{ msg.user_message }}</p>
+            <span class="time">{{ msg.timestamp|date:"H:i" }}</span>
+        </div>
+
+        <div class="bubble ai-bubble">
+            <strong>🤖 OrderCar AI:</strong>
+            <p style="margin: 4px 0 0 0; white-space: pre-line;">{{ msg.ai_response }}</p>
+            <span class="time">{{ msg.timestamp|date:"H:i" }}</span>
+        </div>
+    {% empty %}
+        <p style="text-align: center; color: #6c757d; margin-top: 20px;">Hello! Ask me, which car do you want to find, and then i`ll giave you greatone choise! 🚗✨</p>
+    {% endfor %}
+</div>
 
     <form class="ai-form" method="POST">
         {% csrf_token %}
