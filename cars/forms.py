@@ -1,5 +1,5 @@
 from django import forms
-from .models import CarImage, Car
+from .models import CarImage, Car, Brand
 
 class CarForm(forms.ModelForm):
     class Meta:
@@ -27,3 +27,19 @@ class CarImageForm(forms.ModelForm):
     class Meta:
         model = CarImage
         fields = ['image']
+
+
+
+class BrandForm(forms.ModelForm):
+    class Meta:
+        model = Brand
+        fields = ['name', 'logo']  
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'placeholder': 'Введите название бренда'
+            }),
+            'logo': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            }),
+        }
