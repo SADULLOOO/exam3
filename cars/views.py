@@ -315,15 +315,16 @@ Allways speak by emoji
             stars__in=[100, 200]
         ).order_by('created_at')[:20] 
 
+        past_reviews_list = list(past_reviews)
+
         messages_history = [{"role": "system", "content": system_prompt}]
         
-        for msg in past_reviews:
+        for msg in past_reviews_list:
             role = "user" if msg.stars == 100 else "assistant"
             messages_history.append({"role": role, "content": msg.text})
 
-        if not past_reviews or past_reviews.last().text != prompt:
+        if not past_reviews_list or past_reviews_list[-1].text != prompt:
             messages_history.append({"role": "user", "content": prompt})
-
         response = client.chat.completions.create(
             model="openai/gpt-oss-120b",
             messages=messages_history
