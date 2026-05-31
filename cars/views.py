@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
-from .models import Brand, CarModel, Car, CarImage, Favorite, Review, Order, Credit, UserActivity, Message, Conversation
+from .models import Brand, CarModel, Car, CarImage, Favorite, Review, Order, Credit, UserActivity, Message, Conversation, AIChatHistory
 from .filters import CarFilter
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -278,15 +278,9 @@ def ai_help(request):
     answer = ""
     prompt = request.POST.get('prompt', '').strip() if request.method == "POST" else ""
 
-    dummy_car = Car.objects.first()
-
-    if prompt and dummy_car:
-        Review.objects.create(
-            user=request.user,
-            car=dummy_car,
-            text=prompt,
-            stars=100
-        )
+    if prompt:
+        past_chats = AIChatHistory.objects.filter(user=request.user).order_by('timestamp')[:10]
+        past_chats_list = list(past_chats)
 
         client = Groq(api_key=groq_api)
         cars = Car.objects.select_related('model')
@@ -295,7 +289,7 @@ def ai_help(request):
         for car in cars:
             cars_for_ai.append({
                 'name': car.title,
-                'price': float(car.price), 
+                'price': float(car.price),
                 'brand': car.model.brand.name,
                 'model': car.model.name
             })
@@ -310,39 +304,26 @@ Explain simply.
 Allways speak by emoji 
 """
 
-        past_reviews = Review.objects.filter(
-            user=request.user,
-            stars__in=[100, 200]
-        ).order_by('created_at')[:20] 
-
-        past_reviews_list = list(past_reviews)
-
         messages_history = [{"role": "system", "content": system_prompt}]
-        
-        for msg in past_reviews_list:
-            role = "user" if msg.stars == 100 else "assistant"
-            messages_history.append({"role": role, "content": msg.text})
+        for chat in past_chats_list:
+            messages_history.append({"role": "user", "content": chat.user_message})
+            messages_history.append({"role": "assistant", "content": chat.ai_response})
 
-        if not past_reviews_list or past_reviews_list[-1].text != prompt:
-            messages_history.append({"role": "user", "content": prompt})
+        messages_history.append({"role": "user", "content": prompt})
+
         response = client.chat.completions.create(
             model="openai/gpt-oss-120b",
             messages=messages_history
         )
-
         answer = response.choices[0].message.content
 
-        Review.objects.create(
+        AIChatHistory.objects.create(
             user=request.user,
-            car=dummy_car,
-            text=answer,
-            stars=200
+            user_message=prompt,
+            ai_response=answer
         )
 
-    ai_messages = Review.objects.filter(
-        user=request.user,
-        stars__in=[100, 200]
-    ).order_by('created_at')
+    ai_messages = AIChatHistory.objects.filter(user=request.user).order_by('timestamp')
 
     return render(
         request,

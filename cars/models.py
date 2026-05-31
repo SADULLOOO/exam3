@@ -294,11 +294,11 @@ class Message(models.Model):
         auto_now_add=True
     )
 
-    class AIChatHistory(models.Model):
+class AIChatHistory(models.Model):
         user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ai_chats')
         user_message = models.TextField()  
         ai_response = models.TextField()   
         timestamp = models.DateTimeField(auto_now_add=True)  
 
-    def __str__(self):
-        return f"Chat by {self.user.username} at {self.timestamp}"
+        def __str__(self):
+            return f"Chat by {self.user.username} at {self.timestamp}"
