@@ -492,6 +492,10 @@ class BrandDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'cars/brand_detail.html'
     context_object_name = 'brand'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['models'] = CarModel.objects.filter(brand=self.object)
+        return context
 class BrandCreateView(LoginRequiredMixin, generic.CreateView):
     model = Brand
     form_class = BrandForm
