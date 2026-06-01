@@ -508,7 +508,18 @@ class BrandUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'cars/brand_form.html' 
     success_url = reverse_lazy('brand_list')
 
+from django.http import HttpResponseRedirect
+
 class BrandDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Brand
     template_name = 'cars/brand_confirm_delete.html'
     success_url = reverse_lazy('brand_list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        
+        self.object.is_deleted = True
+        self.object.save()
+        
+        return HttpResponseRedirect(success_url)
