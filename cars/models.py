@@ -6,14 +6,18 @@ from datetime import timedelta
 
 User = get_user_model()
 
-class Brand(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+class NonDeletedBrandManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted=False)
 
-    logo = models.ImageField(
-        upload_to='brands/',
-        blank=True,
-        null=True
-    )
+class Brand(models.Model):
+    name = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to='brands/', blank=True, null=True)
+    
+    is_deleted = models.BooleanField(default=False)
+
+    objects = NonDeletedBrandManager() 
+    all_objects = models.Manager()    
 
     def __str__(self):
         return self.name
