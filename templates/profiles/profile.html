@@ -36,6 +36,11 @@
       <h3>{{ order.car.title }}</h3>
       <p>Status: {{ order.status }}</p>
       <p>Delivery: {{ order.delivery_date }}</p>
+      
+      {% if order.status == 'paid' or order.status == 'delivering' or order.status == 'done' %}
+        <a href="{% url 'order_tracking' order.id %}" style="display: inline-block; margin-top: 5px; margin-right: 15px; padding: 6px 12px; background-color: #3b82f6; color: white; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px;">📍 Отследить & Чат</a>
+      {% endif %}
+
       {% if order.status != 'cancelled' %}
         <a href="{% url 'cancel_order' order.id %}">Cancel Order</a>
       {% endif %}
@@ -51,6 +56,11 @@
       <p>Amount: {{ credit.amount }}</p>
       <p>Months: {{ credit.months }}</p>
       <p>Status: {{ credit.status }}</p>
+
+      {% if credit.status == 'approved' %}
+        <a href="{% url 'order_tracking' credit.id %}" style="display: inline-block; margin-top: 5px; margin-right: 15px; padding: 6px 12px; background-color: #10b981; color: white; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px;">📍 Локация & Чат (Кредит)</a>
+      {% endif %}
+
       {% if credit.status != 'cancelled' %}
         <a href="{% url 'cancel_credit' credit.id %}">Cancel Credit</a>
       {% endif %}

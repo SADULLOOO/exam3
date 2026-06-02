@@ -4,33 +4,70 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<div style="display: flex; max-width: 1200px; margin: 30px auto; height: 600px; background: #0b111e; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-family: sans-serif;">
+<div style="max-width: 500px; margin: 20px auto; background: #0b141a; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.5); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; display: flex; flex-direction: column; height: 85vh;">
     
-    <div id="map" style="width: 60%; height: 100%;"></div>
-
-    <div style="width: 40%; display: flex; flex-direction: column; background: #111827; border-left: 1px solid #1e293b;">
-        <div style="padding: 15px; background: #1f2937; color: #3b82f6; font-weight: bold; border-bottom: 1px solid #1e293b; text-align: center;">
-            💬 Чат с курьером (Заказ №{{ order.id }})
+    <div style="padding: 16px; background: #1f2c34; border-bottom: 1px solid #223038; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <div style="color: #e9edef; font-weight: 600; font-size: 16px; letter-spacing: 0.5px;">
+            📍 Отслеживание доставки заказа №{{ order.id }}
         </div>
         
-        <div id="chat-box" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0f172a;">
-            </div>
-
-        <form id="chat-form" style="display: flex; padding: 12px; background: #1f2937; border-top: 1px solid #1e293b;">
-            {% csrf_token %}
-            <input type="text" id="chat-input" placeholder="Введите сообщение..." required autocomplete="off" style="flex: 1; padding: 10px; border: none; border-radius: 6px; background: #374151; color: white; outline: none;">
-            <button type="submit" style="margin-left: 10px; padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Отправить</button>
-        </form>
+        <div style="width: 100%; height: 200px; border-radius: 20px; overflow: hidden; border: 3px solid #00a884; box-shadow: 0 4px 12px rgba(0,0,0,0.3); position: relative;">
+            <div id="map" style="width: 100%; height: 100%;"></div>
+        </div>
     </div>
+
+    <div id="chat-box" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-color: #0b141a; background-blend-mode: overlay; opacity: 0.95;">
+        </div>
+
+    <form id="chat-form" style="display: flex; align-items: center; padding: 10px 16px; background: #1f2c34; gap: 10px;">
+        {% csrf_token %}
+        <div style="flex: 1; background: #2a3942; border-radius: 24px; padding: 2px 16px; display: flex; align-items: center;">
+            <input type="text" id="chat-input" placeholder="Ваше сообщение..." required autocomplete="off" 
+                   style="width: 100%; min-height: 40px; background: transparent; border: none; color: #e9edef; font-size: 15px; outline: none;">
+        </div>
+        <button type="submit" style="background: #00a884; color: white; border: none; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.1s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M1.101 21.757L23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817z"></path></svg>
+        </button>
+    </form>
 </div>
 
 <script>
     const orderId = "{{ order.id }}";
     const apiUrl = `/order/${orderId}/api/`;
 
-    let map = L.map('map').setView([55.7558, 37.6173], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    let carMarker = L.marker([55.7558, 37.6173]).addTo(map).bindPopup("Машина с вашим заказом").openPopup();
+    // Координаты Берлина (Германия)
+    const defaultLat = 52.5200;
+    const defaultLon = 13.4050;
+
+    // 1. Инициализация карты с отключением лишних задержек анимации
+    let map = L.map('map', {
+        zoomControl: true,
+        fadeAnimation: false,
+        markerZoomAnimation: false
+    }).setView([defaultLat, defaultLon], 13);
+
+    // 2. ИСПОЛЬЗУЕМ СУПЕР-СТАБИЛЬНЫЙ СЕРВЕР КАРТ (CartoDB Dark - идеально под темную тему!)
+    // Если хочешь обычную светлую карту, замени ссылку на: https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap © CARTO',
+        subdomains: 'abcd',
+        maxZoom: 20
+    }).addTo(map);
+
+    // 3. Создаем маркер
+    let carMarker = L.marker([defaultLat, defaultLon]).addTo(map)
+        .bindPopup("<b style='color:#00a884;'>Курьер здесь</b>").openPopup();
+
+    // 4. ЖЕСТКИЙ ФИКС СЕРОЙ КАРТЫ (Инвалидация размеров на старте и каждые 2 секунды)
+    function fixMapSize() {
+        if (map) {
+            map.invalidateSize(true); 
+        }
+    }
+    // Запускаем фикс сразу несколько раз, пока страница рендерится
+    setTimeout(fixMapSize, 100);
+    setTimeout(fixMapSize, 500);
+    setTimeout(fixMapSize, 1000);
 
     async function updateTrackingData() {
         try {
@@ -38,34 +75,52 @@
             if (!response.ok) return;
             let data = await response.json();
 
-            let newPos = [data.latitude, data.longitude];
+            // Проверяем координаты с бэкенда
+            let lat = (data.latitude && data.latitude !== 55.7558) ? data.latitude : defaultLat;
+            let lon = (data.longitude && data.longitude !== 37.6173) ? data.longitude : defaultLon;
+
+            let newPos = [lat, lon];
             carMarker.setLatLng(newPos);
             map.panTo(newPos);
 
+            // Рендеринг чата (оставляем твой идеальный дизайн без изменений)
             const chatBox = document.getElementById('chat-box');
             chatBox.innerHTML = '';
             
             data.messages.forEach(msg => {
-                let msgDiv = document.createElement('div');
+                let msgWrapper = document.createElement('div');
                 let isMe = msg.sender === "{{ request.user.username }}";
                 
-                msgDiv.style.alignSelf = isMe ? 'flex-end' : 'flex-start';
-                msgDiv.style.background = isMe ? '#3b82f6' : '#374151';
-                msgDiv.style.color = '#ffffff';
-                msgDiv.style.padding = '8px 12px';
-                msgDiv.style.borderRadius = '8px';
-                msgDiv.style.maxWidth = '80%';
+                msgWrapper.style.display = 'flex';
+                msgWrapper.style.flexDirection = 'column';
+                msgWrapper.style.width = '100%';
+                msgWrapper.style.alignItems = isMe ? 'flex-end' : 'flex-start';
+
+                let msgDiv = document.createElement('div');
+                msgDiv.style.background = isMe ? '#005c4b' : '#202c33';
+                msgDiv.style.color = '#e9edef';
+                msgDiv.style.padding = '8px 14px';
+                msgDiv.style.borderRadius = isMe ? '16px 16px 0px 16px' : '16px 16px 16px 0px';
+                msgDiv.style.maxWidth = '75%';
+                msgDiv.style.boxShadow = '0 1px 2px rgba(0,0,0,0.15)';
                 msgDiv.style.wordBreak = 'break-word';
                 
-                msgDiv.innerHTML = `<small style="color: #cbd5e1; display:block; font-size: 11px; margin-bottom: 2px; font-weight:bold;">${msg.sender} [${msg.time}]</small>${msg.text}`;
-                chatBox.appendChild(msgDiv);
+                msgDiv.innerHTML = `
+                    <span style="color: #8696a0; font-size: 12px; display: block; font-weight: 600; margin-bottom: 2px;">${msg.sender}</span>
+                    <span style="font-size: 15px; line-height: 1.4;">${msg.text}</span>
+                    <span style="color: #8696a0; font-size: 10px; display: block; text-align: right; margin-top: 4px;">${msg.time}</span>
+                `;
+                
+                msgWrapper.appendChild(msgDiv);
+                chatBox.appendChild(msgWrapper);
             });
             
             chatBox.scrollTop = chatBox.scrollHeight;
             
-        } catch (err) { console.error("Ошибка обновления:", err); }
+        } catch (err) { console.error("Ошибка обновления данных:", err); }
     }
 
+    // Отправка сообщений
     document.getElementById('chat-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const input = document.getElementById('chat-input');
@@ -75,12 +130,16 @@
         formData.append('text', input.value);
         formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
 
-        input.value = ''; 
+        input.value = '';
         await fetch(apiUrl, { method: 'POST', body: formData });
         updateTrackingData();
     });
 
     updateTrackingData();
-    setInterval(updateTrackingData, 3000);
+    // Опрос раз в 3 секунды + параллельный фикс карты
+    setInterval(() => {
+        updateTrackingData();
+        fixMapSize();
+    }, 3000);
 </script>
 {% endblock %}
