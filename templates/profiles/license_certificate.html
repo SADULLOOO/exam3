@@ -1,0 +1,62 @@
+{% extends 'cars/base.html' %}
+
+{% block main_content %}
+<div class="certificate-container" style="max-width: 800px; margin: 40px auto; padding: 30px; background: #1e1e24; color: #fff; border-radius: 12px; box-shadow: 0 0 25px rgba(46, 213, 115, 0.3); border: 2px solid #2ed573; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center;">
+    
+    <div style="font-size: 60px; margin-bottom: 10px; animation: pulse 2s infinite;">🪪</div>
+    
+    <h1 style="color: #2ed573; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;">
+        Official CarOrder License
+    </h1>
+    <p style="color: #a4b0be; font-style: italic; margin-top: 0;">Authorized SaaS Copy</p>
+    
+    <hr style="border: 0; height: 1px; background: linear-gradient(to right, transparent, #2ed573, transparent); margin: 25px 0;">
+    
+    <div style="text-align: left; background: rgba(0, 0, 0, 0.2); padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+        <p style="margin: 10px 0;"><strong>Holder (Владелец):</strong> 
+            <span style="color: #ffd700;">{{ request.user.email }}</span>
+        </p>
+        
+        <p style="margin: 10px 0;"><strong>Status:</strong> 
+            {% if license.is_active %}
+                <span style="background: #2ed573; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 14px; font-weight: bold;">ACTIVE / BUSINESS</span>
+            {% else %}
+                <span style="background: #ff4757; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 14px; font-weight: bold;">PENDING APPROVAL</span>
+            {% endif %}
+        </p>
+        
+        <p style="margin: 10px 0;"><strong>Monthly Subscription:</strong> 
+            <span style="color: #00e5ff; font-weight: bold;">${{ license.price_per_month|default:"15,000" }} / month</span>
+        </p>
+
+        <p style="margin: 10px 0; font-size: 13px; color: #747d8c;">
+            <strong>License ID:</strong> SECURE-SYS-{{ request.user.id }}-2026X
+        </p>
+    </div>
+
+    <div style="margin-bottom: 30px; padding: 15px; background: rgba(255, 215, 0, 0.05); border-left: 4px solid #ffd700; text-align: left;">
+        <h3 style="color: #ffd700; margin-top: 0; margin-bottom: 10px;">🚀 Что делать дальше?</h3>
+        <p style="margin: 5px 0; color: #ced6e0; font-size: 15px;">
+            1. Твой персональный автосалон уже сгенерирован в общей базе.
+        </p>
+        <p style="margin: 5px 0; color: #ced6e0; font-size: 15px;">
+            2. Используй вкладку <a href="{% url 'brand_list' %}" style="color: #ffa502; font-weight: bold; text-decoration: underline;">"Мои Бренды"</a> в меню, чтобы настроить бренд.
+        </p>
+        <p style="margin: 5px 0; color: #ced6e0; font-size: 15px;">
+            3. Добавляй новые тачки через кнопку управления, они закрепятся за твоим аккаунтом.
+        </p>
+    </div>
+
+    <a href="{% url 'profile' %}" style="display: inline-block; background: #2ed573; color: #fff; padding: 12px 30px; text-decoration: none; font-weight: bold; border-radius: 6px; transition: background 0.3s ease; box-shadow: 0 4px 12px rgba(46, 213, 115, 0.2);">
+        Back to Profile
+    </a>
+</div>
+
+<style>
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+</style>
+{% endblock %}

@@ -291,7 +291,7 @@ def ai_help(request):
         past_chats_list = list(past_chats)
 
         client = Groq(api_key=groq_api)
-        
+
         if not request.user.is_superuser and hasattr(request.user, 'license') and request.user.license.is_active:
             cars = Car.objects.filter(owner=request.user).select_related('model')
         else:
@@ -494,20 +494,38 @@ class BrandListView(LoginRequiredMixin, generic.ListView):
     template_name = 'cars/brand_list.html'  
     context_object_name = 'brands'
 
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Brand.objects.all()
+        return Brand.objects.filter(user=self.request.user)
+
+
 class BrandDetailView(LoginRequiredMixin, generic.DetailView):
     model = Brand
     template_name = 'cars/brand_detail.html'
     context_object_name = 'brand'
 
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Brand.objects.all()
+        return Brand.objects.filter(user=self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['models'] = CarModel.objects.filter(brand=self.object)
         return context
+
+
 class BrandCreateView(LoginRequiredMixin, generic.CreateView):
     model = Brand
     form_class = BrandForm
     template_name = 'cars/brand_form.html'
     success_url = reverse_lazy('brand_list')  
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 class BrandUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Brand
@@ -515,12 +533,21 @@ class BrandUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'cars/brand_form.html' 
     success_url = reverse_lazy('brand_list')
 
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Brand.objects.all()
+        return Brand.objects.filter(user=self.request.user)
 
 
 class BrandDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Brand
     template_name = 'cars/brand_confirm_delete.html'
     success_url = reverse_lazy('brand_list')
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Brand.objects.all()
+        return Brand.objects.filter(user=self.request.user)
 
     def form_valid(self, form):
         success_url = self.get_success_url()
