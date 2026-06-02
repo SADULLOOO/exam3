@@ -3,89 +3,34 @@
 
 <div style="max-width: 600px; margin: 40px auto; padding: 30px; background-color: #0b111e; border-radius: 12px; color: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
     
-    <h2 style="text-align: center; margin-bottom: 5px;"> Secure Checkout</h2>
+    <h2 style="text-align: center; margin-bottom: 5px;">📩 E-mail Verification Checkout</h2>
     <p style="text-align: center; color: #a0aec0; margin-bottom: 25px;">Vehicle: <b>{{ car.title }}</b> — ${{ car.price }}</p>
 
     {% if payment_type == 'credit' %}
     <div style="background: #1e293b; padding: 15px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #3b82f6;">
-        <h4 style="margin: 0 0 10px 0; color: #3b82f6;">📊 Credit Calculator Options</h4>
-        <form method="GET" style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-            <label>Term (Months):</label>
-            <select name="months" onchange="this.form.submit()" style="background: #0f172a; color: white; padding: 5px 10px; border: 1px solid #475569; border-radius: 4px;">
-                <option value="12" {% if months == 12 %}selected{% endif %}>12 Months (1 Year)</option>
-                <option value="24" {% if months == 24 %}selected{% endif %}>24 Months (2 Years)</option>
-                <option value="36" {% if months == 36 %}selected{% endif %}>36 Months (3 Years)</option>
-            </select>
-        </form>
-        <p style="margin: 5px 0;">Total Loan Amount (with %): <b>${{ total_credit_amount }}</b></p>
-        <p style="margin: 5px 0; font-size: 18px; color: #10b981;">Monthly Payment: <span style="font-weight: bold; font-size: 22px;">${{ monthly_payment }}</span> / month</p>
+        <h4 style="margin: 0 0 10px 0; color: #3b82f6;">📊 Credit Calculator</h4>
+        <p>Total Loan Amount: <b>${{ total_credit_amount }}</b></p>
+        <p style="font-size: 18px; color: #10b981;">Monthly Payment: <b>${{ monthly_payment }}</b> / month</p>
     </div>
     {% endif %}
 
     <form method="POST">
         {% csrf_token %}
         
-        <label style="display: block; margin-bottom: 10px; font-weight: bold;">Select National Payment Method:</label>
-        <div style="display: flex; gap: 20px; margin-bottom: 25px;">
-            
-            <label style="flex: 1; cursor: pointer;">
-                <input type="radio" name="card_type" value="alif" checked style="display: none;" id="alif_radio">
-                <div id="alif_card" style="padding: 15px; border: 2px solid #009944; background: rgba(0, 153, 68, 0.1); border-radius: 8px; text-align: center; transition: 0.3s;">
-                    <div style="font-weight: bold; color: #009944; font-size: 18px;">alif</div>
-                    <small style="color: #a0aec0;">alif mobi / Korti Milli</small>
-                </div>
-            </label>
-
-            <label style="flex: 1; cursor: pointer;">
-                <input type="radio" name="card_type" value="dc" style="display: none;" id="dc_radio">
-                <div id="dc_card" style="padding: 15px; border: 2px solid #475569; background: transparent; border-radius: 8px; text-align: center; transition: 0.3s;">
-                    <div style="font-weight: bold; color: #00a4e4; font-size: 18px;">Dushanbe City</div>
-                    <small style="color: #a0aec0;">DC Wallet / Korti Milli</small>
-                </div>
-            </label>
-        </div>
-
         <div style="margin-bottom: 15px;">
-            <label style="display: block; margin-bottom: 5px;">Card Number (16 digits):</label>
-            <input type="text" name="card_number" placeholder="9445 **** **** ****" required maxlength="19" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box;">
+            <label style="display: block; margin-bottom: 5px;">Your Phone Number:</label>
+            <input type="text" name="phone" value="{{ request.user.profile.phone|default_to_none:'' }}" placeholder="+992 XXX XX XX XX" required style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box;">
         </div>
 
-        <div style="display: flex; gap: 15px; margin-bottom: 25px;">
-            <div style="flex: 1;">
-                <label style="display: block; margin-bottom: 5px;">Expiry Date:</label>
-                <input type="text" placeholder="MM/YY" required maxlength="5" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box;">
-            </div>
-            <div style="flex: 1;">
-                <label style="display: block; margin-bottom: 5px;">CVC/CVV (Code):</label>
-                <input type="password" name="card_cvv" placeholder="***" required maxlength="3" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box;">
-            </div>
+        <div style="margin-bottom: 25px;">
+            <label style="display: block; margin-bottom: 5px;">Your E-mail for Confirmation Link:</label>
+            <input type="email" name="email" value="{{ request.user.email }}" required style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box;">
         </div>
 
-        <button type="submit" style="width: 100%; padding: 14px; background-color: #1e3a8a; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 16px; cursor: pointer;">
-            {% if payment_type == 'buy' %} Confirm Instant Purchase {% else %} Confirm & Initialize Credit Line {% endif %}
+        <button type="submit" style="width: 100%; padding: 14px; background-color: #10b981; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 16px; cursor: pointer;">
+            🚀 Send Confirmation Link to E-mail
         </button>
     </form>
 </div>
-
-<script>
-    const alifRadio = document.getElementById('alif_radio');
-    const dcRadio = document.getElementById('dc_radio');
-    const alifCard = document.getElementById('alif_card');
-    const dcCard = document.getElementById('dc_card');
-
-    alifRadio.addEventListener('change', () => {
-        alifCard.style.border = '2px solid #009944';
-        alifCard.style.background = 'rgba(0, 153, 68, 0.1)';
-        dcCard.style.border = '2px solid #475569';
-        dcCard.style.background = 'transparent';
-    });
-
-    dcRadio.addEventListener('change', () => {
-        dcCard.style.border = '2px solid #00a4e4';
-        dcCard.style.background = 'rgba(0, 164, 228, 0.1)';
-        alifCard.style.border = '2px solid #475569';
-        alifCard.style.background = 'transparent';
-    });
-</script>
 
 {% endblock %}
