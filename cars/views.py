@@ -607,3 +607,27 @@ def checkout_view(request, car_id, payment_type):
         'monthly_payment': monthly_payment,
         'total_credit_amount': total_credit_amount,
     })
+
+
+def verify_transaction_view(request, type, action, pk):
+    if type == 'buy':
+        item = get_object_or_404(Order, id=pk)
+        if action == 'confirm':
+            item.status = 'paid'  
+            template = 'cars/success_buy.html'
+        else:
+            item.status = 'cancelled' 
+            template = 'cars/cancel_buy.html'
+        item.save()  
+        
+    elif type == 'credit':
+        item = get_object_or_404(Credit, id=pk)
+        if action == 'confirm':
+            item.status = 'approved' 
+            template = 'cars/success_credit.html'
+        else:
+            item.status = 'rejected' 
+            template = 'cars/cancel_credit.html'
+        item.save()  
+
+    return render(request, template, {'item': item})
