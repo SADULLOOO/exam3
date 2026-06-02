@@ -19,7 +19,7 @@
         
         <div style="margin-bottom: 15px;">
             <label style="display: block; margin-bottom: 5px;">Your Phone Number:</label>
-            <input type="text" name="phone" value="{{ request.user.profile.phone|default_to_none:'' }}" placeholder="+992 XXX XX XX XX" required style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box;">
+            <input type="text" name="phone" value="{{ request.user.phone|default:'' }}" placeholder="+992 XXX XX XX XX" required style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box;">
         </div>
 
         <div style="margin-bottom: 25px;">
