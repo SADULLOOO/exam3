@@ -31,4 +31,6 @@ urlpatterns = [
     path('brands/<int:pk>/restore/', views.BrandRestoreView.as_view(), name='brand_restore'),
     path('car/<int:car_id>/checkout/<str:payment_type>/', views.checkout_view, name='car_checkout'),
     path('checkout/verify/<str:type>/<str:action>/<int:pk>/', views.verify_transaction_view, name='verify_transaction'),
+    path('order/<int:order_id>/tracking/', views.order_tracking_view, name='order_tracking'),
+    path('order/<int:order_id>/api/', views.order_api_view, name='order_api'),
 ]
