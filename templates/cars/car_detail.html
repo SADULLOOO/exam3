@@ -4,20 +4,17 @@
 
 <div class="car-detail-wrapper">
 
-  <!-- ЛЕВАЯ КОЛОНКА: ФОТО -->
   <div class="car-images">
     {% for image in car.images.all %}
       <img src="{{ image.image.url }}" alt="{{ car.title }}">
     {% endfor %}
   </div>
 
-  <!-- ПРАВАЯ КОЛОНКА: ИНФО -->
   <div class="car-info">
 
     <h1>{{ car.title }}</h1>
     <p class="car-price">${{ car.price }}</p>
 
-    <!-- КНОПКИ -->
     {% if user.is_authenticated %}
     <div class="car-actions">
 
@@ -25,11 +22,11 @@
         {% if is_favorite %}❤️ Remove Favorite{% else %}🤍 Add Favorite{% endif %}
       </a>
 
-      <a href="{% url 'buy_car' car.id %}">
+      <a href="{% url 'car_checkout' car.id 'buy' %}">
         <button>Buy Now</button>
       </a>
 
-      <a href="{% url 'take_credit' car.id %}">
+      <a href="{% url 'car_checkout' car.id 'credit' %}">
         <button>Take Credit</button>
       </a>
 
@@ -42,7 +39,6 @@
     </div>
     {% endif %}
 
-    <!-- ХАРАКТЕРИСТИКИ -->
     <div class="specs-table">
       <p>Year <strong>{{ car.year }}</strong></p>
       <p>Mileage <strong>{{ car.mileage }}</strong></p>
@@ -60,7 +56,6 @@
 
     <hr>
 
-    <!-- REVIEWS -->
     <h2>Reviews</h2>
 
     {% for review in car.reviews.all %}
@@ -76,7 +71,6 @@
 
     <hr>
 
-    <!-- ADD REVIEW -->
     <h2>Add Review</h2>
 
     {% if request.user.is_authenticated %}
@@ -94,7 +88,6 @@
 
     <hr>
 
-    <!-- RELATED CARS -->
     <h2>Related Cars</h2>
 
     <div class="related-cars">
@@ -105,7 +98,6 @@
       {% endfor %}
     </div>
 
-    <!-- SUPERUSER ACTIONS -->
     {% if request.user.is_superuser %}
       <div class="car-admin-actions">
         <a href="{% url 'edit_car' car.id %}">
