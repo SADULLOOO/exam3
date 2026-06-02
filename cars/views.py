@@ -647,11 +647,16 @@ def check_delivery_access(order_id, user):
         raise Http404("Заказ не найден")
         
     if order.user != user and not user.is_superuser:
-        raise Http404("У вас нет доступа к этому заказу")
+        raise Http404("У вас нет доступа")
         
-    if order.status not in ['paid', 'approved']:
-        return None, False
-        
+
+    if is_credit:
+        if order.status != 'approved':
+            return None, False
+    else:
+        if order.status in ['pending', 'cancelled']:
+            return None, False
+            
     return order, is_credit
 
 
@@ -661,7 +666,53 @@ def order_tracking_view(request, order_id):
     
     if not order:
         return render(request, 'cars/no_delivery.html', {
-            'error_message': "Курьер и геолокация недоступны, так как заказ не оплачен или не одобрен!"
+            'error_message': "Курьер и геолокация недоступны, так как заказ не одобрен или находится в обработке!"
         })
         
     return render(request, 'cars/tracking.html', {'order': order, 'is_credit': is_credit})
+
+
+@login_required
+def order_api_view(request, order_id):
+    order, is_credit = check_delivery_access(order_id, request.user)
+    
+    if not order:
+        return JsonResponse({'error': 'Доставка недоступна для текущего статуса'}, status=403)
+        
+    admin_owner = User.objects.filter(username='admin', is_superuser=True).first()
+    if not admin_owner:
+        return JsonResponse({'error': 'Администратор не найден'}, status=404)
+        
+    conversation, created = Conversation.objects.get_or_create(
+        buyer=order.user,
+        car=order.car,
+        defaults={'owner': admin_owner}
+    )
+    
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        if text:
+            Message.objects.create(
+                conversation=conversation,
+                sender=request.user,
+                text=text
+            )
+            return JsonResponse({'status': 'ok'})
+
+    messages_queryset = conversation.messages.all().order_by('created_at')
+    messages = [
+        {
+            'sender': msg.sender.username,
+            'text': msg.text,
+            'time': msg.created_at.strftime('%H:%M')
+        } for msg in messages_queryset
+    ]
+    
+    lat = float(order.latitude) if hasattr(order, 'latitude') and order.latitude else 55.7558
+    lon = float(order.longitude) if hasattr(order, 'longitude') and order.longitude else 37.6173
+    
+    return JsonResponse({
+        'latitude': lat,
+        'longitude': lon,
+        'messages': messages
+    })
