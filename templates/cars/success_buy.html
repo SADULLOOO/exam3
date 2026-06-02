@@ -1,0 +1,15 @@
+{% extends 'cars/base.html' %}
+{% block main_content %}
+<div style="max-width: 600px; margin: 50px auto; padding: 40px; background-color: #0b111e; border-radius: 12px; color: #ffffff; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-top: 5px solid #3b82f6;">
+    <h2 style="color: #3b82f6; margin-bottom: 20px;">📊 Credit Plan Approved!</h2>
+    <p style="font-size: 16px; color: #a0aec0;">
+        Your credit request for <b>{{ item.car.title }}</b> has been verified and approved.
+    </p>
+    <div style="margin: 25px 0; background: #1e293b; padding: 15px; border-radius: 6px; text-align: left;">
+        <p style="margin: 5px 0;"><b>Credit ID:</b> #{{ item.id }}</p>
+        <p style="margin: 5px 0;"><b>Period:</b> {{ item.months }} months</p>
+        <p style="margin: 5px 0;"><b>Status:</b> <span style="color: #3b82f6; font-weight: bold;">APPROVED</span></p>
+    </div>
+    <a href="{% url 'profile' %}" style="display: inline-block; padding: 12px 24px; background-color: #3b82f6; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">Go to My Profile</a>
+</div>
+{% endblock %}
