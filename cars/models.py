@@ -11,13 +11,26 @@ class NonDeletedBrandManager(models.Manager):
         return super().get_queryset().filter(is_deleted=False)
 
 class Brand(models.Model):
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='my_brands',
+        null=True, 
+        blank=True
+    )
     name = models.CharField(max_length=100)
     logo = models.ImageField(upload_to='brands/', blank=True, null=True)
-    
     is_deleted = models.BooleanField(default=False)
 
     objects = NonDeletedBrandManager() 
-    all_objects = models.Manager()    
+    all_objects = models.Manager()
+
+    def save(self, *args, **kwargs):
+        if not self.owner_id:
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            self.owner = User.objects.filter(is_superuser=True).first()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
