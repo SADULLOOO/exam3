@@ -233,6 +233,9 @@ class Order(models.Model):
         default='pending'
     )
 
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+
 class Credit(models.Model):
 
     STATUS_CHOICES = [
