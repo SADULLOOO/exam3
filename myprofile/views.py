@@ -167,3 +167,17 @@ def superuser_dashboard_view(request):
         })
 
     return render(request, 'profiles/superuser_dashboard.html', {'data': dashboard_data})
+
+
+@login_required
+def toggle_license_status(request, license_id):
+    """Кнопка Kill-Switch: Босс может в любое время отключить лицензию"""
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+        
+    lic = get_object_or_404(License, id=license_id)
+    lic.is_active = not lic.is_active
+    lic.save()
+    
+    messages.info(request, f"Status {lic.user.username} changed on: {lic.is_active}")
+    return redirect('superuser_dashboard')
