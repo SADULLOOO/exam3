@@ -634,7 +634,6 @@ def verify_transaction_view(request, type, action, pk):
     return render(request, template, {'item': item})
 
 
-
 def check_delivery_access(order_id, user):
     order = Order.objects.filter(id=order_id).first()
     is_credit = False
@@ -649,7 +648,6 @@ def check_delivery_access(order_id, user):
     if order.user != user and not user.is_superuser:
         raise Http404("У вас нет доступа")
         
-
     if is_credit:
         if order.status != 'approved':
             return None, False
