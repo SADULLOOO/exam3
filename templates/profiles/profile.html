@@ -70,6 +70,29 @@
     <p>No reviews yet</p>
   {% endfor %}
 
+
+  {% if request.user.is_superuser %}
+<div style="margin-top: 50px; padding: 20px; background: #0b111e; border: 1px dashed #d32f2f; border-radius: 8px; color: #fff;">
+    <h3 style="color: #f44336; margin-bottom: 15px; font-size: 20px;">Trash Bin (Deleted Brands)</h3>
+    
+    <ul style="list-style: none; padding-left: 0;">
+        {% for brand in deleted_brands %}
+            <li style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2d3748;">
+                <div style="display: flex; align-items: center;">
+                    {% if brand.logo %}
+                        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" style="max-height: 30px; margin-right: 15px; object-fit: contain;">
+                    {% endif %}
+                    <span style="font-weight: bold; font-size: 16px;">{{ brand.name }}</span>
+                </div>
+                <a href="{% url 'brand_restore' brand.id %}" style="color: #4caf50; text-decoration: none; font-weight: bold; font-size: 14px;">[ Restore Brand ]</a>
+            </li>
+        {% empty %}
+            <li style="color: #a0aec0; font-style: italic;">Trash bin is empty. No deleted brands found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
   <p style="margin-top:24px; color:#7a93b8; font-size:13px;">
     Time active: <span id="timer" style="color:#22c55e; font-weight:700;">00:00:00</span>
   </p>

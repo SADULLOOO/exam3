@@ -29,4 +29,5 @@ urlpatterns = [
     path('brands/create/', views.BrandCreateView.as_view(), name='brand_create'),
     path('brands/<int:pk>/update/', views.BrandUpdateView.as_view(), name='brand_update'),
     path('brands/<int:pk>/delete/', views.BrandDeleteView.as_view(), name='brand_delete'),
+    path('brands/<int:pk>/restore/', views.BrandRestoreView.as_view(), name='brand_restore'),
 ]

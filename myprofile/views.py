@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now
 from .models import Profile
 from .forms import ProfileForm
-from cars.models import Favorite, Review, UserActivity, Credit, Order
+from cars.models import Favorite, Review, UserActivity, Credit, Order, Brand
 from django.http import JsonResponse
 
 @login_required
@@ -38,17 +38,21 @@ def profile_view(request):
     credits = Credit.objects.filter(user=request.user)
 
     activity, created = UserActivity.objects.get_or_create(user=request.user)
-    
     live_seconds = activity.total_seconds
 
-    return render(request, 'profiles/profile.html', {
+    context = {
         'profile': profile,
         'favorites': favorites,
         'reviews': reviews,
         'orders': orders,
         'credits': credits,
-        'live_seconds': live_seconds
-    })
+        'live_seconds': live_seconds,
+    }
+
+    if request.user.is_superuser:
+        context['deleted_brands'] = Brand.all_objects.filter(is_deleted=True)
+
+    return render(request, 'profiles/profile.html', context)
 
 
 
