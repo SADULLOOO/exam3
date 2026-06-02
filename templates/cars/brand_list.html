@@ -27,8 +27,12 @@
                 <td>{{ brand.id }}</td>
                 <td><a href="{% url 'brand_detail' brand.id %}">{{ brand.name }}</a></td>
                 <td>
-                    <a href="{% url 'brand_update' brand.id %}" class="btn btn-sm btn-warning">Редактировать</a>
-                    <a href="{% url 'brand_delete' brand.id %}" class="btn btn-sm btn-danger">Удалить</a>
+                    {% if request.user.is_superuser or brand.owner == request.user %}
+                        <a href="{% url 'brand_update' brand.id %}" class="btn btn-sm btn-warning">Редактировать</a>
+                        <a href="{% url 'brand_delete' brand.id %}" class="btn btn-sm btn-danger">Удалить</a>
+                    {% else %}
+                        <span class="text-muted small">Просмотр ограничен</span>
+                    {% endif %}
                 </td>
             </tr>
             {% empty %}
@@ -40,4 +44,4 @@
     </table>
 </body>
 </html>
-{% endblock  %}
+{% endblock %}

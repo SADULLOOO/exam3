@@ -88,9 +88,8 @@ def car_detail(request, car_id):
 
         if request.user.is_authenticated:
 
-            text = request.POST.get('text')
-
-            stars = request.POST.get('stars')
+            text = request.POST.get('text', '').strip()
+            stars = request.POST.get('stars', '').strip()
 
             Review.objects.create(
                 user=request.user,
@@ -348,21 +347,27 @@ Allways speak by emoji
 
 @login_required
 def chat_owner(request, car_id=None):
-    if request.user.is_superuser:
-        return redirect("chat_admin_list")
-
+    """Вьюха самого чата внутри машины"""
     car = get_object_or_404(Car, id=car_id)
     
-    admin_user = User.objects.filter(is_superuser=True).first()
-    if not admin_user:
-        return render(request, "chat/chat.html", {"error": "Not admin yet."})
+    # 1. Если ты ХОЗЯИН машины, мы ищем существующий чат по этой машине, где ты owner
+    if request.user == car.owner:
+        conversation = Conversation.objects.filter(car=car, owner=request.user).first()
+        if not conversation:
+            # Если покупатель еще ничего не написал, чата физически нет в базе
+            return render(request, "chat/chat.html", {
+                "car": car, 
+                "error": "Покупатели пока не написали вам по этой машине."
+            })
+    else:
+        # 2. Если ты ПОКУПАТЕЛЬ, находим или создаем чат с владельцем машины
+        conversation, created = Conversation.objects.get_or_create(
+            car=car,
+            buyer=request.user,
+            owner=car.owner
+        )
 
-    conversation, created = Conversation.objects.get_or_create(
-        car=car,
-        buyer=request.user,
-        owner=admin_user
-    )
-
+    # 3. Обработка отправки нового сообщения (работает и для обычного POST, и для AJAX)
     if request.method == "POST":
         text = request.POST.get("message")
         if text:
@@ -377,7 +382,9 @@ def chat_owner(request, car_id=None):
             
         return redirect("chat_owner", car_id=car.id)
 
+    # 4. Достаем абсолютно ВСЕ сообщения этой переписки для ОБОИХ участников
     messages = conversation.messages.order_by("id")
+    
     return render(request, "chat/chat.html", {
         "car": car,
         "messages": messages,
@@ -387,15 +394,26 @@ def chat_owner(request, car_id=None):
 
 @login_required
 def admin_chat_view(request, chat_id=None):
-    if not request.user.is_superuser:
-        return HttpResponseForbidden("Permission gave only to admin.")
-
+    """Вьюха списка всех чатов (Входящие / Панель админа)"""
     if not chat_id:
-        all_chats = Conversation.objects.all().select_related('buyer', 'car')
+        # Если зашел Админ сайта — видит вообще все чаты
+        if request.user.is_superuser:
+            all_chats = Conversation.objects.all().select_related('buyer', 'car')
+        else:
+            # Обычный юзер видит чаты, где он либо покупатель, либо продавец тачки
+            all_chats = Conversation.objects.filter(
+                Q(owner=request.user) | Q(buyer=request.user)
+            ).select_related('buyer', 'car')
+            
         return render(request, "chat/admin_list.html", {"conversations": all_chats})
     
+    # Если перешли в конкретный чат из списка по chat_id
     conversation = get_object_or_404(Conversation, id=chat_id)
     car = conversation.car
+
+    # Проверка безопасности: чужой мимо проходящий юзер не сможет прочесть чат
+    if request.user != conversation.buyer and request.user != conversation.owner and not request.user.is_superuser:
+        return HttpResponseForbidden("У вас нет доступа к этому чату.")
 
     if request.method == "POST":
         text = request.POST.get("message")
@@ -405,11 +423,10 @@ def admin_chat_view(request, chat_id=None):
                 sender=request.user,
                 text=text
             )
-        
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return HttpResponse(status=201)
             
-        return redirect("chat_owner_admin", chat_id=conversation.id)
+        return redirect("admin_chat_view", chat_id=conversation.id)
 
     messages = conversation.messages.order_by("id")
     return render(request, "chat/chat.html", {
@@ -420,19 +437,19 @@ def admin_chat_view(request, chat_id=None):
 
 @login_required
 def add_car(request):
-    # Проверяем, имеет ли право юзер добавлять машины (он суперюзер ИЛИ у него активная лицензия)
     if not request.user.is_superuser and not (hasattr(request.user, 'license') and request.user.license.is_active):
         return HttpResponseForbidden("У вас нет активной бизнес-лицензии для добавления машин.")
 
     if request.method == "POST":
-        form = CarForm(request.POST, request.FILES)
+        form = CarForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             car = form.save(commit=False)
-            # Если поле владельца в модели Car называется 'owner' или 'user':
+            
             if hasattr(car, 'owner'):
                 car.owner = request.user
             elif hasattr(car, 'user'):
                 car.user = request.user
+                
             car.save()
 
             images = request.FILES.getlist('images')
@@ -441,7 +458,7 @@ def add_car(request):
 
             return redirect('home')
     else:
-        form = CarForm()
+        form = CarForm(user=request.user)
 
     return render(request, "cars/add_car.html", {"form": form})
 
@@ -454,13 +471,15 @@ def edit_car(request, car_id):
     if not request.user.is_superuser and not is_owner:
         return HttpResponseForbidden("Вы не можете редактировать чужую машину!")
 
-    form = CarForm(request.POST or None, request.FILES or None, instance=car)
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        return redirect("car_detail", car_id=car.id)
+    if request.method == "POST":
+        form = CarForm(request.POST, request.FILES, instance=car, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("car_detail", car_id=car.id)
+    else:
+        form = CarForm(instance=car, user=request.user)
 
     return render(request, "cars/edit_car.html", {"form": form, "car": car})
-
 
 @login_required
 def delete_car(request, car_id):
@@ -475,6 +494,7 @@ def delete_car(request, car_id):
         return redirect("home")
 
     return render(request, "cars/delete.html", {"car": car})
+
 
 @login_required
 def get_messages_json(request, conversation_id):
@@ -496,18 +516,13 @@ def get_messages_json(request, conversation_id):
         
     return JsonResponse({"messages": messages_list})
 
-
-
-
 class BrandListView(LoginRequiredMixin, generic.ListView):
     model = Brand
     template_name = 'cars/brand_list.html'  
     context_object_name = 'brands'
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return Brand.objects.all()
-        return Brand.objects.filter(user=self.request.user)
+        return Brand.objects.all()
 
 
 class BrandDetailView(LoginRequiredMixin, generic.DetailView):
@@ -516,9 +531,7 @@ class BrandDetailView(LoginRequiredMixin, generic.DetailView):
     context_object_name = 'brand'
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
-            return Brand.objects.all()
-        return Brand.objects.filter(user=self.request.user)
+        return Brand.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -533,8 +546,10 @@ class BrandCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy('brand_list')  
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        return redirect(self.get_success_url())
 
 
 class BrandUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -546,7 +561,7 @@ class BrandUpdateView(LoginRequiredMixin, generic.UpdateView):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Brand.objects.all()
-        return Brand.objects.filter(user=self.request.user)
+        return Brand.objects.filter(owner=self.request.user)
 
 
 class BrandDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -557,14 +572,13 @@ class BrandDeleteView(LoginRequiredMixin, generic.DeleteView):
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Brand.objects.all()
-        return Brand.objects.filter(user=self.request.user)
+        return Brand.objects.filter(owner=self.request.user)
 
     def form_valid(self, form):
         success_url = self.get_success_url()
         self.object.is_deleted = True
         self.object.save()
         return redirect(success_url)
-    
 
 class BrandRestoreView(LoginRequiredMixin, generic.View):
     def get(self, request, pk):

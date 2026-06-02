@@ -26,10 +26,13 @@ class Brand(models.Model):
     all_objects = models.Manager()
 
     def save(self, *args, **kwargs):
-        if not self.owner_id:
+        if self.owner_id is None:
             from django.contrib.auth import get_user_model
             User = get_user_model()
-            self.owner = User.objects.filter(is_superuser=True).first()
+            superuser = User.objects.filter(is_superuser=True).first()
+            if superuser:
+                self.owner = superuser
+                
         super().save(*args, **kwargs)
 
     def __str__(self):
