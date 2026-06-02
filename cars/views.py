@@ -418,13 +418,22 @@ def admin_chat_view(request, chat_id=None):
         "conversation": conversation
     })
 
-@staff_member_required
+@login_required
 def add_car(request):
+    # Проверяем, имеет ли право юзер добавлять машины (он суперюзер ИЛИ у него активная лицензия)
+    if not request.user.is_superuser and not (hasattr(request.user, 'license') and request.user.license.is_active):
+        return HttpResponseForbidden("У вас нет активной бизнес-лицензии для добавления машин.")
+
     if request.method == "POST":
         form = CarForm(request.POST, request.FILES)
-
         if form.is_valid():
-            car = form.save()
+            car = form.save(commit=False)
+            # Если поле владельца в модели Car называется 'owner' или 'user':
+            if hasattr(car, 'owner'):
+                car.owner = request.user
+            elif hasattr(car, 'user'):
+                car.user = request.user
+            car.save()
 
             images = request.FILES.getlist('images')
             for img in images:
@@ -434,37 +443,38 @@ def add_car(request):
     else:
         form = CarForm()
 
-    return render(request, "cars/add_car.html", {
-        "form": form
-    })
+    return render(request, "cars/add_car.html", {"form": form})
 
-@staff_member_required
+
+@login_required
+def edit_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+
+    is_owner = getattr(car, 'owner', None) == request.user or getattr(car, 'user', None) == request.user
+    if not request.user.is_superuser and not is_owner:
+        return HttpResponseForbidden("Вы не можете редактировать чужую машину!")
+
+    form = CarForm(request.POST or None, request.FILES or None, instance=car)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect("car_detail", car_id=car.id)
+
+    return render(request, "cars/edit_car.html", {"form": form, "car": car})
+
+
+@login_required
 def delete_car(request, car_id):
     car = get_object_or_404(Car, id=car_id)
+
+    is_owner = getattr(car, 'owner', None) == request.user or getattr(car, 'user', None) == request.user
+    if not request.user.is_superuser and not is_owner:
+        return HttpResponseForbidden("Вы не можете удалить чужую машину!")
 
     if request.method == "POST":
         car.delete()
         return redirect("home")
 
-    return render(request, "cars/delete.html", {
-        "car": car
-    })
-
-@staff_member_required
-def edit_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-
-    form = CarForm(request.POST or None, instance=car)
-
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        return redirect("car_detail", car_id=car.id)
-
-    return render(request, "cars/edit_car.html", {
-        "form": form,
-        "car": car
-    })
-
+    return render(request, "cars/delete.html", {"car": car})
 
 @login_required
 def get_messages_json(request, conversation_id):
