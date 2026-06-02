@@ -1,0 +1,86 @@
+{% extends 'cars/base.html' %}
+{% block main_content %}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<div style="display: flex; max-width: 1200px; margin: 30px auto; height: 600px; background: #0b111e; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-family: sans-serif;">
+    
+    <div id="map" style="width: 60%; height: 100%;"></div>
+
+    <div style="width: 40%; display: flex; flex-direction: column; background: #111827; border-left: 1px solid #1e293b;">
+        <div style="padding: 15px; background: #1f2937; color: #3b82f6; font-weight: bold; border-bottom: 1px solid #1e293b; text-align: center;">
+            💬 Чат с курьером (Заказ №{{ order.id }})
+        </div>
+        
+        <div id="chat-box" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #0f172a;">
+            </div>
+
+        <form id="chat-form" style="display: flex; padding: 12px; background: #1f2937; border-top: 1px solid #1e293b;">
+            {% csrf_token %}
+            <input type="text" id="chat-input" placeholder="Введите сообщение..." required autocomplete="off" style="flex: 1; padding: 10px; border: none; border-radius: 6px; background: #374151; color: white; outline: none;">
+            <button type="submit" style="margin-left: 10px; padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Отправить</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const orderId = "{{ order.id }}";
+    const apiUrl = `/order/${orderId}/api/`;
+
+    let map = L.map('map').setView([55.7558, 37.6173], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    let carMarker = L.marker([55.7558, 37.6173]).addTo(map).bindPopup("Машина с вашим заказом").openPopup();
+
+    async function updateTrackingData() {
+        try {
+            let response = await fetch(apiUrl);
+            if (!response.ok) return;
+            let data = await response.json();
+
+            let newPos = [data.latitude, data.longitude];
+            carMarker.setLatLng(newPos);
+            map.panTo(newPos);
+
+            const chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML = '';
+            
+            data.messages.forEach(msg => {
+                let msgDiv = document.createElement('div');
+                let isMe = msg.sender === "{{ request.user.username }}";
+                
+                msgDiv.style.alignSelf = isMe ? 'flex-end' : 'flex-start';
+                msgDiv.style.background = isMe ? '#3b82f6' : '#374151';
+                msgDiv.style.color = '#ffffff';
+                msgDiv.style.padding = '8px 12px';
+                msgDiv.style.borderRadius = '8px';
+                msgDiv.style.maxWidth = '80%';
+                msgDiv.style.wordBreak = 'break-word';
+                
+                msgDiv.innerHTML = `<small style="color: #cbd5e1; display:block; font-size: 11px; margin-bottom: 2px; font-weight:bold;">${msg.sender} [${msg.time}]</small>${msg.text}`;
+                chatBox.appendChild(msgDiv);
+            });
+            
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+        } catch (err) { console.error("Ошибка обновления:", err); }
+    }
+
+    document.getElementById('chat-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('chat-input');
+        if (!input.value.trim()) return;
+
+        let formData = new FormData();
+        formData.append('text', input.value);
+        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+        input.value = ''; 
+        await fetch(apiUrl, { method: 'POST', body: formData });
+        updateTrackingData();
+    });
+
+    updateTrackingData();
+    setInterval(updateTrackingData, 3000);
+</script>
+{% endblock %}
