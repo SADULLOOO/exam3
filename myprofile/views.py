@@ -5,7 +5,15 @@ from .models import Profile
 from .forms import ProfileForm
 from cars.models import Favorite, Review, UserActivity, Credit, Order, Brand
 from django.http import JsonResponse
-
+import uuid
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from django.contrib import messages
+from django.http import HttpResponseForbidden
+from .models import Profile, License
+from .forms import LicenseApplicationForm
+from cars.models import Brand, CarModel, Car, AIChatHistory, UserActivity
 @login_required
 def update_profile(request):
 
@@ -55,5 +63,73 @@ def profile_view(request):
     return render(request, 'profiles/profile.html', context)
 
 
+@login_required
+def request_license_view(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    
+    if hasattr(request.user, 'license') and request.user.license.is_active:
+        return redirect('profile')
 
+    if request.method == "POST":
+        form = LicenseApplicationForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            with transaction.atomic():
+                instance = form.save(commit=False)
+                instance.applied_for_license = True
+                instance.save()
+
+                unique_key = f"CARORDER-PRO-{uuid.uuid4().hex[:12].upper()}"
+                
+                license_obj, created = License.objects.get_or_create(
+                    user=request.user,
+                    defaults={
+                        'license_key': unique_key,
+                        'is_active': True, 
+                        'price_per_month': 15000.00
+                    }
+                )
+                if not created:
+                    license_obj.is_active = True
+                    license_obj.save()
+
+                default_brand = Brand.objects.create(
+                    owner=request.user,
+                    name=f"Brand of {request.user.username}"
+                )
+
+                default_model = CarModel.objects.create(
+                    brand=default_brand,
+                    name="Starter Model"
+                )
+
+                Car.objects.create(
+                    model=default_model,
+                    owner=request.user,
+                    title="My First Demo Car",
+                    price=25000.00,
+                    year=2025,
+                    mileage=0,
+                    engine="Electric",
+                    engine_volume=0.0,
+                    horsepower=300,
+                    color="Black",
+                    country="USA",
+                    transmission="automatic",
+                    fuel_type="electric",
+                    status="new",
+                    description="This is your first auto-generated car. You can update or delete it!"
+                )
+
+                AIChatHistory.objects.create(
+                    user=request.user,
+                    user_message="SYSTEM INITIALIZATION",
+                    ai_response=f"Привет, {request.user.username}! Твоя система CarOrder готова к работе. 🚀 Напиши мне, чтобы настроить продажи!"
+                )
+
+                messages.success(request, f"Поздравляем! Ваша лицензия {unique_key} успешно активирована!")
+                return redirect('license_success')
+    else:
+        form = LicenseApplicationForm(instance=profile)
+
+    return render(request, 'profiles/request_license.html', {'form': form})
 
