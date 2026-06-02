@@ -653,3 +653,15 @@ def check_delivery_access(order_id, user):
         return None, False
         
     return order, is_credit
+
+
+@login_required
+def order_tracking_view(request, order_id):
+    order, is_credit = check_delivery_access(order_id, request.user)
+    
+    if not order:
+        return render(request, 'cars/no_delivery.html', {
+            'error_message': "Курьер и геолокация недоступны, так как заказ не оплачен или не одобрен!"
+        })
+        
+    return render(request, 'cars/tracking.html', {'order': order, 'is_credit': is_credit})
