@@ -1,25 +1,8 @@
-from django.contrib.auth.signals import user_logged_in, user_logged_out
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.timezone import now
-from .models import UserActivity
+from .models import Order, Credit
 
-
-@receiver(user_logged_in)
-def login_handler(sender, request, user, **kwargs):
-
-    activity, created = UserActivity.objects.get_or_create(user=user)
-
-    activity.session_start = now()   
-    activity.save()
-
-
-@receiver(user_logged_out)
-def logout_handler(sender, request, user, **kwargs):
-
-    if not user or not user.is_authenticated:
-        return
-
-    activity, created = UserActivity.objects.get_or_create(user=user)
-
-    activity.last_seen = now()
-    activity.save()
+@receiver(post_save, sender=Order)
+def order_status_changed(sender, instance, created, **kwargs):
+    if not created and instance.status == 'paid':
+        print(f"🔥 Сигнал сработал! Заказ №{instance.id} успешно подтвержден по почте!")
