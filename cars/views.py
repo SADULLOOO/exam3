@@ -27,6 +27,7 @@ from django.http import HttpResponseRedirect
 from decimal import Decimal
 from django.core.mail import send_mail
 from django.urls import reverse
+from django.http import JsonResponse, Http404
 
 def brand_detail(request, brand_id):
 
@@ -631,3 +632,24 @@ def verify_transaction_view(request, type, action, pk):
         item.save()  
 
     return render(request, template, {'item': item})
+
+
+
+def check_delivery_access(order_id, user):
+    order = Order.objects.filter(id=order_id).first()
+    is_credit = False
+    
+    if not order:
+        order = Credit.objects.filter(id=order_id).first()
+        is_credit = True
+        
+    if not order:
+        raise Http404("Заказ не найден")
+        
+    if order.user != user and not user.is_superuser:
+        raise Http404("У вас нет доступа к этому заказу")
+        
+    if order.status not in ['paid', 'approved']:
+        return None, False
+        
+    return order, is_credit
