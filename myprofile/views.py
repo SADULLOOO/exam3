@@ -133,3 +133,7 @@ def request_license_view(request):
 
     return render(request, 'profiles/request_license.html', {'form': form})
 
+@login_required
+def license_success_view(request):
+    lic = get_object_or_404(License, user=request.user)
+    return render(request, 'profiles/license_certificate.html', {'license': lic})
