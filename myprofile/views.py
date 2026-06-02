@@ -137,3 +137,33 @@ def request_license_view(request):
 def license_success_view(request):
     lic = get_object_or_404(License, user=request.user)
     return render(request, 'profiles/license_certificate.html', {'license': lic})
+
+
+
+@login_required
+def superuser_dashboard_view(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Вы не босс платформы!")
+
+    licenses = License.objects.select_related('user').all()
+    
+    dashboard_data = []
+    for lic in licenses:
+        current_price = lic.check_and_update_price()
+        
+        activity = UserActivity.objects.filter(user=lic.user).first()
+        
+        from django.utils.timezone import now
+        if activity and activity.last_seen:
+            is_sleeping = (now() - activity.last_seen).total_seconds() > 900 
+        else:
+            is_sleeping = True
+
+        dashboard_data.append({
+            'license': lic,
+            'current_price': current_price,
+            'activity': activity,
+            'status': "💤 Спит / АФК" if is_sleeping else "🔥 Работает!",
+        })
+
+    return render(request, 'profiles/superuser_dashboard.html', {'data': dashboard_data})
