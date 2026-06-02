@@ -291,7 +291,11 @@ def ai_help(request):
         past_chats_list = list(past_chats)
 
         client = Groq(api_key=groq_api)
-        cars = Car.objects.select_related('model')
+        
+        if not request.user.is_superuser and hasattr(request.user, 'license') and request.user.license.is_active:
+            cars = Car.objects.filter(owner=request.user).select_related('model')
+        else:
+             cars = Car.objects.select_related('model')
         cars_for_ai = []
 
         for car in cars:
