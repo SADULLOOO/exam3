@@ -280,6 +280,8 @@ def about(request):
     )
 
 
+from django.db.models import Count, Q
+
 @login_required
 def ai_help(request):
     answer = ""
@@ -291,28 +293,68 @@ def ai_help(request):
 
         client = Groq(api_key=groq_api)
 
+        traders_stats = []
+        
+        traders = User.objects.annotate(
+            cars_count=Count('car', distinct=True),
+            reviews_count=Count('car__reviews', distinct=True),
+            sales_count=Count('car__order', filter=Q(car__order__status='paid'), distinct=True),
+            credits_count=Count('car__credit', filter=Q(car__credit__status='approved'), distinct=True)
+        ).filter(cars_count__gt=0) 
+
+        for trader in traders:
+            activity = UserActivity.objects.filter(user=trader).first()
+            live_seconds = activity.total_seconds if activity else 0
+            live_minutes = round(live_seconds / 60, 1)
+
+            traders_stats.append({
+                'username': trader.username,
+                'cars_in_stock': trader.cars_count,
+                'total_reviews': trader.reviews_count,
+                'live_time_minutes': live_minutes,
+                'successful_sales': trader.sales_count + trader.credits_count 
+            })
+
+        traders_stats = sorted(
+            traders_stats, 
+            key=lambda x: (x['successful_sales'], x['total_reviews'], x['live_time_minutes']), 
+            reverse=True
+        )
+
+        traders_ranking_text = ""
+        for index, t in enumerate(traders_stats, 1):
+            traders_ranking_text += f"{index}. Трейдер: {t['username']} | Успешных сделок: {t['successful_sales']} | Отзывов на авто: {t['total_reviews']} | Время онлайн: {t['live_time_minutes']} мин. | Машин в наличии: {t['cars_in_stock']}\n"
+
         if not request.user.is_superuser and hasattr(request.user, 'license') and request.user.license.is_active:
             cars = Car.objects.filter(owner=request.user).select_related('model')
         else:
-             cars = Car.objects.select_related('model')
+            cars = Car.objects.select_related('model')
+            
         cars_for_ai = []
-
         for car in cars:
             cars_for_ai.append({
                 'name': car.title,
                 'price': float(car.price),
                 'brand': car.model.brand.name,
-                'model': car.model.name
+                'model': car.model.name,
+                'owner': car.owner.username if getattr(car, 'owner', None) else (car.user.username if getattr(car, 'user', None) else "Admin")
             })
 
         system_prompt = f"""
-You are OrderCar AI assistant.
-Help users choose cars.
-Recommend ONLY from this list:
+You are OrderCar AI assistant. 
+Help users choose cars and recommend the best traders/sellers based on stats.
+
+Here is the current TRADERS RANKING (Top sellers based on sales, reviews, and active live time):
+{traders_ranking_text}
+
+Here is the available CARS LIST:
 {cars_for_ai}
-Speak friendly.
-Explain simply.
-Allways speak by emoji 
+
+Rules:
+1. Speak friendly and explain simply.
+2. Always use emojis elegantly.
+3. If a user asks "Who is the best seller/trader?" or "Who has more sales/live time?", look at the TRADERS RANKING, analyze who has more 'successful_sales', 'total_reviews', or 'live_time_minutes', and tell them dynamically.
+4. Recommend cars ONLY from the provided cars list.
 """
 
         messages_history = [{"role": "system", "content": system_prompt}]
@@ -350,24 +392,20 @@ def chat_owner(request, car_id=None):
     """Вьюха самого чата внутри машины"""
     car = get_object_or_404(Car, id=car_id)
     
-    # 1. Если ты ХОЗЯИН машины, мы ищем существующий чат по этой машине, где ты owner
     if request.user == car.owner:
         conversation = Conversation.objects.filter(car=car, owner=request.user).first()
         if not conversation:
-            # Если покупатель еще ничего не написал, чата физически нет в базе
             return render(request, "chat/chat.html", {
                 "car": car, 
                 "error": "Покупатели пока не написали вам по этой машине."
             })
     else:
-        # 2. Если ты ПОКУПАТЕЛЬ, находим или создаем чат с владельцем машины
         conversation, created = Conversation.objects.get_or_create(
             car=car,
             buyer=request.user,
             owner=car.owner
         )
 
-    # 3. Обработка отправки нового сообщения (работает и для обычного POST, и для AJAX)
     if request.method == "POST":
         text = request.POST.get("message")
         if text:
@@ -382,7 +420,6 @@ def chat_owner(request, car_id=None):
             
         return redirect("chat_owner", car_id=car.id)
 
-    # 4. Достаем абсолютно ВСЕ сообщения этой переписки для ОБОИХ участников
     messages = conversation.messages.order_by("id")
     
     return render(request, "chat/chat.html", {
@@ -396,22 +433,18 @@ def chat_owner(request, car_id=None):
 def admin_chat_view(request, chat_id=None):
     """Вьюха списка всех чатов (Входящие / Панель админа)"""
     if not chat_id:
-        # Если зашел Админ сайта — видит вообще все чаты
         if request.user.is_superuser:
             all_chats = Conversation.objects.all().select_related('buyer', 'car')
         else:
-            # Обычный юзер видит чаты, где он либо покупатель, либо продавец тачки
             all_chats = Conversation.objects.filter(
                 Q(owner=request.user) | Q(buyer=request.user)
             ).select_related('buyer', 'car')
             
         return render(request, "chat/admin_list.html", {"conversations": all_chats})
     
-    # Если перешли в конкретный чат из списка по chat_id
     conversation = get_object_or_404(Conversation, id=chat_id)
     car = conversation.car
 
-    # Проверка безопасности: чужой мимо проходящий юзер не сможет прочесть чат
     if request.user != conversation.buyer and request.user != conversation.owner and not request.user.is_superuser:
         return HttpResponseForbidden("У вас нет доступа к этому чату.")
 
