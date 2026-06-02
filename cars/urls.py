@@ -30,4 +30,5 @@ urlpatterns = [
     path('brands/<int:pk>/update/', views.BrandUpdateView.as_view(), name='brand_update'),
     path('brands/<int:pk>/delete/', views.BrandDeleteView.as_view(), name='brand_delete'),
     path('brands/<int:pk>/restore/', views.BrandRestoreView.as_view(), name='brand_restore'),
+    path('car/<int:car_id>/checkout/<str:payment_type>/', views.checkout_view, name='car_checkout'),
 ]
