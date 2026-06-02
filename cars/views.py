@@ -24,8 +24,9 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
-
-
+from decimal import Decimal
+from django.core.mail import send_mail
+from django.urls import reverse
 
 def brand_detail(request, brand_id):
 
@@ -538,35 +539,66 @@ class BrandRestoreView(LoginRequiredMixin, generic.View):
 @login_required
 def checkout_view(request, car_id, payment_type):
     car = get_object_or_404(Car, id=car_id)
-    
     months = int(request.GET.get('months', 12))
-    interest_rate = 0.12  
-    total_credit_amount = car.price * (1 + interest_rate)
+    
+    from decimal import Decimal
+    interest_rate = Decimal('0.12')
+    total_credit_amount = car.price * (Decimal('1') + interest_rate)
     monthly_payment = round(total_credit_amount / months, 2) if payment_type == 'credit' else 0
 
     if request.method == 'POST':
-        card_type = request.POST.get('card_type')
-        card_number = request.POST.get('card_number')
-        card_cvv = request.POST.get('card_cvv')
+        user_phone = request.POST.get('phone')
+        user_email = request.POST.get('email')
+        
+        if payment_type == 'buy':
+            obj = Order.objects.create(
+                user=request.user,
+                car=car,
+                status='pending'  
+            )
+            item_id = obj.id
+        else:
+            obj = Credit.objects.create(
+                user=request.user,
+                car=car,
+                amount=total_credit_amount,
+                months=months,
+                status='pending'
+            )
+            item_id = obj.id
 
-        if card_number and card_cvv:
-            if payment_type == 'buy':
-                Order.objects.create(
-                    user=request.user,
-                    car=car,
-                    status='paid',
-                    delivery_date=None 
-                )
-            elif payment_type == 'credit':
-                Credit.objects.create(
-                    user=request.user,
-                    car=car,
-                    amount=total_credit_amount,
-                    months=months,
-                    status='approved'
-                )
-            
-            return redirect('profile')
+        confirm_url = request.build_absolute_uri(
+            reverse('verify_transaction', kwargs={'type': payment_type, 'action': 'confirm', 'pk': item_id})
+        )
+        cancel_url = request.build_absolute_uri(
+            reverse('verify_transaction', kwargs={'type': payment_type, 'action': 'cancel', 'pk': item_id})
+        )
+
+        subject = f"Confirm your transaction for {car.title}"
+        message = f"""
+        Hello {request.user.username}!
+        
+        You want to {payment_type} the car {car.title} for ${car.price}.
+        Your Phone: {user_phone}
+        
+        Please confirm your action by clicking one of the links below:
+        
+        CONFIRM: {confirm_url}
+        
+        CANCEL: {cancel_url}
+        
+        Thank you for choosing CarStore!
+        """
+
+        send_mail(
+            subject,
+            message,
+            's95344349@gmail.com', 
+            [user_email],
+            fail_silently=False,
+        )
+
+        return render(request, 'cars/email_sent.html', {'email': user_email})
 
     return render(request, 'cars/checkout.html', {
         'car': car,
