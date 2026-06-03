@@ -5,4 +5,3368 @@
     "fields": {
         "owner": null,
         "name": "Mercedes",
-        "logo": 
+        "logo": "brands/Снимок_экрана_2026-05-29_124144.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 2,
+    "fields": {
+        "owner": null,
+        "name": "Toyota",
+        "logo": "brands/Снимок_экрана_2026-05-29_124130.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 3,
+    "fields": {
+        "owner": null,
+        "name": "Mazeratti",
+        "logo": "brands/Снимок_экрана_2026-05-29_124106.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 4,
+    "fields": {
+        "owner": null,
+        "name": "Mazda",
+        "logo": "brands/Снимок_экрана_2026-05-29_124118.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 5,
+    "fields": {
+        "owner": null,
+        "name": "Lexus",
+        "logo": "brands/Снимок_экрана_2026-05-29_124054.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 16,
+    "fields": {
+        "owner": 5,
+        "name": "Volkswagen",
+        "logo": "brands/Снимок_экрана_2026-05-29_124036_5lqnMYE.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 17,
+    "fields": {
+        "owner": 6,
+        "name": "Toyota",
+        "logo": "brands/Снимок_экрана_2026-05-29_152033.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 18,
+    "fields": {
+        "owner": 5,
+        "name": "Mercedes",
+        "logo": "brands/Снимок_экрана_2026-05-29_124144_6OKkNaI.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 19,
+    "fields": {
+        "owner": 5,
+        "name": "Lamborghini",
+        "logo": "brands/Снимок_экрана_2026-06-03_131922.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 20,
+    "fields": {
+        "owner": 6,
+        "name": "Ford Mustang",
+        "logo": "brands/Снимок_экрана_2026-06-03_131909.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.brand",
+    "pk": 21,
+    "fields": {
+        "owner": 6,
+        "name": "BMW",
+        "logo": "brands/Снимок_экрана_2026-05-29_124144_N7YVipm.png",
+        "is_deleted": false
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 2,
+    "fields": {
+        "brand": 1,
+        "name": "G-class"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 3,
+    "fields": {
+        "brand": 1,
+        "name": "S-class"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 4,
+    "fields": {
+        "brand": 1,
+        "name": "E-class"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 5,
+    "fields": {
+        "brand": 2,
+        "name": "Camry"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 6,
+    "fields": {
+        "brand": 2,
+        "name": "Avalon"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 7,
+    "fields": {
+        "brand": 2,
+        "name": "Supra"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 9,
+    "fields": {
+        "brand": 16,
+        "name": "Golf"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 11,
+    "fields": {
+        "brand": 19,
+        "name": "Huracan"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 12,
+    "fields": {
+        "brand": 20,
+        "name": "Ford Mustang review"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 14,
+    "fields": {
+        "brand": 21,
+        "name": "BMW 3 seriaes"
+    }
+},
+{
+    "model": "cars.carmodel",
+    "pk": 15,
+    "fields": {
+        "brand": 18,
+        "name": "E-class"
+    }
+},
+{
+    "model": "cars.car",
+    "pk": 11,
+    "fields": {
+        "model": 9,
+        "owner": 5,
+        "title": "Golf",
+        "price": "1000000.00",
+        "year": 2026,
+        "mileage": 0,
+        "engine": "v8",
+        "engine_volume": 6.3,
+        "horsepower": 1099,
+        "color": "black",
+        "country": "Germany",
+        "transmission": "automatic",
+        "fuel_type": "petrol",
+        "hybrid": false,
+        "status": "new",
+        "description": "fnwioai;3ntpe98wao e",
+        "is_available": false,
+        "created_at": "2026-06-02T22:15:50.404Z"
+    }
+},
+{
+    "model": "cars.car",
+    "pk": 14,
+    "fields": {
+        "model": 11,
+        "owner": 5,
+        "title": "Huracan",
+        "price": "1000000.00",
+        "year": 2026,
+        "mileage": 0,
+        "engine": "v8",
+        "engine_volume": 6.3,
+        "horsepower": 1099,
+        "color": "Orange",
+        "country": "Italy",
+        "transmission": "automatic",
+        "fuel_type": "petrol",
+        "hybrid": true,
+        "status": "new",
+        "description": "Sport-car very fat and moodern car!",
+        "is_available": true,
+        "created_at": "2026-06-03T08:27:03.139Z"
+    }
+},
+{
+    "model": "cars.car",
+    "pk": 15,
+    "fields": {
+        "model": 12,
+        "owner": 6,
+        "title": "Ford Mustang 2026",
+        "price": "90000.00",
+        "year": 2026,
+        "mileage": 0,
+        "engine": "v8",
+        "engine_volume": 5.0,
+        "horsepower": 1100,
+        "color": "black",
+        "country": "USA",
+        "transmission": "automatic",
+        "fuel_type": "petrol",
+        "hybrid": false,
+        "status": "new",
+        "description": "Fst-car , sport car",
+        "is_available": true,
+        "created_at": "2026-06-03T08:33:07.919Z"
+    }
+},
+{
+    "model": "cars.car",
+    "pk": 16,
+    "fields": {
+        "model": 14,
+        "owner": 6,
+        "title": "BMW 3",
+        "price": "90000.00",
+        "year": 2026,
+        "mileage": 0,
+        "engine": "v8",
+        "engine_volume": 5.0,
+        "horsepower": 1100,
+        "color": "blue-sky",
+        "country": "Germany",
+        "transmission": "automatic",
+        "fuel_type": "petrol",
+        "hybrid": false,
+        "status": "new",
+        "description": "sport-car",
+        "is_available": true,
+        "created_at": "2026-06-03T08:37:52.295Z"
+    }
+},
+{
+    "model": "cars.car",
+    "pk": 17,
+    "fields": {
+        "model": 15,
+        "owner": 5,
+        "title": "E-class",
+        "price": "100000.00",
+        "year": 2026,
+        "mileage": 0,
+        "engine": "v8",
+        "engine_volume": 5.0,
+        "horsepower": 1100,
+        "color": "blue-sky",
+        "country": "Germany",
+        "transmission": "automatic",
+        "fuel_type": "petrol",
+        "hybrid": false,
+        "status": "new",
+        "description": "classic-car",
+        "is_available": true,
+        "created_at": "2026-06-03T08:41:19.035Z"
+    }
+},
+{
+    "model": "cars.carimage",
+    "pk": 10,
+    "fields": {
+        "car": 11,
+        "image": "cars/Снимок_экрана_2026-06-03_132824.png"
+    }
+},
+{
+    "model": "cars.carimage",
+    "pk": 12,
+    "fields": {
+        "car": 14,
+        "image": "cars/Снимок_экрана_2026-06-03_131837.png"
+    }
+},
+{
+    "model": "cars.carimage",
+    "pk": 13,
+    "fields": {
+        "car": 16,
+        "image": "cars/Снимок_экрана_2026-06-03_133525.png"
+    }
+},
+{
+    "model": "cars.carimage",
+    "pk": 14,
+    "fields": {
+        "car": 15,
+        "image": "cars/Снимок_экрана_2026-06-03_131909.png"
+    }
+},
+{
+    "model": "cars.carimage",
+    "pk": 15,
+    "fields": {
+        "car": 17,
+        "image": "cars/Снимок_экрана_2026-05-30_130818_LQjloDk.png"
+    }
+},
+{
+    "model": "cars.favorite",
+    "pk": 19,
+    "fields": {
+        "user": 2,
+        "car": 11,
+        "created_at": "2026-06-02T22:17:49.295Z"
+    }
+},
+{
+    "model": "cars.favorite",
+    "pk": 20,
+    "fields": {
+        "user": 5,
+        "car": 11,
+        "created_at": "2026-06-02T23:08:17.288Z"
+    }
+},
+{
+    "model": "cars.review",
+    "pk": 15,
+    "fields": {
+        "user": 5,
+        "car": 11,
+        "text": "salom",
+        "stars": 5,
+        "created_at": "2026-06-02T23:09:41.909Z"
+    }
+},
+{
+    "model": "cars.review",
+    "pk": 16,
+    "fields": {
+        "user": 5,
+        "car": 11,
+        "text": "dwad",
+        "stars": 5,
+        "created_at": "2026-06-02T23:14:10.387Z"
+    }
+},
+{
+    "model": "cars.order",
+    "pk": 16,
+    "fields": {
+        "user": 8,
+        "car": 16,
+        "created_at": "2026-06-03T10:27:04.306Z",
+        "delivery_date": "2026-06-10T10:24:06.891Z",
+        "status": "pending",
+        "latitude": null,
+        "longitude": null
+    }
+},
+{
+    "model": "cars.order",
+    "pk": 17,
+    "fields": {
+        "user": 8,
+        "car": 11,
+        "created_at": "2026-06-03T10:41:36.240Z",
+        "delivery_date": "2026-06-10T10:41:26.029Z",
+        "status": "paid",
+        "latitude": null,
+        "longitude": null
+    }
+},
+{
+    "model": "cars.useractivity",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "last_login_time": "2026-05-29T11:04:02.763Z",
+        "last_seen": "2026-06-03T10:45:43.358Z",
+        "total_seconds": 1532
+    }
+},
+{
+    "model": "cars.useractivity",
+    "pk": 2,
+    "fields": {
+        "user": 5,
+        "last_login_time": "2026-05-29T11:08:29.831Z",
+        "last_seen": "2026-06-03T10:44:27.273Z",
+        "total_seconds": 1358
+    }
+},
+{
+    "model": "cars.useractivity",
+    "pk": 3,
+    "fields": {
+        "user": 6,
+        "last_login_time": null,
+        "last_seen": "2026-06-02T23:22:39.311Z",
+        "total_seconds": 5
+    }
+},
+{
+    "model": "cars.useractivity",
+    "pk": 4,
+    "fields": {
+        "user": 7,
+        "last_login_time": null,
+        "last_seen": null,
+        "total_seconds": 0
+    }
+},
+{
+    "model": "cars.useractivity",
+    "pk": 5,
+    "fields": {
+        "user": 8,
+        "last_login_time": null,
+        "last_seen": "2026-06-03T11:26:22.948Z",
+        "total_seconds": 152
+    }
+},
+{
+    "model": "cars.conversation",
+    "pk": 6,
+    "fields": {
+        "buyer": 5,
+        "owner": 2,
+        "car": 11
+    }
+},
+{
+    "model": "cars.conversation",
+    "pk": 7,
+    "fields": {
+        "buyer": 6,
+        "owner": 5,
+        "car": 11
+    }
+},
+{
+    "model": "cars.conversation",
+    "pk": 8,
+    "fields": {
+        "buyer": 5,
+        "owner": 6,
+        "car": 16
+    }
+},
+{
+    "model": "cars.conversation",
+    "pk": 9,
+    "fields": {
+        "buyer": 6,
+        "owner": 5,
+        "car": 17
+    }
+},
+{
+    "model": "cars.conversation",
+    "pk": 10,
+    "fields": {
+        "buyer": 2,
+        "owner": 5,
+        "car": 17
+    }
+},
+{
+    "model": "cars.conversation",
+    "pk": 11,
+    "fields": {
+        "buyer": 2,
+        "owner": 5,
+        "car": 11
+    }
+},
+{
+    "model": "cars.conversation",
+    "pk": 12,
+    "fields": {
+        "buyer": 8,
+        "owner": 2,
+        "car": 11
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 64,
+    "fields": {
+        "conversation": 6,
+        "sender": 5,
+        "text": "Hello how can i help you?",
+        "created_at": "2026-06-02T22:18:31.733Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 65,
+    "fields": {
+        "conversation": 6,
+        "sender": 2,
+        "text": "How much?",
+        "created_at": "2026-06-02T22:18:45.494Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 66,
+    "fields": {
+        "conversation": 6,
+        "sender": 5,
+        "text": "are you blind?",
+        "created_at": "2026-06-02T22:18:58.549Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 67,
+    "fields": {
+        "conversation": 6,
+        "sender": 2,
+        "text": "segwe",
+        "created_at": "2026-06-02T22:28:18.767Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 68,
+    "fields": {
+        "conversation": 6,
+        "sender": 2,
+        "text": "rwemgjqioh5ojwpe\\",
+        "created_at": "2026-06-02T22:28:54.064Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 69,
+    "fields": {
+        "conversation": 6,
+        "sender": 2,
+        "text": "fwegfwg",
+        "created_at": "2026-06-02T22:30:24.012Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 70,
+    "fields": {
+        "conversation": 7,
+        "sender": 6,
+        "text": "Hello how much?",
+        "created_at": "2026-06-02T22:35:56.427Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 71,
+    "fields": {
+        "conversation": 7,
+        "sender": 5,
+        "text": "Hi how can i help you",
+        "created_at": "2026-06-02T22:37:07.552Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 72,
+    "fields": {
+        "conversation": 7,
+        "sender": 6,
+        "text": "Hello how much?",
+        "created_at": "2026-06-02T22:37:39.145Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 73,
+    "fields": {
+        "conversation": 7,
+        "sender": 5,
+        "text": "i dont know",
+        "created_at": "2026-06-02T22:46:10.096Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 74,
+    "fields": {
+        "conversation": 8,
+        "sender": 5,
+        "text": "How much is this?",
+        "created_at": "2026-06-03T08:42:50.891Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 75,
+    "fields": {
+        "conversation": 8,
+        "sender": 6,
+        "text": "Are you blind?",
+        "created_at": "2026-06-03T08:43:30.490Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 76,
+    "fields": {
+        "conversation": 9,
+        "sender": 6,
+        "text": "Howmuch?",
+        "created_at": "2026-06-03T08:43:54.202Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 77,
+    "fields": {
+        "conversation": 9,
+        "sender": 5,
+        "text": "ARE you blind man?",
+        "created_at": "2026-06-03T08:44:31.589Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 78,
+    "fields": {
+        "conversation": 12,
+        "sender": 8,
+        "text": "Hello where are you?",
+        "created_at": "2026-06-03T10:45:35.673Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 79,
+    "fields": {
+        "conversation": 12,
+        "sender": 8,
+        "text": "kfjiawenghjq3rg vioaejsdmglk juabier",
+        "created_at": "2026-06-03T10:47:01.561Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 80,
+    "fields": {
+        "conversation": 12,
+        "sender": 8,
+        "text": "fnkawnej rgdnilva;ubgrn",
+        "created_at": "2026-06-03T10:47:02.668Z"
+    }
+},
+{
+    "model": "cars.message",
+    "pk": 81,
+    "fields": {
+        "conversation": 12,
+        "sender": 8,
+        "text": "mnaenrgoehrign\\",
+        "created_at": "2026-06-03T10:47:03.976Z"
+    }
+},
+{
+    "model": "cars.aichathistory",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "user_message": "hello how can you help me about cars?",
+        "ai_response": "👋 Hey there! I’m **OrderCar AI** – your friendly car‑shopping buddy 🚗💨  \n\nI can help you:  \n\n- ✅ Find the perfect ride from our selection  \n- 📊 Compare specs & prices  \n- 💰 Stay within your budget  \n- 🛠️ Answer quick questions about each model  \n\nJust let me know what you’re looking for (budget, style, brand, etc.) and I’ll suggest the best match from our list! 🌟🚙✨",
+        "timestamp": "2026-05-31T18:26:30.940Z"
+    }
+},
+{
+    "model": "cars.aichathistory",
+    "pk": 2,
+    "fields": {
+        "user": 2,
+        "user_message": "ok im thinking do you have a ideal choose for me ?",
+        "ai_response": "😊 Sure thing! To pick the *perfect* car for you I just need a couple of quick clues:\n\n1️⃣ **Budget** – How much are you planning to spend? (e.g., $30 k, $500 k, $1 M…)  \n2️⃣ **Style** – Do you prefer a sleek sedan, a sporty coupe, or a rugged SUV?  \n3️⃣ **Brand love** – Any favorite brands (Toyota, Mercedes) or features you can’t live without?\n\nDrop those details and I’ll match you with the best option from our list! 🚗💫✨",
+        "timestamp": "2026-05-31T18:27:21.133Z"
+    }
+},
+{
+    "model": "cars.aichathistory",
+    "pk": 3,
+    "fields": {
+        "user": 2,
+        "user_message": "what i ask you last time?",
+        "ai_response": "🤔 I don’t have a record of our earlier chat – I only see what we’ve talked about in this session.  \n\nIf you can remind me what you were looking for (budget, style, favorite brand, etc.), I’ll quickly find the ideal car for you from our list! 🚗💨✨",
+        "timestamp": "2026-05-31T18:27:41.097Z"
+    }
+},
+{
+    "model": "cars.aichathistory",
+    "pk": 4,
+    "fields": {
+        "user": 2,
+        "user_message": "kakoy wopros ya zadal tebe posledniy raz?",
+        "ai_response": "🤖 Я, к сожалению, не храню данные о ваших предыдущих сессиях, поэтому не могу вспомнить, какой вопрос вы задавали в прошлый раз.  \n\nЕсли подскажете, что именно вам сейчас интересно (бюджет, стиль, марка и т.д.), я сразу подберу подходящий автомобиль из нашего списка! 🚗✨",
+        "timestamp": "2026-05-31T18:28:26.020Z"
+    }
+},
+{
+    "model": "cars.aichathistory",
+    "pk": 5,
+    "fields": {
+        "user": 5,
+        "user_message": "SYSTEM INITIALIZATION",
+        "ai_response": "Привет, Sadullo! Твоя система CarOrder готова к работе. 🚀 Напиши мне, чтобы настроить продажи!",
+        "timestamp": "2026-06-02T21:03:17.082Z"
+    }
+},
+{
+    "model": "cars.aichathistory",
+    "pk": 6,
+    "fields": {
+        "user": 6,
+        "user_message": "SYSTEM INITIALIZATION",
+        "ai_response": "Привет, Abdurahmon! Твоя система CarOrder готова к работе. 🚀 Напиши мне, чтобы настроить продажи!",
+        "timestamp": "2026-06-02T23:16:07.652Z"
+    }
+},
+{
+    "model": "cars.aichathistory",
+    "pk": 7,
+    "fields": {
+        "user": 5,
+        "user_message": "Priwet kakoy is trader samiy luchshiy kakoe ti bi sowetowal?",
+        "ai_response": "Хорошая вопрос! 🤔 Чтобы определить лучшего торговца (треидера), давайте посмотрим на его статистику:\n\n* Sadullo:\n + Успешных сделок: 0\n + Отзывов на авто: 2\n + Время онлайн: 22.6 минут\n + Машин в наличии: 1\n* Abdurahmon:\n + Успешных сделок: 0\n + Отзывов на авто: 0\n + Время онлайн: 0.1 минут\n + Машин в наличии: 2\n\nНа данном этапе оба торговца еще не продали ни одного автомобиля (0 успешных сделок). ❌ Однако, Sadullo онлайн на более дольший период времени (22,6 минуты) и имеет пару оценок (2), тогда как Abdurahmon онлайн всего на 0,1 минуты и не получал ни одного рейтинга (0). 🤔 Поэтому, на данном этапе, я рекомендую Sadullo! 👍\n\nЕсли хотите купить машину, я могу предложить вам несколько вариантов из нашего каталога: 🚗\n\nВ нашем каталоге есть следующий автомобиль:\n* 'Golf' (Volkswagen Golf, цена: 1 000 000,0 р., принадлежит Sadullo) 🤔\n\nКакое решение вы примете? 🤔",
+        "timestamp": "2026-06-02T23:55:39.764Z"
+    }
+},
+{
+    "model": "cars.aichathistory",
+    "pk": 8,
+    "fields": {
+        "user": 5,
+        "user_message": "Priwet kakoy is trader samiy luchshiy kakoe ti bi sowetowal?",
+        "ai_response": "Хорошая вопрос! 🤔 Давайте посмотрим на текущую статистику торговцев:\n\n1. Sadullo | Успешных сделок: 0 | Отзывов на авто: 2 | Время онлайн: 22.6 мин. | Машин в наличии: 1\n2. Abdurahmon | Успешных сделок: 0 | Отзывов на авто: 0 | Время онлайн: 0.1 мин. | Машин в наличии: 2\n3. Abdurahmon | Успешных сделок: 0 | Отзывов на авто: 0 | Время онлайн: 0.1 мин. | Машин в наличии: 2\n\nАх, кажется, что-то изменилось! 💥 Abdurahmon переместился на второе место! 👍 Теперь его Время онлайн увеличилось до 0,1 + 0,1 = 0,2 минуты 😅\n\nНа данный момент Sadullo продолжает лидировать по количеству времени онлайн (22,6 минуты). Однако, мы должны учитывать, что Админ (Admin) также работает сейчас, и его Время онлайн составляет 23,4 минуты! 💯 Поэтому, на данный момент, я рекомендую как Sadullo, так и Admin. 👊\n\nЕсли хотите купить машину, я могу предложить вам несколько вариантов из нашего каталога: 🚗\n\nВ нашем каталоге есть следующий автомобиль:\n* 'Golf' (Volkswagen Golf, цена: 1 000 000,0 р., принадлежит Sadullo) 🤔\n\nКакое решение вы примете? 🤔",
+        "timestamp": "2026-06-03T00:02:49.112Z"
+    }
+},
+{
+    "model": "cars.aichathistory",
+    "pk": 9,
+    "fields": {
+        "user": 5,
+        "user_message": "ok sps",
+        "ai_response": "Хорошо! 👍 Вы выбрали автомобиль \"Golf\" (Volkswagen Golf, цена: 1 000 000,0 р., принадлежит Sadullo) 🚗\n\nПоскольку автомобиль находится в собственности Sadullo, вы можете связаться с ним для подробной информации и покупки. Sadullo - один из опытных продавцов в системе, ему уже давно больше 22.6 минут онлайн. 👊\n\nЕсли вы решите купить \"Golf\", не забудьте задать все ваши вопросы Sadullo, чтобы быть полностью обнадеженными и не допустить никаких ошибок. 🤔\n\nНажмите /help, если у вас появились какие-то дополнительные вопросы!",
+        "timestamp": "2026-06-03T00:03:38.137Z"
+    }
+},
+{
+    "model": "myprofile.profile",
+    "pk": 3,
+    "fields": {
+        "user": 2,
+        "bio": "aleykum salom mard",
+        "location": "Tajikistannn",
+        "photo": "profiles/Снимок_экрана_2025-12-31_163938.png",
+        "has_experience": false,
+        "cv_file": "",
+        "applied_for_license": false
+    }
+},
+{
+    "model": "myprofile.profile",
+    "pk": 4,
+    "fields": {
+        "user": 5,
+        "bio": "fwe",
+        "location": "fwefe",
+        "photo": "profiles/Снимок_экрана_2025-11-22_220914_Ixd2BBZ.png",
+        "has_experience": true,
+        "cv_file": "cv_uploads/Снимок_экрана_2026-05-30_131239.png",
+        "applied_for_license": true
+    }
+},
+{
+    "model": "myprofile.profile",
+    "pk": 5,
+    "fields": {
+        "user": 6,
+        "bio": null,
+        "location": null,
+        "photo": "",
+        "has_experience": true,
+        "cv_file": "cv_uploads/main.exe",
+        "applied_for_license": true
+    }
+},
+{
+    "model": "myprofile.profile",
+    "pk": 6,
+    "fields": {
+        "user": 7,
+        "bio": null,
+        "location": null,
+        "photo": "",
+        "has_experience": false,
+        "cv_file": "",
+        "applied_for_license": false
+    }
+},
+{
+    "model": "myprofile.profile",
+    "pk": 7,
+    "fields": {
+        "user": 8,
+        "bio": null,
+        "location": null,
+        "photo": "",
+        "has_experience": false,
+        "cv_file": "",
+        "applied_for_license": false
+    }
+},
+{
+    "model": "myprofile.license",
+    "pk": 1,
+    "fields": {
+        "user": 5,
+        "license_key": "CARORDER-PRO-A173A2C82E98",
+        "is_active": true,
+        "created_at": "2026-06-02T21:03:17.081Z",
+        "price_per_month": "15000.00"
+    }
+},
+{
+    "model": "myprofile.license",
+    "pk": 2,
+    "fields": {
+        "user": 6,
+        "license_key": "CARORDER-PRO-0339F2AF8178",
+        "is_active": true,
+        "created_at": "2026-06-02T23:16:07.643Z",
+        "price_per_month": "15000.00"
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$afNjL7N75BNhqwprqRebXg$Osyx1CvSNqwOxHjUsQR3hIlXjPGU396CK9j3RmtUNwA=",
+        "last_login": "2026-06-03T10:47:24.443Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-05-25T18:53:38.468Z",
+        "email": "admin@mail.com",
+        "age": null,
+        "phone": null,
+        "photo": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$EL1DpqpPk0CFWlTjvXEIsW$EdVBiy6mO1FGENG8iRVzoiw8JUVgN2WW1a45PahzB30=",
+        "last_login": "2026-06-03T10:46:23.156Z",
+        "is_superuser": false,
+        "username": "Sadullo",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-26T09:44:32.568Z",
+        "email": "s95344349@gmail.com",
+        "age": 17,
+        "phone": "+992999222112",
+        "photo": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$k3pOTvs0MrB5c9yO8c6Lt8$kLVCmfLNZxvPZ6OdabKVK6ioodOsiKJUVE8oR/OLYO4=",
+        "last_login": "2026-06-03T10:45:49.767Z",
+        "is_superuser": false,
+        "username": "Abdurahmon",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-06-02T22:35:04.899Z",
+        "email": "sadullo2311@gmail.com",
+        "age": 12,
+        "phone": "+992999222112",
+        "photo": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$mnJzYzTx2j5uIAuMqb7WGl$zjeidMPpdd0tUSqnpGD9zE5VbZXQDepEyCDy4rZqiss=",
+        "last_login": "2026-06-03T09:45:20.340Z",
+        "is_superuser": false,
+        "username": "salom",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-06-03T09:44:47.754Z",
+        "email": "salom@mail.com",
+        "age": 12,
+        "phone": "+992999222112",
+        "photo": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 8,
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$4WuapSkpViiwGGu9jCFapb$ZC37H8k1iJyw7CNqDaq9WYUqYtSISU9hF3F9kHLzopA=",
+        "last_login": "2026-06-03T11:26:35.897Z",
+        "is_superuser": false,
+        "username": "sarfaroz",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-06-03T10:25:14.514Z",
+        "email": "oinsoni16@gmail.com",
+        "age": 16,
+        "phone": "+992999222112",
+        "photo": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.emailconfirm",
+    "pk": 3,
+    "fields": {
+        "user": 5,
+        "code": "360524"
+    }
+},
+{
+    "model": "accounts.emailconfirm",
+    "pk": 4,
+    "fields": {
+        "user": 6,
+        "code": "608690"
+    }
+},
+{
+    "model": "accounts.emailconfirm",
+    "pk": 5,
+    "fields": {
+        "user": 7,
+        "code": "935440"
+    }
+},
+{
+    "model": "accounts.emailconfirm",
+    "pk": 6,
+    "fields": {
+        "user": 8,
+        "code": "195774"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2026-05-25T18:58:15.955Z",
+        "user": 2,
+        "content_type": 3,
+        "object_id": "1",
+        "object_repr": "s95344349@gmail.com --> Sadullo --> +992999222112",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2026-05-25T19:02:22.228Z",
+        "user": 2,
+        "content_type": 3,
+        "object_id": "3",
+        "object_repr": "s95344349@gmail.com --> Sadullo --> +992999222112",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2026-05-26T09:44:09.739Z",
+        "user": 2,
+        "content_type": 3,
+        "object_id": "4",
+        "object_repr": "s95344349@gmail.com --> Sadullo --> +992999222112",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2026-05-26T10:50:26.521Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "Mercedes",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2026-05-26T10:50:41.450Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "Toyota",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2026-05-26T10:50:54.472Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "3",
+        "object_repr": "Mazeratti",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2026-05-26T10:51:05.376Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "4",
+        "object_repr": "Mazda",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2026-05-26T10:51:20.729Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "5",
+        "object_repr": "Lexus",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2026-05-26T10:51:31.858Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "6",
+        "object_repr": "BYD",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2026-05-26T10:52:13.235Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "1",
+        "object_repr": "Mercedes cls",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2026-05-26T10:53:09.066Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "1",
+        "object_repr": "Mercedes benz",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2026-05-26T10:53:35.506Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "2",
+        "object_repr": "Mercedes G-class",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2026-05-26T10:53:46.513Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "3",
+        "object_repr": "Mercedes S-class",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+        "action_time": "2026-05-26T10:53:55.084Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "4",
+        "object_repr": "Mercedes E-class",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+        "action_time": "2026-05-26T10:58:45.072Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "Sport",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+        "action_time": "2026-05-26T10:59:22.887Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "1",
+        "object_repr": "Image for Sport",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+        "action_time": "2026-05-27T15:47:08.914Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "5",
+        "object_repr": "Toyota Camry",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 18,
+    "fields": {
+        "action_time": "2026-05-27T15:48:16.326Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "6",
+        "object_repr": "Toyota Avalon",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 19,
+    "fields": {
+        "action_time": "2026-05-27T15:48:36.699Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "7",
+        "object_repr": "Toyota Supra",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 20,
+    "fields": {
+        "action_time": "2026-05-27T15:52:14.615Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "Toyota-Camry2",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 21,
+    "fields": {
+        "action_time": "2026-05-27T15:52:46.715Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "Mercedes-G.class",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Title\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 22,
+    "fields": {
+        "action_time": "2026-05-27T15:54:19.233Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "2",
+        "object_repr": "Image for Toyota-Camry2",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 23,
+    "fields": {
+        "action_time": "2026-05-27T16:29:04.504Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "G-class",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Title\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 24,
+    "fields": {
+        "action_time": "2026-05-27T16:29:59.483Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "G-class",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Price\", \"Horsepower\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 25,
+    "fields": {
+        "action_time": "2026-05-27T16:34:33.629Z",
+        "user": 2,
+        "content_type": 14,
+        "object_id": "1",
+        "object_repr": "Sadullo -> G-class",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 26,
+    "fields": {
+        "action_time": "2026-05-27T16:36:57.878Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "1",
+        "object_repr": "Sadullo review",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 27,
+    "fields": {
+        "action_time": "2026-05-29T07:39:47.099Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "1",
+        "object_repr": "Image for G-class",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 28,
+    "fields": {
+        "action_time": "2026-05-29T07:41:55.632Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "6",
+        "object_repr": "BYD",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Logo\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 29,
+    "fields": {
+        "action_time": "2026-05-29T07:42:05.384Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "5",
+        "object_repr": "Lexus",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Logo\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 30,
+    "fields": {
+        "action_time": "2026-05-29T07:42:15.066Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "4",
+        "object_repr": "Mazda",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Logo\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 31,
+    "fields": {
+        "action_time": "2026-05-29T07:42:24.001Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "3",
+        "object_repr": "Mazeratti",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Logo\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 32,
+    "fields": {
+        "action_time": "2026-05-29T07:42:27.092Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "Toyota",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 33,
+    "fields": {
+        "action_time": "2026-05-29T07:42:44.633Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "Toyota",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Logo\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 34,
+    "fields": {
+        "action_time": "2026-05-29T07:42:53.302Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "Mercedes",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Logo\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 35,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "13",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 36,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "12",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 37,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "11",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 38,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "10",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 39,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "9",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 40,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "8",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 41,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "7",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 42,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "6",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 43,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "5",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 44,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "3",
+        "object_repr": "Sadullo review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 45,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "2",
+        "object_repr": "admin review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 46,
+    "fields": {
+        "action_time": "2026-05-31T18:30:12.944Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "1",
+        "object_repr": "Sadullo review",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 47,
+    "fields": {
+        "action_time": "2026-05-31T18:33:06.742Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "7",
+        "object_repr": "Credit object (7)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 48,
+    "fields": {
+        "action_time": "2026-05-31T18:33:06.742Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "6",
+        "object_repr": "Credit object (6)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 49,
+    "fields": {
+        "action_time": "2026-05-31T18:33:06.742Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "5",
+        "object_repr": "Credit object (5)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 50,
+    "fields": {
+        "action_time": "2026-05-31T18:33:06.742Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Credit object (4)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 51,
+    "fields": {
+        "action_time": "2026-05-31T18:33:06.742Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "3",
+        "object_repr": "Credit object (3)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 52,
+    "fields": {
+        "action_time": "2026-05-31T18:33:19.516Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "12",
+        "object_repr": "Order object (12)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 53,
+    "fields": {
+        "action_time": "2026-05-31T18:33:19.516Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "11",
+        "object_repr": "Order object (11)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 54,
+    "fields": {
+        "action_time": "2026-05-31T18:33:19.516Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "10",
+        "object_repr": "Order object (10)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 55,
+    "fields": {
+        "action_time": "2026-05-31T18:33:19.516Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "9",
+        "object_repr": "Order object (9)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 56,
+    "fields": {
+        "action_time": "2026-05-31T18:33:19.516Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "8",
+        "object_repr": "Order object (8)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 57,
+    "fields": {
+        "action_time": "2026-05-31T18:33:19.516Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "7",
+        "object_repr": "Order object (7)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 58,
+    "fields": {
+        "action_time": "2026-05-31T18:33:19.520Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "6",
+        "object_repr": "Order object (6)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 59,
+    "fields": {
+        "action_time": "2026-05-31T18:33:19.520Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "5",
+        "object_repr": "Order object (5)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 60,
+    "fields": {
+        "action_time": "2026-05-31T18:33:19.520Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "3",
+        "object_repr": "Order object (3)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 61,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "10",
+        "object_repr": "Order object (10)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 62,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "9",
+        "object_repr": "Order object (9)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 63,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "8",
+        "object_repr": "Order object (8)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 64,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "7",
+        "object_repr": "Order object (7)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 65,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "6",
+        "object_repr": "Order object (6)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 66,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "5",
+        "object_repr": "Order object (5)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 67,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "4",
+        "object_repr": "Order object (4)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 68,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "3",
+        "object_repr": "Order object (3)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 69,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "2",
+        "object_repr": "Order object (2)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 70,
+    "fields": {
+        "action_time": "2026-06-02T19:04:46.364Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "1",
+        "object_repr": "Order object (1)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 71,
+    "fields": {
+        "action_time": "2026-06-02T19:04:57.327Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "10",
+        "object_repr": "Credit object (10)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 72,
+    "fields": {
+        "action_time": "2026-06-02T19:04:57.327Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "9",
+        "object_repr": "Credit object (9)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 73,
+    "fields": {
+        "action_time": "2026-06-02T19:04:57.327Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "8",
+        "object_repr": "Credit object (8)",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 74,
+    "fields": {
+        "action_time": "2026-06-02T22:14:48.694Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "9",
+        "object_repr": "Volkswagen Golf",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 75,
+    "fields": {
+        "action_time": "2026-06-03T08:08:45.171Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "18",
+        "object_repr": "Mercedes",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 76,
+    "fields": {
+        "action_time": "2026-06-03T08:09:39.800Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "19",
+        "object_repr": "Lamborghini",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 77,
+    "fields": {
+        "action_time": "2026-06-03T08:10:06.688Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "20",
+        "object_repr": "Ford Mustang",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 78,
+    "fields": {
+        "action_time": "2026-06-03T08:11:00.891Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "21",
+        "object_repr": "BMW",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 79,
+    "fields": {
+        "action_time": "2026-06-03T08:21:18.701Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "19",
+        "object_repr": "Lamborghini",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Logo\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 80,
+    "fields": {
+        "action_time": "2026-06-03T08:21:32.744Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "20",
+        "object_repr": "Ford Mustang",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Logo\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 81,
+    "fields": {
+        "action_time": "2026-06-03T08:23:58.724Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "8",
+        "object_repr": "Brand of Sadullo Starter Model",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 82,
+    "fields": {
+        "action_time": "2026-06-03T08:24:14.482Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "10",
+        "object_repr": "Toyota Starter Model",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 83,
+    "fields": {
+        "action_time": "2026-06-03T08:24:14.482Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "1",
+        "object_repr": "Mercedes benz",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 84,
+    "fields": {
+        "action_time": "2026-06-03T08:24:41.292Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "11",
+        "object_repr": "Lamborghini Huracan",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 85,
+    "fields": {
+        "action_time": "2026-06-03T08:25:01.626Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "11",
+        "object_repr": "Lamborghini Huracan",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 86,
+    "fields": {
+        "action_time": "2026-06-03T08:25:39.496Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "12",
+        "object_repr": "Ford Mustang Form Mustang review",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 87,
+    "fields": {
+        "action_time": "2026-06-03T08:29:08.829Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "10",
+        "object_repr": "Image for Golf",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 88,
+    "fields": {
+        "action_time": "2026-06-03T08:31:32.929Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "12",
+        "object_repr": "Ford Mustang Ford Mustang review",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 89,
+    "fields": {
+        "action_time": "2026-06-03T08:33:07.923Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "15",
+        "object_repr": "Ford Mustang 2026",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 90,
+    "fields": {
+        "action_time": "2026-06-03T08:35:58.156Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "13",
+        "object_repr": "BMW BMW 3 seriaes",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 91,
+    "fields": {
+        "action_time": "2026-06-03T08:36:36.926Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "14",
+        "object_repr": "BMW BMW 3 seriaes",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 92,
+    "fields": {
+        "action_time": "2026-06-03T08:36:48.298Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "13",
+        "object_repr": "BMW BMW 3 seriaes",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 93,
+    "fields": {
+        "action_time": "2026-06-03T08:37:52.295Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "16",
+        "object_repr": "BMW 3",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 94,
+    "fields": {
+        "action_time": "2026-06-03T08:38:31.173Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "13",
+        "object_repr": "Image for BMW 3",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 95,
+    "fields": {
+        "action_time": "2026-06-03T08:38:50.722Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "14",
+        "object_repr": "Image for Ford Mustang 2026",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 96,
+    "fields": {
+        "action_time": "2026-06-03T08:40:22.112Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "15",
+        "object_repr": "Mercedes E-class",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 97,
+    "fields": {
+        "action_time": "2026-06-03T08:41:19.037Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "17",
+        "object_repr": "E-class",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 98,
+    "fields": {
+        "action_time": "2026-06-03T08:41:35.107Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "15",
+        "object_repr": "Image for E-class",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 99,
+    "fields": {
+        "action_time": "2026-06-03T09:34:52.344Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "22",
+        "object_repr": "smth",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+        "name": "Can add user",
+        "content_type": 3,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+        "name": "Can change user",
+        "content_type": 3,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+        "name": "Can delete user",
+        "content_type": 3,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+        "name": "Can view user",
+        "content_type": 3,
+        "codename": "view_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+        "name": "Can add email confirm",
+        "content_type": 1,
+        "codename": "add_emailconfirm"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+        "name": "Can change email confirm",
+        "content_type": 1,
+        "codename": "change_emailconfirm"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+        "name": "Can delete email confirm",
+        "content_type": 1,
+        "codename": "delete_emailconfirm"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+        "name": "Can view email confirm",
+        "content_type": 1,
+        "codename": "view_emailconfirm"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+        "name": "Can add password reset",
+        "content_type": 2,
+        "codename": "add_passwordreset"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+        "name": "Can change password reset",
+        "content_type": 2,
+        "codename": "change_passwordreset"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+        "name": "Can delete password reset",
+        "content_type": 2,
+        "codename": "delete_passwordreset"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+        "name": "Can view password reset",
+        "content_type": 2,
+        "codename": "view_passwordreset"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 4,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 4,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 4,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+        "name": "Can view log entry",
+        "content_type": 4,
+        "codename": "view_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 6,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 6,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 6,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+        "name": "Can view permission",
+        "content_type": 6,
+        "codename": "view_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 5,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 5,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 5,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+        "name": "Can view group",
+        "content_type": 5,
+        "codename": "view_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 7,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 7,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 7,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+        "name": "Can view content type",
+        "content_type": 7,
+        "codename": "view_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 8,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 8,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 8,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+        "name": "Can view session",
+        "content_type": 8,
+        "codename": "view_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+        "name": "Can add profile",
+        "content_type": 9,
+        "codename": "add_profile"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+        "name": "Can change profile",
+        "content_type": 9,
+        "codename": "change_profile"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+        "name": "Can delete profile",
+        "content_type": 9,
+        "codename": "delete_profile"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+        "name": "Can view profile",
+        "content_type": 9,
+        "codename": "view_profile"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+        "name": "Can add car model",
+        "content_type": 13,
+        "codename": "add_carmodel"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+        "name": "Can change car model",
+        "content_type": 13,
+        "codename": "change_carmodel"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+        "name": "Can delete car model",
+        "content_type": 13,
+        "codename": "delete_carmodel"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+        "name": "Can view car model",
+        "content_type": 13,
+        "codename": "view_carmodel"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+        "name": "Can add review",
+        "content_type": 16,
+        "codename": "add_review"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+        "name": "Can change review",
+        "content_type": 16,
+        "codename": "change_review"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+        "name": "Can delete review",
+        "content_type": 16,
+        "codename": "delete_review"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+        "name": "Can view review",
+        "content_type": 16,
+        "codename": "view_review"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+        "name": "Can add favorite",
+        "content_type": 14,
+        "codename": "add_favorite"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+        "name": "Can change favorite",
+        "content_type": 14,
+        "codename": "change_favorite"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+        "name": "Can delete favorite",
+        "content_type": 14,
+        "codename": "delete_favorite"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+        "name": "Can view favorite",
+        "content_type": 14,
+        "codename": "view_favorite"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 49,
+    "fields": {
+        "name": "Can add order request",
+        "content_type": 15,
+        "codename": "add_orderrequest"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 50,
+    "fields": {
+        "name": "Can change order request",
+        "content_type": 15,
+        "codename": "change_orderrequest"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 51,
+    "fields": {
+        "name": "Can delete order request",
+        "content_type": 15,
+        "codename": "delete_orderrequest"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 52,
+    "fields": {
+        "name": "Can view order request",
+        "content_type": 15,
+        "codename": "view_orderrequest"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+        "name": "Can add car image",
+        "content_type": 12,
+        "codename": "add_carimage"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+        "name": "Can change car image",
+        "content_type": 12,
+        "codename": "change_carimage"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 55,
+    "fields": {
+        "name": "Can delete car image",
+        "content_type": 12,
+        "codename": "delete_carimage"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 56,
+    "fields": {
+        "name": "Can view car image",
+        "content_type": 12,
+        "codename": "view_carimage"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 57,
+    "fields": {
+        "name": "Can add brand",
+        "content_type": 10,
+        "codename": "add_brand"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 58,
+    "fields": {
+        "name": "Can change brand",
+        "content_type": 10,
+        "codename": "change_brand"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 59,
+    "fields": {
+        "name": "Can delete brand",
+        "content_type": 10,
+        "codename": "delete_brand"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 60,
+    "fields": {
+        "name": "Can view brand",
+        "content_type": 10,
+        "codename": "view_brand"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 61,
+    "fields": {
+        "name": "Can add car",
+        "content_type": 11,
+        "codename": "add_car"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 62,
+    "fields": {
+        "name": "Can change car",
+        "content_type": 11,
+        "codename": "change_car"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 63,
+    "fields": {
+        "name": "Can delete car",
+        "content_type": 11,
+        "codename": "delete_car"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 64,
+    "fields": {
+        "name": "Can view car",
+        "content_type": 11,
+        "codename": "view_car"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 65,
+    "fields": {
+        "name": "Can add order",
+        "content_type": 18,
+        "codename": "add_order"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 66,
+    "fields": {
+        "name": "Can change order",
+        "content_type": 18,
+        "codename": "change_order"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 67,
+    "fields": {
+        "name": "Can delete order",
+        "content_type": 18,
+        "codename": "delete_order"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 68,
+    "fields": {
+        "name": "Can view order",
+        "content_type": 18,
+        "codename": "view_order"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 69,
+    "fields": {
+        "name": "Can add user activity",
+        "content_type": 19,
+        "codename": "add_useractivity"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 70,
+    "fields": {
+        "name": "Can change user activity",
+        "content_type": 19,
+        "codename": "change_useractivity"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 71,
+    "fields": {
+        "name": "Can delete user activity",
+        "content_type": 19,
+        "codename": "delete_useractivity"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 72,
+    "fields": {
+        "name": "Can view user activity",
+        "content_type": 19,
+        "codename": "view_useractivity"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 73,
+    "fields": {
+        "name": "Can add credit",
+        "content_type": 17,
+        "codename": "add_credit"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 74,
+    "fields": {
+        "name": "Can change credit",
+        "content_type": 17,
+        "codename": "change_credit"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 75,
+    "fields": {
+        "name": "Can delete credit",
+        "content_type": 17,
+        "codename": "delete_credit"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 76,
+    "fields": {
+        "name": "Can view credit",
+        "content_type": 17,
+        "codename": "view_credit"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 77,
+    "fields": {
+        "name": "Can add conversation",
+        "content_type": 20,
+        "codename": "add_conversation"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 78,
+    "fields": {
+        "name": "Can change conversation",
+        "content_type": 20,
+        "codename": "change_conversation"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 79,
+    "fields": {
+        "name": "Can delete conversation",
+        "content_type": 20,
+        "codename": "delete_conversation"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 80,
+    "fields": {
+        "name": "Can view conversation",
+        "content_type": 20,
+        "codename": "view_conversation"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 81,
+    "fields": {
+        "name": "Can add message",
+        "content_type": 21,
+        "codename": "add_message"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 82,
+    "fields": {
+        "name": "Can change message",
+        "content_type": 21,
+        "codename": "change_message"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 83,
+    "fields": {
+        "name": "Can delete message",
+        "content_type": 21,
+        "codename": "delete_message"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 84,
+    "fields": {
+        "name": "Can view message",
+        "content_type": 21,
+        "codename": "view_message"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 85,
+    "fields": {
+        "name": "Can add ai chat history",
+        "content_type": 22,
+        "codename": "add_aichathistory"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 86,
+    "fields": {
+        "name": "Can change ai chat history",
+        "content_type": 22,
+        "codename": "change_aichathistory"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 87,
+    "fields": {
+        "name": "Can delete ai chat history",
+        "content_type": 22,
+        "codename": "delete_aichathistory"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 88,
+    "fields": {
+        "name": "Can view ai chat history",
+        "content_type": 22,
+        "codename": "view_aichathistory"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 89,
+    "fields": {
+        "name": "Can add license",
+        "content_type": 23,
+        "codename": "add_license"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 90,
+    "fields": {
+        "name": "Can change license",
+        "content_type": 23,
+        "codename": "change_license"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 91,
+    "fields": {
+        "name": "Can delete license",
+        "content_type": 23,
+        "codename": "delete_license"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 92,
+    "fields": {
+        "name": "Can view license",
+        "content_type": 23,
+        "codename": "view_license"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+        "app_label": "accounts",
+        "model": "emailconfirm"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+        "app_label": "accounts",
+        "model": "passwordreset"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+        "app_label": "accounts",
+        "model": "user"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+        "app_label": "auth",
+        "model": "group"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+        "app_label": "auth",
+        "model": "permission"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+        "app_label": "sessions",
+        "model": "session"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": {
+        "app_label": "myprofile",
+        "model": "profile"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": {
+        "app_label": "cars",
+        "model": "brand"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": {
+        "app_label": "cars",
+        "model": "car"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": {
+        "app_label": "cars",
+        "model": "carimage"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 13,
+    "fields": {
+        "app_label": "cars",
+        "model": "carmodel"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 14,
+    "fields": {
+        "app_label": "cars",
+        "model": "favorite"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 15,
+    "fields": {
+        "app_label": "cars",
+        "model": "orderrequest"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 16,
+    "fields": {
+        "app_label": "cars",
+        "model": "review"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 17,
+    "fields": {
+        "app_label": "cars",
+        "model": "credit"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 18,
+    "fields": {
+        "app_label": "cars",
+        "model": "order"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 19,
+    "fields": {
+        "app_label": "cars",
+        "model": "useractivity"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 20,
+    "fields": {
+        "app_label": "cars",
+        "model": "conversation"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 21,
+    "fields": {
+        "app_label": "cars",
+        "model": "message"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 22,
+    "fields": {
+        "app_label": "cars",
+        "model": "aichathistory"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 23,
+    "fields": {
+        "app_label": "myprofile",
+        "model": "license"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "5pbzbctipxk4eum6zswjkux45s43oz5c",
+    "fields": {
+        "session_data": ".eJxVi70OwiAQgN-F2TTAQQFHE2cnZ3IcEBotTUqZjO9uTTro-v28mMe-Fd9bWv0U2ZlZdvplAemR6lcg0dLr1oYDDdcZp-dtve9ZxTldjvJvL9jK_jqI4JTRQqBQGVW2nEehRQTpUIYRjNLSEVoABOJBK5sD5QhIowEZ2PsDVc021g:1wUjk3:UnS7KxDI58q5CCJsgUUYq9YHy4huUCrBftdslh00IfU",
+        "expire_date": "2026-06-17T11:26:35.908Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "67g6220cce8dwt4mvxi5vzn27kzhvswg",
+    "fields": {
+        "session_data": ".eJxVi7EOAiEQRP-F2lxYOFi0NLG2sr4ssISLHibHURn_XUyu0EmmmXnvJSZqW55a5XWaozgJIw6_m6dw5_I9KIRnK1sd9mm4LDQ_ruutY4UWPu_kn56p5u56CzJAT7JaH8kkBykSqtFpRINswbKRMeKYTGeVSyzBIRB716vE-wNaEjbk:1wTP3G:r665xFw0oUyN-2rLaqUYZlT3-esaAJSURy7CXw4cXWA",
+        "expire_date": "2026-06-13T19:08:54.871Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "dtv64m9o8yygvpxrdieohkfl7bypjlg0",
+    "fields": {
+        "session_data": ".eJxVizEPwiAQRv8Ls2koBK46mjg7OZPj7giNFpNSJuN_F5MOOnzL-957qYBty6FVWcPM6qSMOvyyiHSX8j2Q6NnKVocdDZcF58d1vXWt4CLn3fzLM9bcWzIgSBOzJz26ySPD6GOCPmPFSkKdCNmnKHjUxoAh0NE7diBiLaj3B6o-OGI:1wSuII:F2Yet1UCZlirvrsxemOolUo7tgI4jAle4OItjLJZvRg",
+        "expire_date": "2026-06-12T10:18:22.745Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "j5csi5nb6sv6vvrd0vgis387n0bls9mc",
+    "fields": {
+        "session_data": ".eJxVi7EOAiEQRP-F2lxYOFi0NLG2sr4ssISLHibHURn_XUyu0EmmmXnvJSZqW55a5XWaozgJIw6_m6dw5_I9KIRnK1sd9mm4LDQ_ruutY4UWPu_kn56p5u56CzJAT7JaH8kkBykSqtFpRINswbKRMeKYTGeVSyzBIRB716vE-wNaEjbk:1wSrwS:7v4-a_VYDodKYLZQ4xw9UEQx87lDN_U9k1p8yH7D41M",
+        "expire_date": "2026-06-12T07:47:40.783Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "rnojnjm9d83oappxjnl03mphks9klf8x",
+    "fields": {
+        "session_data": ".eJxVizEPwiAQRv8Ls2koBK46mjg7OZPj7giNFpNSJuN_F5MOOnzL-957qYBty6FVWcPM6qSMOvyyiHSX8j2Q6NnKVocdDZcF58d1vXWt4CLn3fzLM9bcWzIgSBOzJz26ySPD6GOCPmPFSkKdCNmnKHjUxoAh0NE7diBiLaj3B6o-OGI:1wUj88:ugRiWPgzYUZyjeea68pmwB6zGRcVDX_e-dDEbOTMJJw",
+        "expire_date": "2026-06-17T10:47:24.451Z"
+    }
+}
+]
