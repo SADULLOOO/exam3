@@ -5,4 +5,4 @@ from .models import Order, Credit
 @receiver(post_save, sender=Order)
 def order_status_changed(sender, instance, created, **kwargs):
     if not created and instance.status == 'paid':
-        print(f"🔥 Сигнал сработал! Заказ №{instance.id} успешно подтвержден по почте!")
+        print(f"🔥 Signals works! Order №{instance.id} succesfull added!")
