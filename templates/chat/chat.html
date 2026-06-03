@@ -1,131 +1,213 @@
+{% extends 'cars/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Чат — {{ car.title }}</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
-        .chat-container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; height: 80vh; }
-        .chat-header { background: #0088cc; color: white; padding: 15px; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .chat-header a { color: white; text-decoration: none; font-size: 14px; background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 5px; }
-        .messages-box { flex: 1; padding: 20px; overflow-y: auto; background: #e5ddd5; display: flex; flex-direction: column; gap: 10px; }
-        
-        .msg { max-width: 75%; padding: 10px 14px; border-radius: 8px; font-size: 15px; position: relative; word-wrap: break-word; display: flex; flex-direction: column; }
-        .msg.my-msg { align-self: flex-end; background: #d9fdd3; color: #303030; border-top-right-radius: 0; }
-        .msg.other-msg { align-self: flex-start; background: #ffffff; color: #303030; border-top-left-radius: 0; }
-        
-        .msg-sender { font-size: 12px; font-weight: bold; color: #0088cc; margin-bottom: 3px; }
-        .msg.my-msg .msg-sender { color: #2e7d32; }
-        .msg-text { margin: 0; line-height: 1.4; }
-        .msg-time { font-size: 10px; color: #8696a0; align-self: flex-end; margin-top: 4px; }
-        
-        .chat-form { display: flex; padding: 10px; background: #f0f2f5; border-top: 1px solid #e0e0e0; }
-        .chat-form input { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 20px; outline: none; font-size: 15px; padding-left: 15px; }
-        .chat-form button { background: #0088cc; color: white; border: none; padding: 0 20px; margin-left: 10px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .chat-form button:hover { background: #006699; }
-        .error-msg { text-align: center; color: #cc0000; padding: 20px; font-weight: bold; background: #ffe6e6; }
-    </style>
-</head>
-<body>
 
-<div class="chat-container">
-    <div class="chat-header">
-        <span>💬 {{ car.title }}</span>
-        <a href="/chat/">← Список чатов</a>
+{% block main_content %}
+
+<div style="
+  display:flex; align-items:center; justify-content:center;
+  min-height:calc(100vh - 80px); padding:20px;
+">
+
+<div style="
+  width:100%; max-width:720px;
+  background:#0a1222;
+  border:1px solid #1e3050;
+  border-radius:20px;
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  height:82vh;
+  box-shadow:0 16px 48px rgba(0,0,0,0.5);
+">
+
+  <!-- Header -->
+  <div style="
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 22px;
+    background:linear-gradient(135deg,#0f1829,#141f38);
+    border-bottom:1px solid #1e3050;
+  ">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div style="
+        width:40px; height:40px; border-radius:50%;
+        background:linear-gradient(135deg,#e85d04,#ff7a2a);
+        display:flex; align-items:center; justify-content:center;
+        font-size:18px; flex-shrink:0;
+      ">🚗</div>
+      <div>
+        <div style="font-family:'Syne',sans-serif; font-size:16px; font-weight:800; color:#f0f4ff;">
+          {{ car.title }}
+        </div>
+        <div style="font-size:11px; color:#22c55e;">● Active chat</div>
+      </div>
     </div>
+
+    {% if request.user.is_superuser %}
+    <a href="{% url 'chat_admin_list' %}" style="
+      color:#7a93b8; font-size:12px; font-weight:600;
+      padding:7px 14px; border-radius:8px;
+      background:#131f35; border:1px solid #1e3050;
+      text-decoration:none; transition:all 0.22s;
+    "
+    onmouseover="this.style.borderColor='#e85d04'; this.style.color='#e85d04'"
+    onmouseout="this.style.borderColor='#1e3050'; this.style.color='#7a93b8'">
+      ← All Chats
+    </a>
+    {% endif %}
+  </div>
+
+  <!-- Messages -->
+  <div id="messagesBox" style="
+    flex:1; padding:20px;
+    overflow-y:auto;
+    background:#070d1a;
+    display:flex; flex-direction:column; gap:12px;
+  ">
+    {% for msg in messages %}
+
+      {% if msg.sender == request.user %}
+      <!-- My message RIGHT -->
+      <div style="display:flex; justify-content:flex-end;">
+        <div style="
+          max-width:68%;
+          background:linear-gradient(135deg,#1a3a5c,#1e4070);
+          border:1px solid #2a5090;
+          border-radius:16px 16px 4px 16px;
+          padding:12px 16px;
+        ">
+          <div style="font-size:11px; font-weight:700; color:#4a7ab8; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">You</div>
+          <p style="margin:0; font-size:14px; color:#e0eaff; line-height:1.55;">{{ msg.text }}</p>
+          <div style="font-size:10px; color:#3d5478; text-align:right; margin-top:6px;">{{ msg.created_at|date:"H:i" }}</div>
+        </div>
+      </div>
+
+      {% else %}
+      <!-- Other message LEFT -->
+      <div style="display:flex; align-items:flex-end; gap:10px;">
+        <div style="
+          width:32px; height:32px; border-radius:50%; flex-shrink:0;
+          background:linear-gradient(135deg,#e85d04,#ff7a2a);
+          display:flex; align-items:center; justify-content:center;
+          font-size:13px; font-weight:700; color:#fff;
+        ">{{ msg.sender.username|first|upper }}</div>
+
+        <div style="
+          max-width:68%;
+          background:#0f1829;
+          border:1px solid #1e3050;
+          border-radius:16px 16px 16px 4px;
+          padding:12px 16px;
+        ">
+          <div style="font-size:11px; font-weight:700; color:#e85d04; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">{{ msg.sender.username }}</div>
+          <p style="margin:0; font-size:14px; color:#d0daf0; line-height:1.55;">{{ msg.text }}</p>
+          <div style="font-size:10px; color:#3d5478; text-align:right; margin-top:6px;">{{ msg.created_at|date:"H:i" }}</div>
+        </div>
+      </div>
+      {% endif %}
+
+    {% empty %}
+      {% if not error %}
+      <div style="
+        flex:1; display:flex; flex-direction:column;
+        align-items:center; justify-content:center;
+        color:#3d5478; text-align:center; padding:40px;
+      ">
+        <div style="font-size:48px; margin-bottom:16px;">💬</div>
+        <p style="font-size:15px; margin:0;">No messages yet.<br>Start the conversation!</p>
+      </div>
+      {% endif %}
+    {% endfor %}
 
     {% if error %}
-        <div class="error-msg">{{ error }}</div>
+    <div style="
+      text-align:center; padding:20px;
+      background:rgba(239,68,68,0.1);
+      border:1px solid rgba(239,68,68,0.3);
+      border-radius:12px; color:#ef4444; font-size:14px;
+    ">{{ error }}</div>
     {% endif %}
+  </div>
 
-    <div class="messages-box" id="messagesBox">
-        {% for msg in messages %}
-            <div class="msg {% if msg.sender == request.user %}my-msg{% else %}other-msg{% endif %}">
-                <span class="msg-sender">
-                    {% if msg.sender == request.user %}Вы{% else %}{{ msg.sender.username }}{% endif %}
-                </span>
-                <p class="msg-text">{{ msg.text }}</p>
-                <span class="msg-time">{{ msg.created_at|date:"H:i" }}</span>
-            </div>
-        {% empty %}
-            {% if not error %}
-                <p style="text-align:center; color:#666;" id="emptyHint">Нет сообщений. Начните диалог первым!</p>
-            {% endif %}
-        {% endfor %}
-    </div>
+  <!-- Input -->
+  {% if not error %}
+  <form id="chatForm" method="POST" style="
+    display:flex; gap:10px; padding:14px 18px;
+    background:#0a1222; border-top:1px solid #1e3050;
+  ">
+    {% csrf_token %}
+    <input
+      type="text" id="messageInput" name="message"
+      placeholder="Write a message..."
+      autocomplete="off" required
+      style="
+        flex:1; background:#0d1728;
+        border:1px solid #1e3050; color:#f0f4ff;
+        padding:12px 16px; border-radius:12px;
+        font-size:14px; font-family:'DM Sans',sans-serif;
+        outline:none; transition:border-color 0.22s;
+      "
+      onfocus="this.style.borderColor='#e85d04'; this.style.boxShadow='0 0 0 3px rgba(232,93,4,0.12)'"
+      onblur="this.style.borderColor='#1e3050'; this.style.boxShadow='none'"
+    >
+    <button type="submit" style="
+      background:linear-gradient(135deg,#e85d04,#ff7a2a);
+      color:#fff; border:none;
+      padding:12px 24px; border-radius:12px;
+      font-size:14px; font-weight:700;
+      font-family:'DM Sans',sans-serif;
+      cursor:pointer; white-space:nowrap;
+      box-shadow:0 4px 14px rgba(232,93,4,0.3);
+      transition:all 0.22s;
+    "
+    onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 6px 20px rgba(232,93,4,0.45)'"
+    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 14px rgba(232,93,4,0.3)'">
+      Send ➤
+    </button>
+  </form>
+  {% endif %}
 
-    {% if not error %}
-    <form class="chat-form" id="chatForm" method="POST">
-        {% csrf_token %}
-        <input type="text" id="messageInput" name="message" placeholder="Напишите сообщение..." autocomplete="off" required>
-        <button type="submit">Отправить</button>
-    </form>
-    {% endif %}
+</div>
 </div>
 
 <script>
-    const messagesBox = document.getElementById('messagesBox');
-    const chatForm = document.getElementById('chatForm');
-    const messageInput = document.getElementById('messageInput');
-    const currentUserId = parseInt("{{ request.user.id }}");
+const messagesBox = document.getElementById('messagesBox');
+const chatForm = document.getElementById('chatForm');
+const messageInput = document.getElementById('messageInput');
 
-    function scrollToBottom() {
-        if (messagesBox) {
-            messagesBox.scrollTop = messagesBox.scrollHeight;
-        }
+function scrollToBottom() {
+  if (messagesBox) messagesBox.scrollTop = messagesBox.scrollHeight;
+}
+scrollToBottom();
+
+function autoRefresh() {
+  fetch(window.location.href, { headers: {'X-Requested-With':'XMLHttpRequest'} })
+  .then(r => r.text())
+  .then(html => {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const newBox = doc.getElementById('messagesBox');
+    if (newBox && messagesBox.innerHTML !== newBox.innerHTML) {
+      const atBottom = messagesBox.scrollHeight - messagesBox.clientHeight <= messagesBox.scrollTop + 80;
+      messagesBox.innerHTML = newBox.innerHTML;
+      if (atBottom) scrollToBottom();
     }
+  });
+}
 
-    scrollToBottom();
+if (!document.querySelector('[style*="ef4444"]')) {
+  setInterval(autoRefresh, 2000);
+}
 
-    function autoRefreshMessages() {
-        fetch(window.location.href, {
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        })
-        .then(response => response.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const newMessages = doc.getElementById('messagesBox').innerHTML;
-            
-            if (messagesBox.innerHTML.trim() !== newMessages.trim()) {
-                const isScrolled = messagesBox.scrollHeight - messagesBox.clientHeight <= messagesBox.scrollTop + 60;
-                messagesBox.innerHTML = newMessages;
-                
-                if (isScrolled) {
-                    scrollToBottom();
-                }
-            }
-        }).catch(err => console.log("Ошибка автообновления чата"));
-    }
-
-    if (!document.querySelector('.error-msg')) {
-        setInterval(autoRefreshMessages, 2000);
-    }
-
-    if (chatForm) {
-        chatForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const text = messageInput.value.trim();
-            if (!text) return;
-
-            const formData = new FormData(chatForm);
-            messageInput.value = ''; 
-
-            fetch(window.location.href, {
-                method: 'POST',
-                body: formData,
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            }).then(response => {
-                if (response.ok) {
-                    autoRefreshMessages();
-                } else {
-                    alert('Не удалось отправить сообщение.');
-                }
-            });
-        });
-    }
+if (chatForm) {
+  chatForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!messageInput.value.trim()) return;
+    const formData = new FormData(chatForm);
+    messageInput.value = '';
+    fetch(window.location.href, {
+      method:'POST', body:formData,
+      headers:{'X-Requested-With':'XMLHttpRequest'}
+    }).then(r => { if (r.ok) autoRefresh(); });
+  });
+}
 </script>
 
-</body>
-</html>
+{% endblock %}
