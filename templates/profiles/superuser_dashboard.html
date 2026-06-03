@@ -1,35 +1,145 @@
-<h2>Панель Управления Платформой (Superuser)</h2>
-<table border="1" cellpadding="10">
-    <thead>
+{% extends 'cars/base.html' %}
+{% block main_content %}
+
+<div class="boss-page">
+
+  <div class="boss-header">
+    <div>
+      <h1>Platform Control Panel</h1>
+      <p style="color:#7a93b8; font-size:14px; margin:0;">Superuser Dashboard</p>
+    </div>
+    <div class="boss-badge">⚡ Admin</div>
+  </div>
+
+  <div class="brand-table-wrap">
+    <table class="brand-table">
+      <thead>
         <tr>
-            <th>Пользователь</th>
-            <th>Ключ Лицензии</th>
-            <th>Текущий Тариф</th>
-            <th>Всего секунд на сайте</th>
-            <th>Статус активности</th>
-            <th>Действие</th>
+          <th>User</th>
+          <th>License Key</th>
+          <th>Current Plan</th>
+          <th>Time on Site</th>
+          <th>Activity Status</th>
+          <th>Action</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         {% for item in data %}
         <tr>
-            <td><b>{{ item.license.user.username }}</b></td>
-            <td><code>{{ item.license.license_key }}</code></td>
-            <td>${{ item.current_price }}</td>
-            <td>{{ item.activity.total_seconds }} сек</td>
-            <td>
-                {% if "Работает" in item.status %}
-                    <span style="color: green; font-weight: bold;">{{ item.status }}</span>
-                {% else %}
-                    <span style="color: gray;">{{ item.status }}</span>
-                {% endif %}
-            </td>
-            <td>
-                <a href="{% url 'toggle_license' item.license.id %}" style="background: red; color: white; padding: 5px; text-decoration: none;">
-                    {% if item.license.is_active %} Заблокировать {% else %} Активировать {% endif %}
-                </a>
-            </td>
+          <td>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="
+                width:34px; height:34px; border-radius:50%;
+                background:linear-gradient(135deg,#e85d04,#ff7a2a);
+                display:flex; align-items:center; justify-content:center;
+                font-size:13px; font-weight:700; color:#fff; flex-shrink:0;
+              ">{{ item.license.user.username|first|upper }}</div>
+              <span style="font-weight:600; color:#f0f4ff;">
+                {{ item.license.user.username }}
+              </span>
+            </div>
+          </td>
+
+          <td>
+            <code style="
+              background:#0a1222; border:1px solid #1e3050;
+              padding:4px 10px; border-radius:6px;
+              font-size:12px; color:#7a93b8;
+              letter-spacing:0.5px;
+            ">{{ item.license.license_key }}</code>
+          </td>
+
+          <td>
+            <span style="
+              font-family:'Syne',sans-serif;
+              font-size:16px; font-weight:700;
+              color:#22c55e;
+            ">${{ item.current_price }}</span>
+          </td>
+
+          <td>
+            <span style="color:#7a93b8; font-size:13px;">
+              {{ item.activity.total_seconds }} sec
+            </span>
+          </td>
+
+          <td>
+            {% if "Работает" in item.status %}
+              <span style="
+                display:inline-flex; align-items:center; gap:6px;
+                background:rgba(34,197,94,0.1);
+                border:1px solid rgba(34,197,94,0.3);
+                color:#22c55e; padding:5px 12px;
+                border-radius:20px; font-size:12px; font-weight:600;
+              ">● Active</span>
+            {% else %}
+              <span style="
+                display:inline-flex; align-items:center; gap:6px;
+                background:rgba(100,116,139,0.1);
+                border:1px solid rgba(100,116,139,0.3);
+                color:#64748b; padding:5px 12px;
+                border-radius:20px; font-size:12px; font-weight:600;
+              ">● Offline</span>
+            {% endif %}
+          </td>
+
+          <td>
+            <a href="{% url 'toggle_license' item.license.id %}" style="
+              display:inline-block;
+              padding:7px 18px;
+              border-radius:8px;
+              font-size:12px; font-weight:700;
+              font-family:'DM Sans',sans-serif;
+              text-decoration:none;
+              transition:all 0.22s;
+              {% if item.license.is_active %}
+                background:rgba(239,68,68,0.1);
+                border:1px solid rgba(239,68,68,0.35);
+                color:#ef4444;
+              {% else %}
+                background:rgba(34,197,94,0.1);
+                border:1px solid rgba(34,197,94,0.35);
+                color:#22c55e;
+              {% endif %}
+            ">
+              {% if item.license.is_active %}Block{% else %}Activate{% endif %}
+            </a>
+          </td>
         </tr>
         {% endfor %}
-    </tbody>
-</table>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<style>
+.boss-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 24px 64px;
+}
+.boss-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.boss-header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+.boss-badge {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  box-shadow: 0 4px 14px rgba(99,102,241,0.3);
+}
+</style>
+
+{% endblock %}

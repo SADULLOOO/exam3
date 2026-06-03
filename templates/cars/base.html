@@ -1,66 +1,130 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OrderCar</title>
-
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
-
 <body>
-    <header>
-        <nav>
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'search' %}">Search</a>
-                <a href="{% url 'about' %}">About Us</a>
-                <a href="{% url 'ai_help' %}">AI Assistant</a>
-                <a href="{% url 'profile' %}">Profile</a>
 
-                {% if request.user.is_superuser %}
-                    <a href="{% url 'superuser_dashboard' %}" style="color: #00e5ff; font-weight: bold; margin-left: 15px;">
-                        💼 Панель Босса (SaaS)
-                    </a>
-                {% else %}
-                    {% if request.user.license.is_active %}
-                        <a href="{% url 'license_success' %}" style="color: #2ed573; font-weight: bold; margin-left: 10px;">
-                            🪪 Моя Лицензия
-                        </a>
-                        <a href="{% url 'brand_list' %}" style="color: #ffa502; margin-left: 10px;">
-                            🗂 Мои Бренды
-                        </a>
-                        <a href="{% url 'add_car' %}" style="color: #ffa502; margin-left: 10px;">
-                            ➕ Добавить Машину
-                        </a>
-                    {% else %}
-                        <a href="{% url 'request_license' %}" style="color: #ffd700; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; background: rgba(255, 215, 0, 0.1); padding: 5px 10px; border-radius: 4px; margin-left: 15px;">
-                            🚀 Make Own CarOrder
-                        </a>
-                    {% endif %}
-                {% endif %}
-                <a href="{% url 'logout_user' %}" style="margin-left: 20px;">Logout</a>
+<div class="layout">
 
-            {% else %}
-                <p style="display: inline-block; margin-right: 10px;">You dont have an account so you can --></p>
-                <a href="{% url 'login_user' %}">Login</a>
-                <a href="{% url 'register' %}">Register</a>
-            {% endif %}
-        </nav>
-    </header>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
 
-    <main style="padding: 20px; min-height: 70px;">
-        {% block main_content %}
-        Default main..........
-        {% endblock %}
-    </main>
+    <div class="sidebar-logo">
+      🚗 <span>OrderCar</span>
+    </div>
 
-    <footer>
-        Copyright 2026......
-    </footer>
+    <nav class="sidebar-nav">
+      {% if request.user.is_authenticated %}
+
+        <a href="{% url 'home' %}" class="nav-item">
+          <span class="nav-icon">🏠</span>
+          <span>Home</span>
+        </a>
+
+        <a href="{% url 'search' %}" class="nav-item">
+          <span class="nav-icon">🔍</span>
+          <span>Search</span>
+        </a>
+
+        <a href="{% url 'about' %}" class="nav-item">
+          <span class="nav-icon">ℹ️</span>
+          <span>About Us</span>
+        </a>
+
+        <a href="{% url 'ai_help' %}" class="nav-item nav-ai">
+          <span class="nav-icon">🤖</span>
+          <span>AI Assistant</span>
+        </a>
+
+        <a href="{% url 'profile' %}" class="nav-item">
+          <span class="nav-icon">👤</span>
+          <span>Profile</span>
+        </a>
+
+        {% if request.user.is_superuser %}
+          <a href="{% url 'superuser_dashboard' %}" class="nav-item nav-boss">
+            <span class="nav-icon">💼</span>
+            <span>Boss Panel</span>
+          </a>
+        {% else %}
+          {% if request.user.license.is_active %}
+            <a href="{% url 'license_success' %}" class="nav-item nav-license">
+              <span class="nav-icon">🪪</span>
+              <span>My License</span>
+            </a>
+            <a href="{% url 'brand_list' %}" class="nav-item nav-brand">
+              <span class="nav-icon">🗂</span>
+              <span>My Brands</span>
+            </a>
+            <a href="{% url 'add_car' %}" class="nav-item nav-add">
+              <span class="nav-icon">➕</span>
+              <span>Add Car</span>
+            </a>
+          {% else %}
+            <a href="{% url 'request_license' %}" class="nav-item nav-promo">
+              <span class="nav-icon">🚀</span>
+              <span>Get License</span>
+            </a>
+          {% endif %}
+        {% endif %}
+
+        <div class="sidebar-divider"></div>
+
+        <a href="{% url 'logout_user' %}" class="nav-item nav-logout">
+          <span class="nav-icon">🚪</span>
+          <span>Logout</span>
+        </a>
+
+      {% else %}
+
+        <a href="{% url 'login_user' %}" class="nav-item nav-login">
+          <span class="nav-icon">🔑</span>
+          <span>Login</span>
+        </a>
+
+        <a href="{% url 'register' %}" class="nav-item nav-register">
+          <span class="nav-icon">📝</span>
+          <span>Register</span>
+        </a>
+
+      {% endif %}
+    </nav>
+
+<!-- User badge -->
+{% if request.user.is_authenticated %}
+<div class="sidebar-user">
+  <div class="sidebar-user-avatar">
+    {{ request.user.username|first|upper }}
+  </div>
+  <div>
+    <div class="sidebar-user-name">{{ request.user.username }}</div>
+    <div class="sidebar-user-role">
+      {% if request.user.is_superuser %}Admin{% else %}Member{% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="sidebar-footer">© 2026 OrderCar</div>
+
+
+    <div class="sidebar-footer">
+      Copyright 2026
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-area">
+    {% block main_content %}{% endblock %}
+  </main>
+
+</div>
 
 </body>
-
 </html>

@@ -1,78 +1,261 @@
-{% comment %} {% extends 'cars/base.html' %}
-
+{% extends 'cars/base.html' %}
 {% block main_content %}
-<div class="ai-wrapper">
-  <h1>OrderCar AI Assistant</h1>
-  <form>
-    <input name="prompt" placeholder="Ask AI..." value="{{ prompt }}">
-    <button>Send</button>
-  </form>
-  {% if answer %}
-    <div class="ai-answer">{{ answer }}</div>
-  {% endif %}
-</div>
-{% endblock %} {% endcomment %}
 
+<div class="ai-chat-page">
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>AI Помощник OrderCar</title>
-    <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; padding: 20px; }
-        .ai-container { max-width: 700px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); overflow: hidden; display: flex; flex-direction: column; height: 85vh; }
-        .ai-header { background: #2c3e50; color: white; padding: 18px; font-size: 20px; font-weight: bold; text-align: center; }
-        .chat-box { flex: 1; padding: 20px; overflow-y: auto; background: #f8f9fa; display: flex; flex-direction: column; gap: 12px; }
-        
-        .bubble { max-width: 75%; padding: 12px 16px; border-radius: 14px; font-size: 15px; line-height: 1.5; word-wrap: break-word; }
-        /* Вопрос пользователя (stars=100) */
-        .user-bubble { align-self: flex-end; background: #d1e7dd; color: #0f5132; border-top-right-radius: 0; }
-        /* Ответ AI (stars=200) */
-        .ai-bubble { align-self: flex-start; background: #ffffff; color: #212529; border-top-left-radius: 0; border: 1px solid #dee2e6; }
-        
-        .time { font-size: 10px; color: #6c757d; display: block; text-align: right; margin-top: 6px; }
-        
-        .ai-form { display: flex; padding: 15px; background: white; border-top: 1px solid #dee2e6; }
-        .ai-form input { flex: 1; padding: 14px; border: 1px solid #ced4da; border-radius: 8px; outline: none; font-size: 15px; }
-        .ai-form button { background: #2c3e50; color: white; border: none; padding: 0 25px; margin-left: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.2s; }
-        .ai-form button:hover { background: #1a252f; }
-    </style>
-</head>
-<body>
+  <div class="ai-chat-container">
 
-<div class="ai-container">
-    <div class="ai-header">🤖 Подбор автомобиля искусственным интеллектом</div>
+    <!-- Header -->
+    <div class="ai-chat-header">
+      <div class="ai-chat-header-icon">🤖</div>
+      <div>
+        <div class="ai-chat-header-title">OrderCar AI Assistant</div>
+        <div class="ai-chat-header-sub">Find your perfect car with AI</div>
+      </div>
+      <div class="ai-chat-header-badge">● Online</div>
+    </div>
 
-<div class="chat-box" id="aiChatBox">
-    {% for msg in ai_messages %}
-        <div class="bubble user-bubble">
-            <strong>Вы:</strong>
-            <p style="margin: 4px 0 0 0;">{{ msg.user_message }}</p>
-            <span class="time">{{ msg.timestamp|date:"H:i" }}</span>
+    <!-- Messages -->
+    <div class="ai-chat-box" id="aiChatBox">
+      {% for msg in ai_messages %}
+
+        <div class="ai-bubble-wrap ai-bubble-user">
+          <div class="ai-bubble">
+            <div class="ai-bubble-name">You</div>
+            <p>{{ msg.user_message }}</p>
+            <span class="ai-bubble-time">{{ msg.timestamp|date:"H:i" }}</span>
+          </div>
         </div>
 
-        <div class="bubble ai-bubble">
-            <strong>🤖 OrderCar AI:</strong>
-            <p style="margin: 4px 0 0 0; white-space: pre-line;">{{ msg.ai_response }}</p>
-            <span class="time">{{ msg.timestamp|date:"H:i" }}</span>
+        <div class="ai-bubble-wrap ai-bubble-bot">
+          <div class="ai-bot-avatar">🤖</div>
+          <div class="ai-bubble">
+            <div class="ai-bubble-name">OrderCar AI</div>
+            <p style="white-space: pre-line;">{{ msg.ai_response }}</p>
+            <span class="ai-bubble-time">{{ msg.timestamp|date:"H:i" }}</span>
+          </div>
         </div>
-    {% empty %}
-        <p style="text-align: center; color: #6c757d; margin-top: 20px;">Hello! Ask me, which car do you want to find, and then i`ll giave you greatone choise! 🚗✨</p>
-    {% endfor %}
-</div>
 
-    <form class="ai-form" method="POST">
-        {% csrf_token %}
-        <input type="text" name="prompt" placeholder="Например: Найди мне BMW синего цвета..." required autocomplete="off">
-        <button type="submit">Спросить</button>
+      {% empty %}
+        <div class="ai-empty">
+          <div style="font-size:48px; margin-bottom:16px;">🚗</div>
+          <p>Hello! Tell me what car you're looking for<br>and I'll find the best options for you!</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Input -->
+    <form class="ai-chat-form" method="POST">
+      {% csrf_token %}
+      <input
+        type="text"
+        name="prompt"
+        placeholder="E.g: Find me a BMW under $30,000..."
+        required
+        autocomplete="off"
+      >
+      <button type="submit">Ask AI</button>
     </form>
+
+  </div>
 </div>
+
+<style>
+.ai-chat-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  min-height: calc(100vh - 80px);
+}
+
+.ai-chat-container {
+  width: 100%;
+  max-width: 760px;
+  background: #0a1222;
+  border: 1px solid #1e3050;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 82vh;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+
+/* Header */
+.ai-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 24px;
+  background: linear-gradient(135deg, #0f1829, #141f38);
+  border-bottom: 1px solid #1e3050;
+}
+
+.ai-chat-header-icon {
+  font-size: 28px;
+  width: 46px; height: 46px;
+  background: linear-gradient(135deg, #e85d04, #ff7a2a);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.ai-chat-header-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px; font-weight: 800;
+  color: #f0f4ff;
+}
+
+.ai-chat-header-sub {
+  font-size: 12px; color: #7a93b8;
+  margin-top: 2px;
+}
+
+.ai-chat-header-badge {
+  margin-left: auto;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  color: #22c55e;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+
+/* Chat box */
+.ai-chat-box {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #070d1a;
+}
+
+.ai-chat-box::-webkit-scrollbar { width: 4px; }
+.ai-chat-box::-webkit-scrollbar-thumb { background: #1e3050; border-radius: 4px; }
+
+/* Bubble wrap */
+.ai-bubble-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.ai-bubble-user {
+  flex-direction: row-reverse;
+}
+
+.ai-bubble-bot {
+  flex-direction: row;
+}
+
+/* Bot avatar */
+.ai-bot-avatar {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, #e85d04, #ff7a2a);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+
+/* Bubble */
+.ai-bubble {
+  max-width: 70%;
+  padding: 13px 16px;
+  border-radius: 16px;
+  font-size: 14px; line-height: 1.6;
+}
+
+.ai-bubble p { margin: 4px 0 0; color: #d0daf0; }
+
+.ai-bubble-user .ai-bubble {
+  background: linear-gradient(135deg, #1a3a5c, #1e4070);
+  border: 1px solid #2a5090;
+  border-bottom-right-radius: 4px;
+}
+
+.ai-bubble-bot .ai-bubble {
+  background: #0f1829;
+  border: 1px solid #1e3050;
+  border-bottom-left-radius: 4px;
+}
+
+.ai-bubble-name {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.6px;
+  color: #3d5478; margin-bottom: 4px;
+}
+
+.ai-bubble-user .ai-bubble-name { color: #4a7ab8; }
+
+.ai-bubble-time {
+  font-size: 10px; color: #3d5478;
+  display: block; text-align: right;
+  margin-top: 6px;
+}
+
+/* Empty state */
+.ai-empty {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  color: #3d5478; font-size: 15px; line-height: 1.7;
+  padding: 40px;
+}
+
+/* Form */
+.ai-chat-form {
+  display: flex;
+  gap: 10px;
+  padding: 14px 18px;
+  background: #0a1222;
+  border-top: 1px solid #1e3050;
+}
+
+.ai-chat-form input {
+  flex: 1;
+  background: #0d1728;
+  border: 1px solid #1e3050;
+  color: #f0f4ff;
+  padding: 13px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.22s, box-shadow 0.22s;
+}
+
+.ai-chat-form input:focus {
+  border-color: #e85d04;
+  box-shadow: 0 0 0 3px rgba(232,93,4,0.12);
+}
+
+.ai-chat-form input::placeholder { color: #3d5478; }
+
+.ai-chat-form button {
+  background: linear-gradient(135deg, #e85d04, #ff7a2a);
+  color: #fff; border: none;
+  padding: 13px 26px;
+  border-radius: 12px;
+  font-size: 14px; font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer; white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(232,93,4,0.3);
+  transition: all 0.22s;
+}
+
+.ai-chat-form button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(232,93,4,0.45);
+}
+</style>
 
 <script>
-    const box = document.getElementById('aiChatBox');
-    box.scrollTop = box.scrollHeight;
+  const box = document.getElementById('aiChatBox');
+  box.scrollTop = box.scrollHeight;
 </script>
 
-</body>
-</html>
+{% endblock %}

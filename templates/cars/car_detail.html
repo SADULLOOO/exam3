@@ -98,17 +98,17 @@
       {% endfor %}
     </div>
 
-    {% if request.user.is_superuser or car.owner == request.user or car.user == request.user %}
-      <div class="car-admin-actions" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-        <a href="{% url 'edit_car' car.id %}">
-          <button style="background-color: #ff9800; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px;">Edit Car</button>
-        </a>
-        <form method="post" action="{% url 'delete_car' car.id %}" style="display: inline;">
-          {% csrf_token %}
-          <button type="submit" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Delete Car</button>
-        </form>
-      </div>
-    {% endif %}
+{% if request.user.is_superuser or car.owner == request.user or car.user == request.user %}
+  <div class="car-admin-actions">
+    <a href="{% url 'edit_car' car.id %}">
+      <button>Edit Car</button>
+    </a>
+    <form method="post" action="{% url 'delete_car' car.id %}">
+      {% csrf_token %}
+      <button type="submit">Delete Car</button>
+    </form>
+  </div>
+{% endif %}
 
   </div>
 </div>

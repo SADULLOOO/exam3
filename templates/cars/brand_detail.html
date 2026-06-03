@@ -2,12 +2,32 @@
 {% block main_content %}
 
 <div class="brand-page">
+
+  <!-- Photo + Title -->
   {% if brand.logo %}
-    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}">
+<div style=" flex-direction:column; align-items:center; margin-bottom:32px;">
+
+  {% if brand.logo %}
+    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" style="
+      width:500px; height:320px;
+      object-fit:cover;
+      border-radius:16px;
+      border:2px solid #1e3050;
+      box-shadow:0 8px 32px rgba(0,0,0,0.5);
+      transition:all 0.3s ease;
+      display:block;
+      margin-bottom:20px;
+    "
+    onmouseover="this.style.borderColor='#e85d04'; this.style.boxShadow='0 12px 40px rgba(232,93,4,0.25)'"
+    onmouseout="this.style.borderColor='#1e3050'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.5)'">
   {% endif %}
 
-  <h1>{{ brand.name }}</h1>
   
+
+</div>
+<h1 style="margin:0; text-align:center; display:block;">{{ brand.name }}</h1>
+  {% endif %}
+
   <div>
     {% for model in models %}
       <a href="{% url 'model_detail' model.id %}">
@@ -15,17 +35,65 @@
       </a>
     {% endfor %}
   </div>
+
 </div>
 
+<!-- Floating buttons bottom RIGHT -->
 {% if request.user.is_superuser or brand.owner == request.user %}
-<div style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; font-size: 14px; background: rgba(0, 0, 0, 0.7); padding: 8px 15px; border-radius: 6px;">
-    <a href="{% url 'brand_create' %}" style="color: #4caf50; margin-right: 15px; text-decoration: none; font-weight: bold;">Create</a>
-    <a href="{% url 'brand_update' brand.id %}" style="color: #ff9800; margin-right: 15px; text-decoration: none; font-weight: bold;">Edit</a>
-    <a href="{% url 'brand_delete' brand.id %}" style="color: #f44336; text-decoration: none; font-weight: bold;">Delete</a>
-</div>
-{% else %}
-<div style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; font-size: 14px; background: rgba(0, 0, 0, 0.7); padding: 8px 15px; border-radius: 6px;">
-    <a href="{% url 'brand_create' %}" style="color: #4caf50; text-decoration: none; font-weight: bold;">Create New Brand</a>
+<div style="
+  position:fixed; bottom:28px; right:28px;
+  display:flex; gap:10px; z-index:999;
+">
+  <a href="{% url 'brand_create' %}" style="
+    padding:8px 16px; border-radius:9px;
+    font-size:12px; font-weight:700;
+    font-family:'DM Sans',sans-serif;
+    text-decoration:none;
+    background:rgba(34,197,94,0.1);
+    border:1px solid rgba(34,197,94,0.35);
+    color:#22c55e;
+    backdrop-filter:blur(8px);
+    transition:all 0.22s;
+    box-shadow:0 4px 14px rgba(0,0,0,0.3);
+  "
+  onmouseover="this.style.background='rgba(34,197,94,0.2)'; this.style.transform='translateY(-2px)'"
+  onmouseout="this.style.background='rgba(34,197,94,0.1)'; this.style.transform='translateY(0)'">
+    + New
+  </a>
+
+  <a href="{% url 'brand_update' brand.id %}" style="
+    padding:8px 16px; border-radius:9px;
+    font-size:12px; font-weight:700;
+    font-family:'DM Sans',sans-serif;
+    text-decoration:none;
+    background:rgba(245,158,11,0.1);
+    border:1px solid rgba(245,158,11,0.35);
+    color:#f59e0b;
+    backdrop-filter:blur(8px);
+    transition:all 0.22s;
+    box-shadow:0 4px 14px rgba(0,0,0,0.3);
+  "
+  onmouseover="this.style.background='rgba(245,158,11,0.2)'; this.style.transform='translateY(-2px)'"
+  onmouseout="this.style.background='rgba(245,158,11,0.1)'; this.style.transform='translateY(0)'">
+    Edit
+  </a>
+
+  <a href="{% url 'brand_delete' brand.id %}" style="
+    padding:8px 16px; border-radius:9px;
+    font-size:12px; font-weight:700;
+    font-family:'DM Sans',sans-serif;
+    text-decoration:none;
+    background:rgba(239,68,68,0.1);
+    border:1px solid rgba(239,68,68,0.35);
+    color:#ef4444;
+    backdrop-filter:blur(8px);
+    transition:all 0.22s;
+    box-shadow:0 4px 14px rgba(0,0,0,0.3);
+  "
+  onmouseover="this.style.background='rgba(239,68,68,0.2)'; this.style.transform='translateY(-2px)'"
+  onmouseout="this.style.background='rgba(239,68,68,0.1)'; this.style.transform='translateY(0)'">
+    Delete
+  </a>
 </div>
 {% endif %}
 
