@@ -127,6 +127,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -139,3 +140,5 @@ EMAIL_HOST_USER = 's95344349@gmail.com'
 EMAIL_HOST_PASSWORD = 'zntwtzrvvqaujczh' 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 AUTH_USER_MODEL = 'accounts.User'
+
+ALLOWED_HOSTS = ['*']
