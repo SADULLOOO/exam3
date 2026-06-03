@@ -654,7 +654,6 @@ def checkout_view(request, car_id, payment_type):
     car = get_object_or_404(Car, id=car_id)
     months = int(request.GET.get('months', 12))
     
-    from decimal import Decimal
     interest_rate = Decimal('0.12')
     total_credit_amount = car.price * (Decimal('1') + interest_rate)
     monthly_payment = round(total_credit_amount / months, 2) if payment_type == 'credit' else 0
@@ -664,54 +663,42 @@ def checkout_view(request, car_id, payment_type):
         user_email = request.POST.get('email')
         
         if payment_type == 'buy':
-            obj = Order.objects.create(
+            Order.objects.create(
                 user=request.user,
                 car=car,
-                status='pending'  
+                status='paid'
             )
-            item_id = obj.id
         else:
-            obj = Credit.objects.create(
+            Credit.objects.create(
                 user=request.user,
                 car=car,
                 amount=total_credit_amount,
                 months=months,
-                status='pending'
+                status='approved'
             )
-            item_id = obj.id
 
-        confirm_url = request.build_absolute_uri(
-            reverse('verify_transaction', kwargs={'type': payment_type, 'action': 'confirm', 'pk': item_id})
-        )
-        cancel_url = request.build_absolute_uri(
-            reverse('verify_transaction', kwargs={'type': payment_type, 'action': 'cancel', 'pk': item_id})
-        )
-
-        subject = f"Confirm your transaction for {car.title}"
+        subject = f"Congratulations on your transaction for {car.title}!"
         message = f"""
         Hello {request.user.username}!
         
-        You want to {payment_type} the car {car.title} for ${car.price}.
-        Your Phone: {user_phone}
-        
-        Please confirm your action by clicking one of the links below:
-        
-        CONFIRM: {confirm_url}
-        
-        CANCEL: {cancel_url}
+        Your transaction to {payment_type} the car {car.title} for ${car.price} has been successfully processed.
+        Your contact phone number: {user_phone}
         
         Thank you for choosing CarStore!
         """
 
-        send_mail(
-            subject,
-            message,
-            's95344349@gmail.com', 
-            [user_email],
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                subject,
+                message,
+                's95344349@gmail.com', 
+                [user_email],
+                fail_silently=True,
+            )
+        except Exception:
+            pass 
 
-        return render(request, 'cars/email_sent.html', {'email': user_email})
+        return render(request, 'cars/email_sent.html', {'email': user_email, 'success': True})
 
     return render(request, 'cars/checkout.html', {
         'car': car,

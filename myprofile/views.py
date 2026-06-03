@@ -123,10 +123,10 @@ def request_license_view(request):
                 AIChatHistory.objects.create(
                     user=request.user,
                     user_message="SYSTEM INITIALIZATION",
-                    ai_response=f"Привет, {request.user.username}! Твоя система CarOrder готова к работе. 🚀 Напиши мне, чтобы настроить продажи!"
+                    ai_response=f"Привет, {request.user.username}! Your system CarOrde ready for working. 🚀 Напиши мне, чтобы настроить продажи!"
                 )
 
-                messages.success(request, f"Поздравляем! Ваша лицензия {unique_key} успешно активирована!")
+                messages.success(request, f"Congratulations! Your licence {unique_key} actived successfuly!")
                 return redirect('license_success')
     else:
         form = LicenseApplicationForm(instance=profile)
@@ -143,7 +143,7 @@ def license_success_view(request):
 @login_required
 def superuser_dashboard_view(request):
     if not request.user.is_superuser:
-        return HttpResponseForbidden("Вы не босс платформы!")
+        return HttpResponseForbidden("You are not base owner!")
 
     licenses = License.objects.select_related('user').all()
     
@@ -163,7 +163,7 @@ def superuser_dashboard_view(request):
             'license': lic,
             'current_price': current_price,
             'activity': activity,
-            'status': "💤 Спит / АФК" if is_sleeping else "🔥 Работает!",
+            'status': "💤 offline" if is_sleeping else "🔥 Working!",
         })
 
     return render(request, 'profiles/superuser_dashboard.html', {'data': dashboard_data})
@@ -171,7 +171,6 @@ def superuser_dashboard_view(request):
 
 @login_required
 def toggle_license_status(request, license_id):
-    """Кнопка Kill-Switch: Босс может в любое время отключить лицензию"""
     if not request.user.is_superuser:
         return HttpResponseForbidden()
         
