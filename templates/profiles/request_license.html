@@ -1,9 +1,154 @@
-<h2>Создай свой собственный CarOrder 🚀</h2>
-<p>Стоимость обслуживания: минимум $15,000 - $20,000 в месяц. Спустя 6 месяцев цена увеличивается.</p>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" style="background: linear-gradient(to right, #ff416c, #ff4b2b); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-        Получить Лицензию и Создать Движок!
-    </button>
-</form>
+{% extends 'cars/base.html' %}
+{% block main_content %}
+
+<div style="max-width:680px; margin:48px auto; padding:0 24px;">
+
+  <!-- Header -->
+  <div style="
+    background:linear-gradient(135deg,#0f1829,#141f38);
+    border:1px solid #1e3050;
+    border-radius:20px;
+    padding:36px 40px;
+    margin-bottom:24px;
+    position:relative; overflow:hidden;
+  ">
+    <div style="
+      position:absolute; top:-60px; right:-60px;
+      width:220px; height:220px;
+      background:radial-gradient(circle,rgba(232,93,4,0.1),transparent 70%);
+    "></div>
+
+    <div style="font-size:40px; margin-bottom:16px;">🚀</div>
+    <h1 style="
+      font-family:'Syne',sans-serif; font-size:28px;
+      font-weight:800; color:#f0f4ff; margin-bottom:12px;
+    ">Launch Your Own CarOrder</h1>
+    <p style="color:#7a93b8; font-size:15px; line-height:1.7; margin:0;">
+      Start your own car marketplace powered by OrderCar platform.
+      Service fee starts at <strong style="color:#22c55e;">$15,000 – $20,000/month</strong>.
+      After 6 months pricing scales with your traffic.
+    </p>
+  </div>
+
+  <!-- Pricing cards -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
+    <div style="
+      background:#0f1829; border:1px solid #1e3050;
+      border-radius:14px; padding:20px;
+    ">
+      <div style="font-size:22px; margin-bottom:8px;">💎</div>
+      <div style="font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:#3d5478; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:6px;">Starter</div>
+      <div style="font-family:'Syne',sans-serif; font-size:24px; font-weight:800; color:#f0f4ff;">$15,000</div>
+      <div style="font-size:12px; color:#7a93b8; margin-top:4px;">/month · first 6 months</div>
+    </div>
+    <div style="
+      background:#0f1829; border:1px solid rgba(232,93,4,0.3);
+      border-radius:14px; padding:20px;
+      box-shadow:0 0 20px rgba(232,93,4,0.08);
+    ">
+      <div style="font-size:22px; margin-bottom:8px;">🔥</div>
+      <div style="font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:#e85d04; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:6px;">Growth</div>
+      <div style="font-family:'Syne',sans-serif; font-size:24px; font-weight:800; color:#f0f4ff;">$20,000+</div>
+      <div style="font-size:12px; color:#7a93b8; margin-top:4px;">/month · after 6 months</div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div style="
+    background:#0f1829;
+    border:1px solid #1e3050;
+    border-radius:20px;
+    padding:36px 40px;
+    box-shadow:0 8px 36px rgba(0,0,0,0.35);
+  ">
+    <h2 style="
+      font-family:'Syne',sans-serif; font-size:18px;
+      font-weight:700; color:#f0f4ff; margin-bottom:24px;
+      padding-bottom:14px; border-bottom:1px solid #1e3050;
+    ">Application Form</h2>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <style>
+        .req-form p {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 6px !important;
+          margin-bottom: 18px !important;
+          background: none !important;
+          border: none !important;
+          padding: 0 !important;
+        }
+        .req-form p label {
+          font-size: 11px !important;
+          font-weight: 700 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.7px !important;
+          color: #7a93b8 !important;
+        }
+        .req-form p input[type="text"],
+        .req-form p input[type="email"],
+        .req-form p textarea,
+        .req-form p select {
+          width: 100% !important;
+          background: #0d1728 !important;
+          border: 1px solid #1e3050 !important;
+          color: #f0f4ff !important;
+          padding: 11px 14px !important;
+          border-radius: 9px !important;
+          font-size: 14px !important;
+          font-family: 'DM Sans', sans-serif !important;
+          outline: none !important;
+          box-sizing: border-box !important;
+          transition: border-color 0.2s, box-shadow 0.2s !important;
+        }
+        .req-form p input:focus,
+        .req-form p textarea:focus {
+          border-color: #e85d04 !important;
+          box-shadow: 0 0 0 3px rgba(232,93,4,0.12) !important;
+        }
+        .req-form p input[type="checkbox"] {
+          width: 18px !important;
+          height: 18px !important;
+          accent-color: #e85d04 !important;
+          cursor: pointer !important;
+        }
+        .req-form p input[type="file"] {
+          background: #0d1728 !important;
+          border: 1px dashed #1e3050 !important;
+          color: #7a93b8 !important;
+          padding: 12px 14px !important;
+          border-radius: 9px !important;
+          cursor: pointer !important;
+          font-size: 13px !important;
+          font-family: 'DM Sans', sans-serif !important;
+        }
+      </style>
+
+      <div class="req-form">
+        {{ form.as_p }}
+      </div>
+
+      <button type="submit" style="
+        width:100%;
+        background:linear-gradient(135deg,#e85d04,#ff7a2a);
+        color:#fff; border:none;
+        padding:14px; border-radius:12px;
+        font-size:16px; font-weight:800;
+        font-family:'Syne',sans-serif;
+        cursor:pointer; margin-top:8px;
+        box-shadow:0 4px 18px rgba(232,93,4,0.35);
+        letter-spacing:0.5px;
+        transition:all 0.22s;
+      "
+      onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 28px rgba(232,93,4,0.5)'"
+      onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 18px rgba(232,93,4,0.35)'">
+        🚀 Get License & Launch
+      </button>
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}
