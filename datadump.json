@@ -1,0 +1,8 @@
+[
+{
+    "model": "cars.brand",
+    "pk": 1,
+    "fields": {
+        "owner": null,
+        "name": "Mercedes",
+        "logo": 
