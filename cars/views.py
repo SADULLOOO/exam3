@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Brand, CarModel, Car, CarImage, Favorite, Review, Order, Credit, UserActivity, Message, Conversation, AIChatHistory
 from .filters import CarFilter
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.contrib.auth.decorators import login_required
 from django.utils.timezone import now
 from django.http import JsonResponse
@@ -280,7 +280,7 @@ def about(request):
     )
 
 
-from django.db.models import Count, Q
+
 
 @login_required
 def ai_help(request):
@@ -291,39 +291,59 @@ def ai_help(request):
         past_chats = AIChatHistory.objects.filter(user=request.user).order_by('timestamp')[:10]
         past_chats_list = list(past_chats)
 
+
         client = Groq(api_key=groq_api)
+
 
         traders_stats = []
         
-        traders = User.objects.annotate(
+        all_users = User.objects.annotate(
             cars_count=Count('car', distinct=True),
             reviews_count=Count('car__reviews', distinct=True),
             sales_count=Count('car__order', filter=Q(car__order__status='paid'), distinct=True),
             credits_count=Count('car__credit', filter=Q(car__credit__status='approved'), distinct=True)
-        ).filter(cars_count__gt=0) 
+        )
 
-        for trader in traders:
-            activity = UserActivity.objects.filter(user=trader).first()
+        for member in all_users:
+            activity = UserActivity.objects.filter(user=member).first()
             live_seconds = activity.total_seconds if activity else 0
             live_minutes = round(live_seconds / 60, 1)
 
-            traders_stats.append({
-                'username': trader.username,
-                'cars_in_stock': trader.cars_count,
-                'total_reviews': trader.reviews_count,
-                'live_time_minutes': live_minutes,
-                'successful_sales': trader.sales_count + trader.credits_count 
-            })
+            total_sales = member.sales_count + member.credits_count
+
+            display_name = f"{member.username} (Admin)" if member.is_superuser else member.username
+
+            if member.cars_count > 0 or total_sales > 0 or member.reviews_count > 0 or live_minutes > 0:
+                traders_stats.append({
+                    'username': display_name,
+                    'cars_in_stock': member.cars_count,
+                    'total_reviews': member.reviews_count,
+                    'live_time_minutes': live_minutes,
+                    'successful_sales': total_sales
+                })
+
+        admin_user_stats = next((item for item in traders_stats if "Admin" in item['username']), None)
+        if admin_user_stats:
+            null_cars = Car.objects.filter(owner__isnull=True)  
+            admin_user_stats['cars_in_stock'] += null_cars.count()
+            
+            for n_car in null_cars:
+                if hasattr(n_car, 'reviews'):
+                    admin_user_stats['total_reviews'] += n_car.reviews.count()
+                if hasattr(n_car, 'order_set'):
+                    admin_user_stats['successful_sales'] += n_car.order_set.filter(status='paid').count()
+                if hasattr(n_car, 'credit_set'):
+                    admin_user_stats['successful_sales'] += n_car.credit_set.filter(status='approved').count()
 
         traders_stats = sorted(
             traders_stats, 
-            key=lambda x: (x['successful_sales'], x['total_reviews'], x['live_time_minutes']), 
+            key=lambda x: (x['successful_sales'], x['total_reviews'], x['live_time_minutes'], x['cars_in_stock']), 
             reverse=True
         )
 
         traders_ranking_text = ""
         for index, t in enumerate(traders_stats, 1):
-            traders_ranking_text += f"{index}. Трейдер: {t['username']} | Успешных сделок: {t['successful_sales']} | Отзывов на авто: {t['total_reviews']} | Время онлайн: {t['live_time_minutes']} мин. | Машин в наличии: {t['cars_in_stock']}\n"
+            traders_ranking_text += f"{index}. {t['username']} | Успешных сделок: {t['successful_sales']} | Отзывов на авто: {t['total_reviews']} | Время онлайн: {t['live_time_minutes']} мин. | Машин в наличии: {t['cars_in_stock']}\n"
 
         if not request.user.is_superuser and hasattr(request.user, 'license') and request.user.license.is_active:
             cars = Car.objects.filter(owner=request.user).select_related('model')
@@ -335,16 +355,16 @@ def ai_help(request):
             cars_for_ai.append({
                 'name': car.title,
                 'price': float(car.price),
-                'brand': car.model.brand.name,
+                'brand': car.model.brand.name if hasattr(car.model, 'brand') else "Unknown",
                 'model': car.model.name,
-                'owner': car.owner.username if getattr(car, 'owner', None) else (car.user.username if getattr(car, 'user', None) else "Admin")
+                'owner': car.owner.username if getattr(car, 'owner', None) else "Admin"
             })
 
         system_prompt = f"""
 You are OrderCar AI assistant. 
 Help users choose cars and recommend the best traders/sellers based on stats.
 
-Here is the current TRADERS RANKING (Top sellers based on sales, reviews, and active live time):
+Here is the current GLOBAL TRADERS & ADMIN RANKING (Dynamically calculated):
 {traders_ranking_text}
 
 Here is the available CARS LIST:
@@ -353,7 +373,7 @@ Here is the available CARS LIST:
 Rules:
 1. Speak friendly and explain simply.
 2. Always use emojis elegantly.
-3. If a user asks "Who is the best seller/trader?" or "Who has more sales/live time?", look at the TRADERS RANKING, analyze who has more 'successful_sales', 'total_reviews', or 'live_time_minutes', and tell them dynamically.
+3. If a user asks "Who is the best seller/trader?" or "Who has more sales?", look at the GLOBAL RANKING, analyze the stats (including Admin if he is active), and answer dynamically.
 4. Recommend cars ONLY from the provided cars list.
 """
 
@@ -364,17 +384,20 @@ Rules:
 
         messages_history.append({"role": "user", "content": prompt})
 
-        response = client.chat.completions.create(
-            model="openai/gpt-oss-120b",
-            messages=messages_history
-        )
-        answer = response.choices[0].message.content
+        try:
+            response = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=messages_history
+            )
+            answer = response.choices[0].message.content
 
-        AIChatHistory.objects.create(
-            user=request.user,
-            user_message=prompt,
-            ai_response=answer
-        )
+            AIChatHistory.objects.create(
+                user=request.user,
+                user_message=prompt,
+                ai_response=answer
+            )
+        except Exception as e:
+            answer = "⚠️ Извините, наш ИИ-помощник сейчас обновляет базу данных или перегружен. Пожалуйста, отправьте вопрос еще раз через пару секунд!"
 
     ai_messages = AIChatHistory.objects.filter(user=request.user).order_by('timestamp')
 
@@ -383,7 +406,8 @@ Rules:
         'cars/ai_help.html',
         {
             'ai_messages': ai_messages,
-            'prompt': prompt
+            'prompt': prompt,
+            'answer': answer
         }
     )
 
