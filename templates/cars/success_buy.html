@@ -1,9 +1,9 @@
 {% extends 'cars/base.html' %}
 {% block main_content %}
 <div style="max-width: 600px; margin: 50px auto; padding: 40px; background-color: #0b111e; border-radius: 12px; color: #ffffff; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-top: 5px solid #10b981;">
-    <h2 style="color: #10b981; margin-bottom: 20px;">🎉 Purchase Confirmed!</h2>
+    <h2 style="color: #10b981; margin-bottom: 20px;">🎉 Congratulations on Your Purchase!</h2>
     <p style="font-size: 16px; color: #a0aec0;">
-        Thank you! Your payment for <b>{{ item.car.title }}</b> has been successfully verified via E-mail.
+        Success! You have purchased <b>{{ item.car.title }}</b>. All the details and seller's contact information have been sent directly to your E-mail.
     </p>
     <div style="margin: 25px 0; background: #1e293b; padding: 15px; border-radius: 6px; text-align: left;">
         <p style="margin: 5px 0;"><b>Order ID:</b> #{{ item.id }}</p>
