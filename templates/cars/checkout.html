@@ -3,7 +3,7 @@
 
 <div style="max-width: 600px; margin: 40px auto; padding: 30px; background-color: #0b111e; border-radius: 12px; color: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
     
-    <h2 style="text-align: center; margin-bottom: 5px;">📩 E-mail Verification Checkout</h2>
+    <h2 style="text-align: center; margin-bottom: 5px;">🎉 Secure Checkout</h2>
     <p style="text-align: center; color: #a0aec0; margin-bottom: 25px;">Vehicle: <b>{{ car.title }}</b> — ${{ car.price }}</p>
 
     {% if payment_type == 'credit' %}
@@ -23,12 +23,12 @@
         </div>
 
         <div style="margin-bottom: 25px;">
-            <label style="display: block; margin-bottom: 5px;">Your E-mail for Confirmation Link:</label>
+            <label style="display: block; margin-bottom: 5px;">Your E-mail for Order Receipt:</label>
             <input type="email" name="email" value="{{ request.user.email }}" required style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: white; box-sizing: border-box;">
         </div>
 
         <button type="submit" style="width: 100%; padding: 14px; background-color: #10b981; border: none; border-radius: 6px; color: white; font-weight: bold; font-size: 16px; cursor: pointer;">
-            🚀 Send Confirmation Link to E-mail
+            🚀 Complete Order & Get Car Details
         </button>
     </form>
 </div>
