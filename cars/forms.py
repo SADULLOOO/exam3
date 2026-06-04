@@ -40,7 +40,7 @@ class BrandForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control', 
-                'placeholder': 'Введите название бренда'
+                'placeholder': 'Enter name of brand'
             }),
             'logo': forms.ClearableFileInput(attrs={
                 'class': 'form-control'

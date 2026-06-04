@@ -14,7 +14,7 @@ import os
 from django.contrib.auth import get_user_model
 from .models import Conversation, Message, Car
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import CarForm
+from .forms import CarForm, CarImageForm
 User = get_user_model()
 from django.http import HttpResponseForbidden
 load_dotenv()
@@ -523,17 +523,34 @@ def edit_car(request, car_id):
 
     is_owner = getattr(car, 'owner', None) == request.user or getattr(car, 'user', None) == request.user
     if not request.user.is_superuser and not is_owner:
-        return HttpResponseForbidden("You couldnt edit car!")
+        return HttpResponseForbidden("You couldn't edit this car!")
+
+    car_image = CarImage.objects.filter(car=car).first()
 
     if request.method == "POST":
         form = CarForm(request.POST, request.FILES, instance=car, user=request.user)
+        
         if form.is_valid():
-            form.save()
+            form.save()  
+
+            if request.FILES.get('image'):
+                image_form = CarImageForm(request.POST, request.FILES, instance=car_image)
+                if image_form.is_valid():
+                    image_obj = image_form.save(commit=False)
+                    image_obj.car = car  
+                    image_obj.save()
+            
             return redirect("car_detail", car_id=car.id)
+            
     else:
         form = CarForm(instance=car, user=request.user)
+        image_form = CarImageForm(instance=car_image)
 
-    return render(request, "cars/edit_car.html", {"form": form, "car": car})
+    return render(request, "cars/edit_car.html", {
+        "form": form, 
+        "image_form": image_form, 
+        "car": car
+    })
 
 @login_required
 def delete_car(request, car_id):
@@ -541,7 +558,7 @@ def delete_car(request, car_id):
 
     is_owner = getattr(car, 'owner', None) == request.user or getattr(car, 'user', None) == request.user
     if not request.user.is_superuser and not is_owner:
-        return HttpResponseForbidden("Вы не можете удалить чужую машину!")
+        return HttpResponseForbidden("You cant delete aother car!")
 
     if request.method == "POST":
         car.delete()
