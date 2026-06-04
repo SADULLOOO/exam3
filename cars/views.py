@@ -412,7 +412,6 @@ Rules:
 
 @login_required
 def chat_owner(request, car_id=None):
-    """Вьюха самого чата внутри машины"""
     car = get_object_or_404(Car, id=car_id)
     
     if request.user == car.owner:
@@ -420,7 +419,7 @@ def chat_owner(request, car_id=None):
         if not conversation:
             return render(request, "chat/chat.html", {
                 "car": car, 
-                "error": "Покупатели пока не написали вам по этой машине."
+                "error": "Nobody didn`t wrote about this car!"
             })
     else:
         conversation, created = Conversation.objects.get_or_create(
@@ -454,7 +453,6 @@ def chat_owner(request, car_id=None):
 
 @login_required
 def admin_chat_view(request, chat_id=None):
-    """Вьюха списка всех чатов (Входящие / Панель админа)"""
     if not chat_id:
         if request.user.is_superuser:
             all_chats = Conversation.objects.all().select_related('buyer', 'car')
@@ -469,7 +467,7 @@ def admin_chat_view(request, chat_id=None):
     car = conversation.car
 
     if request.user != conversation.buyer and request.user != conversation.owner and not request.user.is_superuser:
-        return HttpResponseForbidden("У вас нет доступа к этому чату.")
+        return HttpResponseForbidden("You dont have an access to this chat!")
 
     if request.method == "POST":
         text = request.POST.get("message")
@@ -525,7 +523,7 @@ def edit_car(request, car_id):
 
     is_owner = getattr(car, 'owner', None) == request.user or getattr(car, 'user', None) == request.user
     if not request.user.is_superuser and not is_owner:
-        return HttpResponseForbidden("Вы не можете редактировать чужую машину!")
+        return HttpResponseForbidden("You couldnt edit car!")
 
     if request.method == "POST":
         form = CarForm(request.POST, request.FILES, instance=car, user=request.user)
