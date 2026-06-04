@@ -201,7 +201,6 @@ def buy_car(request, car_id):
 
     return redirect('profile')
 
-
 @login_required
 def take_credit(request, car_id):
 
