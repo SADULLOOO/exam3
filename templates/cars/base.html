@@ -11,7 +11,6 @@
 
 <div class="layout">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
 
     <div class="sidebar-logo">
@@ -95,7 +94,6 @@
       {% endif %}
     </nav>
 
-<!-- User badge -->
 {% if request.user.is_authenticated %}
 <div class="sidebar-user">
   <div class="sidebar-user-avatar">
@@ -103,23 +101,27 @@
   </div>
   <div>
     <div class="sidebar-user-name">{{ request.user.username }}</div>
+    
     <div class="sidebar-user-role">
-      {% if request.user.is_superuser %}Admin{% else %}Member{% endif %}
+      {% if request.user.is_superuser %}
+        <span style="color: #10b981; font-weight: bold;">👑 Core Owner</span>
+      {% elif request.user.license.is_active %}
+        <span style="color: #3b82f6; font-weight: bold;">📄 Owner by License</span>
+      {% else %}
+        <span style="color: #94a3b8; font-weight: bold;">🛒 Buyer</span>
+      {% endif %}
     </div>
+    
   </div>
 </div>
 {% endif %}
 
-<div class="sidebar-footer">© 2026 OrderCar</div>
-
-
     <div class="sidebar-footer">
-      Copyright 2026
+      © 2026 OrderCar
     </div>
 
   </aside>
 
-  <!-- MAIN -->
   <main class="main-area">
     {% block main_content %}{% endblock %}
   </main>
