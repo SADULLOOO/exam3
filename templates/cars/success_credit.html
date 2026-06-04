@@ -1,9 +1,9 @@
 {% extends 'cars/base.html' %}
 {% block main_content %}
 <div style="max-width: 600px; margin: 50px auto; padding: 40px; background-color: #0b111e; border-radius: 12px; color: #ffffff; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-top: 5px solid #3b82f6;">
-    <h2 style="color: #3b82f6; margin-bottom: 20px;">📊 Credit Plan Approved!</h2>
+    <h2 style="color: #3b82f6; margin-bottom: 20px;">📊 Credit Plan Successfully Created!</h2>
     <p style="font-size: 16px; color: #a0aec0;">
-        Your credit request for <b>{{ item.car.title }}</b> has been verified and approved.
+        Congratulations! Your credit application for <b>{{ item.car.title }}</b> has been accepted. The plan details have been sent to your E-mail.
     </p>
     <div style="margin: 25px 0; background: #1e293b; padding: 15px; border-radius: 6px; text-align: left;">
         <p style="margin: 5px 0;"><b>Credit ID:</b> #{{ item.id }}</p>
